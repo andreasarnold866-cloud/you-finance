@@ -1,28 +1,222 @@
-// Globale States & Datenpersistenz
+const languages = {
+    de: {
+        authTitle: "Konto erstellen", authSubtitle: "Starten Sie Ihre finanzielle Unabhängigkeit mit You Finance",
+        labelEmail: "E-Mail-Adresse", labelPassword: "Passwort", policyTitle: "Sicherheitsanforderungen:",
+        rememberMe: "Auf diesem Gerät angemeldet bleiben", verifyNotice: "🔒 Sicherheits-Verifizierung: Ein 6-stelliger Bestätigungscode wurde an Ihre E-Mail gesendet.",
+        verifyLabel: "Bestätigungscode (Demo-Token: 123456)", verifyBtn: "Konto verifizieren",
+        navDashboard: "Dashboard", navTransactions: "Transaktionen", navBudget: "Budgetplaner", navAi: "KI Co-Pilot", navSettings: "Einstellungen",
+        logoutBtn: "Abmelden ↩", workspaceTitle: "Performance Workspace", sysEncrypted: "End-to-End Verschlüsselt",
+        cardIncome: "Gesamteinnahmen", cardExpenses: "Gesamtausgaben", cardBalance: "Netto-Liquidität",
+        trendIncome: "↑ Aktiver Cashflow", trendExpenses: "↓ Operative Abflüsse", trendLabelValid: "Valide Bilanz", trendLabelErosion: "Kapitalerodierung",
+        titleActivity: "Letzte Aktivitäten", btnJournal: "Journal öffnen", titleStructure: "Kategorien-Struktur",
+        transTitle: "Transaktion verbuchen", transDesc: "Buchungstext", transAmount: "Betrag (€)", transType: "Klassifizierung", transCat: "Kategorie",
+        optInc: "📈 Einnahme", optExp: "📉 Ausgabe", btnExecute: "Ausführen", historyTitle: "Audit-Log / Transaktionshistorie",
+        btnExport: "📊 Ledger Export (.CSV)", thDate: "Zeitpunkt / Beleg", thCat: "Kategorie", thType: "Typus", thAmount: "Betrag",
+        budgetTitle: "Budgetäre Obergrenze zuteilen", budgetCat: "Kategorie", budgetLimit: "Limitation (€ / Monat)",
+        btnBind: "Limit binden", budgetMonitor: "Echtzeit-Schwellenwert-Überwachung", aiTitle: "YouFinance KI-Consultant",
+        aiSubtitle: "Interaktive Realtime-Vermögensanalyse", aiSend: "Senden", settingsHeader: "System-Einstellungen",
+        settingsSubheader: "Konfigurieren Sie globale Anwendungsvariablen und Lokalisierungen.", settingsLangLabel: "System-Sprache (Language)",
+        placeholderDesc: "z.B. Gehaltszahlung, Mietaufwand...", placeholderAi: "Fragen Sie die KI nach Sparpotenzialen...",
+        msgWelcomeAi: "✨ System-Assistent: Bereit. Ich habe vollen Zugriff auf Ihre Bilanzen. Fragen Sie mich nach Einsparpotenzialen, Prognosen oder Budgetüberschreitungen.",
+        emptyData: "Keine Daten verfügbar", emptyLog: "Keine Buchungsdaten erfasst.", emptyBudget: "Keine aktiven Limitierungen zugewiesen.",
+        toastAuthError: "Zugriff verweigert. Ungültige Anmeldedaten.", toastFields: "Bitte füllen Sie alle erforderlichen Felder aus.",
+        toastSec: "Sicherheitsstufe unzureichend. Bitte korrigieren Sie Ihr Passwort.", toastEmailTaken: "Diese E-Mail-Adresse ist bereits vergeben.",
+        toastTokenOk: "E-Mail erfolgreich verifiziert! Willkommen an Bord.", toastTokenErr: "Token ungültig. Verwenden Sie für die Testumgebung: 123456",
+        toastValErr: "Eingabe ungültig. Beschreibung und positiver Betrag erforderlich.", toastLimitErr: "Geben Sie einen validen Schwellenwert ein."
+    },
+    en: {
+        authTitle: "Create Account", authSubtitle: "Start your financial independence with You Finance",
+        labelEmail: "Email Address", labelPassword: "Password", policyTitle: "Security Requirements:",
+        rememberMe: "Stay logged in on this device", verifyNotice: "🔒 Security Verification: A 6-digit confirmation code was sent to your email.",
+        verifyLabel: "Verification Code (Demo Token: 123456)", verifyBtn: "Verify Account",
+        navDashboard: "Dashboard", navTransactions: "Transactions", navBudget: "Budget Planner", navAi: "AI Co-Pilot", navSettings: "Settings",
+        logoutBtn: "Sign Out ↩", workspaceTitle: "Performance Workspace", sysEncrypted: "End-to-End Encrypted",
+        cardIncome: "Total Income", cardExpenses: "Total Expenses", cardBalance: "Net Liquidity",
+        trendIncome: "↑ Active Cashflow", trendExpenses: "↓ Operative Outflow", trendLabelValid: "Valid Balance", trendLabelErosion: "Capital Erosion",
+        titleActivity: "Recent Activity", btnJournal: "Open Ledger", titleStructure: "Category Breakdown",
+        transTitle: "Log Transaction", transDesc: "Transaction Text", transAmount: "Amount (€)", transType: "Classification", transCat: "Category",
+        optInc: "📈 Income", optExp: "📉 Expense", btnExecute: "Execute", historyTitle: "Audit Log / Transaction History",
+        btnExport: "📊 Ledger Export (.CSV)", thDate: "Timestamp / Reference", thCat: "Category", thType: "Type", thAmount: "Amount",
+        budgetTitle: "Allocate Budget Cap", budgetCat: "Category", budgetLimit: "Limitation (€ / Month)",
+        btnBind: "Bind Limit", budgetMonitor: "Real-time Threshold Monitoring", aiTitle: "YouFinance AI Consultant",
+        aiSubtitle: "Interactive Real-time Wealth Analysis", aiSend: "Send", settingsHeader: "System Settings",
+        settingsSubheader: "Configure global application variables and localizations.", settingsLangLabel: "System Language",
+        placeholderDesc: "e.g., Salary payment, rent expense...", placeholderAi: "Ask the AI about savings potentials...",
+        msgWelcomeAi: "✨ System Assistant: Ready. I have full access to your sheets. Ask me about optimization, forecasts, or budget overruns.",
+        emptyData: "No data available", emptyLog: "No transaction records found.", emptyBudget: "No active limits assigned.",
+        toastAuthError: "Access denied. Invalid credentials.", toastFields: "Please fill in all required fields.",
+        toastSec: "Security level insufficient. Please verify your password.", toastEmailTaken: "This email address is already taken.",
+        toastTokenOk: "Email verified successfully! Welcome aboard.", toastTokenErr: "Invalid token. Use for this test environment: 123456",
+        toastValErr: "Invalid entry. Description and positive amount required.", toastLimitErr: "Please enter a valid threshold value."
+    },
+    es: {
+        authTitle: "Crear Cuenta", authSubtitle: "Comience su independencia financiera con You Finance",
+        labelEmail: "Correo Electrónico", labelPassword: "Contraseña", policyTitle: "Requisitos de Seguridad:",
+        rememberMe: "Mantener sesión iniciada en este dispositivo", verifyNotice: "🔒 Verificación de Seguridad: Se ha enviado un código de confirmación de 6 dígitos a su correo.",
+        verifyLabel: "Código de Verificación (Token de demostración: 123456)", verifyBtn: "Verificar Cuenta",
+        navDashboard: "Tablero", navTransactions: "Transacciones", navBudget: "Presupuesto", navAi: "Co-Piloto IA", navSettings: "Ajustes",
+        logoutBtn: "Cerrar Sesión ↩", workspaceTitle: "Espacio de Trabajo", sysEncrypted: "Cifrado de Extremo a Extremo",
+        cardIncome: "Ingresos Totales", cardExpenses: "Gastos Totales", cardBalance: "Liquidez Neta",
+        trendIncome: "↑ Flujo de Caja Activo", trendExpenses: "↓ Flujos Operativos", trendLabelValid: "Balance Válido", trendLabelErosion: "Erosión de Capital",
+        titleActivity: "Actividad Reciente", btnJournal: "Abrir Registro", titleStructure: "Estructura de Categorías",
+        transTitle: "Registrar Transacción", transDesc: "Texto de Transacción", transAmount: "Monto (€)", transType: "Clasificación", transCat: "Categoría",
+        optInc: "📈 Ingreso", optExp: "📉 Gasto", btnExecute: "Ejecutar", historyTitle: "Log de Auditoría / Historial de Transacciones",
+        btnExport: "📊 Exportar Libro (.CSV)", thDate: "Fecha / Comprobante", thCat: "Categoría", thType: "Tipo", thAmount: "Monto",
+        budgetTitle: "Asignar Límite de Presupuesto", budgetCat: "Categoría", budgetLimit: "Limitación (€ / Mes)",
+        btnBind: "Vincular Límite", budgetMonitor: "Monitoreo de Umbrales en Tiempo Real", aiTitle: "Consultor de IA de YouFinance",
+        aiSubtitle: "Análisis Interactivo del Patrimonio", aiSend: "Enviar", settingsHeader: "Configuración del Sistema",
+        settingsSubheader: "Configure variables globales de la aplicación y localizaciones.", settingsLangLabel: "Idioma del Sistema",
+        placeholderDesc: "ej. Pago de salario, gastos de alquiler...", placeholderAi: "Pregunte a la IA sobre potenciales de ahorro...",
+        msgWelcomeAi: "✨ Asistente del Sistema: Listo. Tengo acceso completo a sus balances. Pregúnteme sobre ahorros, pronósticos o excesos de presupuesto.",
+        emptyData: "No hay datos disponibles", emptyLog: "No se encontraron registros de transacciones.", emptyBudget: "No hay límites activos asignados.",
+        toastAuthError: "Acceso denegado. Credenciales inválidas.", toastFields: "Por favor, complete todos los campos obligatorios.",
+        toastSec: "Nivel de seguridad insuficiente. Por favor verifique su contraseña.", toastEmailTaken: "Esta dirección de correo ya está registrada.",
+        toastTokenOk: "¡Correo verificado con éxito! Bienvenido a bordo.", toastTokenErr: "Token inválido. Use para el entorno de prueba: 123456",
+        toastValErr: "Entrada inválida. Se requiere descripción y monto positivo.", toastLimitErr: "Por favor, introduzca un valor de umbral válido."
+    },
+    el: {
+        authTitle: "Δημιουργία Λογαριασμού", authSubtitle: "Ξεκινήστε την οικονομική σας ανεξαρτησία με το You Finance",
+        labelEmail: "Διεύθυνση Email", labelPassword: "Κωδικός Πρόσβασης", policyTitle: "Απαιτήσεις Ασφαλείας:",
+        rememberMe: "Να παραμείνω συνδεδεμένος σε αυτή τη συσκευή", verifyNotice: "🔒 Επαλήθευση Ασφαλείας: Ένας 6ψήφιος κωδικός επιβεβαίωσης στάλθηκε στο email σας.",
+        verifyLabel: "Κωδικός Επαλήθευσης (Demo Token: 123456)", verifyBtn: "Επαλήθευση Λογαριασμού",
+        navDashboard: "Ταμπλό", navTransactions: "Συναλλαγές", navBudget: "Προϋπολογισμός", navAi: "Βοηθός KI", navSettings: "Ρυθμίσεις",
+        logoutBtn: "Αποσύνδεση ↩", workspaceTitle: "Χώρος Εργασίας Απόδοσης", sysEncrypted: "Κρυπτογράφηση End-to-End",
+        cardIncome: "Συνολικά Έσοδα", cardExpenses: "Συνολικά Έξοδα", cardBalance: "Καθαρή Ρευστότητα",
+        trendIncome: "↑ Ενεργή Ταμειακή Ροή", trendExpenses: "↓ Λειτουργικές Εκροές", trendLabelValid: "Έγκυρος Ισολογισμός", trendLabelErosion: "Διάβρωση Κεφαλαίου",
+        titleActivity: "Πρόσφατη Δραστηριότητα", btnJournal: "Άνοιγμα Ημερολογίου", titleStructure: "Δομή Κατηγοριών",
+        transTitle: "Καταχώρηση Συναλλαγής", transDesc: "Κείμενο Συναλλαγής", transAmount: "Ποσό (€)", transType: "Ταξινόμηση", transCat: "Κατηγορία",
+        optInc: "📈 Έσοδο", optExp: "📉 Έξοδο", btnExecute: "Εκτέλεση", historyTitle: "Αρχείο Ελέγχου / Ιστορικό Συναλλαγών",
+        btnExport: "📊 Εξαγωγή Καθολικού (.CSV)", thDate: "Χρονική Σήμανση", thCat: "Κατηγορία", thType: "Τύπος", thAmount: "Ποσό",
+        budgetTitle: "Κατανομή Ορίου Προϋπολογισμού", budgetCat: "Κατηγορία", budgetLimit: "Περιορισμός (€ / Μήνα)",
+        btnBind: "Δέσμευση Ορίου", budgetMonitor: "Παρακολούθηση Ορίων σε Πραγματικό Χρόνο", aiTitle: "Σύμβουλος KI YouFinance",
+        aiSubtitle: "Διαδραστική Ανάλυση Περιουσίας Realtime", aiSend: "Αποστολή", settingsHeader: "Ρυθμίσεις Συστήματος",
+        settingsSubheader: "Διαμόρφωση καθολικών μεταβλητών εφαρμογής και μεταφράσεων.", settingsLangLabel: "Γλώσσα Συστήματος",
+        placeholderDesc: "π.χ. Πληρωμή μισθού, έξοδα ενοικίου...", placeholderAi: "Ρωτήστε την KI για δυνατότητες αποταμίευσης...",
+        msgWelcomeAi: "✨ Βοηθός Συστήματος: Έτοιμος. Έχω πλήρη πρόσβαση στους ισολογισμούς σας. Ρωτήστε με για εξοικονόμηση πόρων, προβλέψεις ή υπερβάσεις προϋπολογισμού.",
+        emptyData: "Δεν υπάρχουν διαθέσιμα δεδομένα", emptyLog: "Δεν βρέθηκαν δεδομένα συναλλαγών.", emptyBudget: "Δεν έχουν οριστεί ενεργά όρια.",
+        toastAuthError: "Η πρόσβαση δεν επιτράπηκε. Μη έγκυρα διαπιστευτήρια.", toastFields: "Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.",
+        toastSec: "Ανεπαρκές επίπεδο ασφαλείας. Παρακαλώ ελέγξτε τον κωδικό σας.", toastEmailTaken: "Αυτή η διεύθυνση email χρησιμοποιείται ήδη.",
+        toastTokenOk: "Το Email επαληθεύτηκε επιτυχώς! Καλώς ήρθατε.", toastTokenErr: "Μη έγκυρο token. Χρησιμοποιήστε για το περιβάλλον δοκιμής: 123456",
+        toastValErr: "Μη έγκυρη καταχώρηση. Απαιτείται περιγραφή και θετικό ποσό.", toastLimitErr: "Παρακαλώ εισάγετε μια έγκυρη τιμή ορίου."
+    }
+};
+
+let currentLang = localStorage.getItem('system_lang') || 'de';
 let transactions = JSON.parse(localStorage.getItem('premium_transactions')) || [];
 let budgets = JSON.parse(localStorage.getItem('premium_budgets')) || {};
 let isLoginMode = false;
 let pendingUserEmail = "";
 
-const categoryColors = {
-    Freizeit: '#818cf8',
-    Essen: '#fb923c',
-    Wohnen: '#f43f5e',
-    Gehalt: '#34d399',
-    Sonstiges: '#9ca3af'
-};
+const categoryColors = { Freizeit: '#818cf8', Essen: '#fb923c', Wohnen: '#f43f5e', Gehalt: '#34d399', Sonstiges: '#9ca3af' };
 
 document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById('system-language-select').value = currentLang;
     checkUserSession();
     initLiveDateAndCalendar();
-    
-    // Auto-Scroll im Chatfenster beibehalten
-    const chatBox = document.getElementById('ai-chat-box');
-    if(chatBox) chatBox.scrollTop = chatBox.scrollHeight;
 });
 
-// Session Management Engine
+// Toast Feedback System
+function showToast(text, type = 'info') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<span>${text}</span><span style="margin-left:12px;cursor:pointer;opacity:0.6;" onclick="this.parentElement.remove()">✕</span>`;
+    container.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 4000);
+}
+
+// i18n DOM Engine
+function applyTranslations() {
+    const dict = languages[currentLang];
+    
+    // Auth Screen
+    document.getElementById('t-auth-title').innerText = isLoginMode ? (currentLang === 'de' ? "Willkommen zurück" : currentLang === 'en' ? "Welcome Back" : currentLang === 'es' ? "Bienvenido de nuevo" : "Καλώς ήρθατε ξανά") : dict.authTitle;
+    document.getElementById('t-auth-subtitle').innerText = isLoginMode ? (currentLang === 'de' ? "Loggen Sie sich ein, um Ihren Workspace freizuschalten." : currentLang === 'en' ? "Log in to unlock your workspace." : currentLang === 'es' ? "Inicie sesión για να ξεκλειδώσετε." : "Συνδεθείτε για να ξεκλειδώσετε το χώρο εργασίας σας.") : dict.authSubtitle;
+    document.getElementById('t-label-email').innerText = dict.labelEmail;
+    document.getElementById('t-label-password').innerText = dict.labelPassword;
+    document.getElementById('t-policy-title').innerText = dict.policyTitle;
+    document.getElementById('t-remember-me').innerText = dict.rememberMe;
+    document.getElementById('auth-submit-btn').innerText = isLoginMode ? (currentLang === 'de' ? "Einloggen" : currentLang === 'en' ? "Log In" : currentLang === 'es' ? "Iniciar Sesión" : "Σύνδεση") : dict.authTitle;
+    document.getElementById('t-verify-notice').innerHTML = dict.verifyNotice;
+    document.getElementById('t-verify-label').innerText = dict.verifyLabel;
+    document.getElementById('t-verify-btn').innerText = dict.verifyBtn;
+    
+    // Navigation
+    document.getElementById('t-nav-dashboard').innerText = dict.navDashboard;
+    document.getElementById('t-nav-transactions').innerText = dict.navTransactions;
+    document.getElementById('t-nav-budget').innerText = dict.navBudget;
+    document.getElementById('t-nav-ai').innerText = dict.navAi;
+    document.getElementById('t-nav-settings').innerText = dict.navSettings;
+    document.getElementById('t-logout-btn').innerText = dict.logoutBtn;
+    
+    // Global Header
+    document.getElementById('t-workspace-title').innerText = dict.workspaceTitle;
+    document.getElementById('t-sys-encrypted').innerText = dict.sysEncrypted;
+    
+    // Dashboard Cards
+    document.getElementById('t-card-income').innerText = dict.cardIncome;
+    document.getElementById('t-trend-income').innerText = dict.trendIncome;
+    document.getElementById('t-card-expenses').innerText = dict.cardExpenses;
+    document.getElementById('t-trend-expenses').innerText = dict.trendExpenses;
+    document.getElementById('t-card-balance').innerText = dict.cardBalance;
+    
+    // Dashboard Panels
+    document.getElementById('t-title-activity').innerText = dict.titleActivity;
+    document.getElementById('t-btn-journal').innerText = dict.btnJournal;
+    document.getElementById('t-title-structure').innerText = dict.titleStructure;
+    
+    // Transactions View
+    document.getElementById('t-trans-title').innerText = dict.transTitle;
+    document.getElementById('t-trans-desc').innerText = dict.transDesc;
+    document.getElementById('t-trans-amount').innerText = dict.transAmount;
+    document.getElementById('t-trans-type').innerText = dict.transType;
+    document.getElementById('t-trans-cat').innerText = dict.transCat;
+    document.getElementById('t-btn-execute').innerText = dict.btnExecute;
+    document.getElementById('t-history-title').innerText = dict.historyTitle;
+    document.getElementById('t-btn-export').innerText = dict.btnExport;
+    
+    document.getElementById('beschreibung').placeholder = dict.placeholderDesc;
+    document.getElementById('ai-user-query').placeholder = dict.placeholderAi;
+    
+    // Table Headers
+    document.getElementById('th-date').innerText = dict.thDate;
+    document.getElementById('th-cat').innerText = dict.thCat;
+    document.getElementById('th-type').innerText = dict.thType;
+    document.getElementById('th-amount').innerText = dict.thAmount;
+    
+    // Budget Planer
+    document.getElementById('t-budget-title').innerText = dict.budgetTitle;
+    document.getElementById('t-budget-cat').innerText = dict.budgetCat;
+    document.getElementById('t-budget-limit').innerText = dict.budgetLimit;
+    document.getElementById('t-btn-bind').innerText = dict.btnBind;
+    document.getElementById('t-budget-monitor').innerText = dict.budgetMonitor;
+    
+    // AI & Settings
+    document.getElementById('t-ai-title').innerText = dict.aiTitle;
+    document.getElementById('t-ai-subtitle').innerText = dict.aiSubtitle;
+    document.getElementById('t-ai-send').innerText = dict.aiSend;
+    document.getElementById('t-settings-header').innerText = dict.settingsHeader;
+    document.getElementById('t-settings-subheader').innerText = dict.settingsSubheader;
+    document.getElementById('t-settings-lang-label').innerText = dict.settingsLangLabel;
+}
+
+function changeSystemLanguage(langCode) {
+    currentLang = langCode;
+    localStorage.setItem('system_lang', langCode);
+    applyTranslations();
+    initLiveDateAndCalendar();
+    updateUI();
+    
+    // AI Chat Welcome Reset
+    const chatBox = document.getElementById('ai-chat-box');
+    if(chatBox) {
+        chatBox.innerHTML = `<div class="ai-msg system">${languages[currentLang].msgWelcomeAi}</div>`;
+    }
+}
+
 function checkUserSession() {
+    applyTranslations();
     const activeUser = localStorage.getItem('active_user');
     if (activeUser) {
         document.getElementById('auth-screen').style.display = 'none';
@@ -31,6 +225,9 @@ function checkUserSession() {
         const shortName = activeUser.split('@')[0];
         document.getElementById('user-display-name').innerText = shortName;
         document.getElementById('user-avatar-fallback').innerText = shortName.substring(0, 2).toUpperCase();
+        
+        // Chat initialisieren
+        document.getElementById('ai-chat-box').innerHTML = `<div class="ai-msg system">${languages[currentLang].msgWelcomeAi}</div>`;
         
         loadSavedAvatar();
         updateUI();
@@ -43,51 +240,27 @@ function checkUserSession() {
 
 function toggleAuthMode() {
     isLoginMode = !isLoginMode;
-    const elements = {
-        title: document.getElementById('auth-title'),
-        subtitle: document.getElementById('auth-subtitle'),
-        btn: document.getElementById('auth-submit-btn'),
-        toggleText: document.getElementById('auth-toggle-text'),
-        policies: document.getElementById('password-policies'),
-        fields: document.getElementById('auth-form-fields'),
-        verify: document.getElementById('verification-fields')
-    };
+    document.getElementById('auth-form-fields').style.display = 'flex';
+    document.getElementById('verification-fields').style.display = 'none';
     
-    elements.fields.style.display = 'flex';
-    elements.verify.style.display = 'none';
-    
-    if (isLoginMode) {
-        elements.title.innerText = "Willkommen zurück";
-        elements.subtitle.innerText = "Loggen Sie sich ein, um Ihren Workspace freizuschalten.";
-        elements.btn.innerText = "Einloggen";
-        elements.toggleText.innerHTML = 'Neu bei You Finance? <span onclick="toggleAuthMode()">Konto erstellen</span>';
-        elements.policies.style.display = 'none';
+    const textEl = document.getElementById('auth-toggle-text');
+    if(isLoginMode) {
+        textEl.innerHTML = currentLang === 'de' ? 'Neu bei You Finance? <span onclick="toggleAuthMode()">Konto erstellen</span>' : 'New to You Finance? <span onclick="toggleAuthMode()">Create account</span>';
     } else {
-        elements.title.innerText = "Konto erstellen";
-        elements.subtitle.innerText = "Starten Sie Ihre finanzielle Unabhängigkeit mit You Finance";
-        elements.btn.innerText = "Registrieren";
-        elements.toggleText.innerHTML = 'Bereits Mitglied? <span onclick="toggleAuthMode()">Jetzt einloggen</span>';
-        elements.policies.style.display = 'block';
-        validatePasswordLive();
+        textEl.innerHTML = currentLang === 'de' ? 'Bereits Mitglied? <span onclick="toggleAuthMode()">Jetzt einloggen</span>' : 'Already a member? <span onclick="toggleAuthMode()">Log in now</span>';
     }
+    applyTranslations();
 }
 
-// Live Passwort-Validierungs-Regex
 function validatePasswordLive() {
     if (isLoginMode) return { isValid: true };
     const val = document.getElementById('auth-password').value;
+    const rules = { length: val.length >= 8, uppercase: /[A-Z]/.test(val), number: /[0-9]/.test(val), special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val) };
 
-    const rules = {
-        length: val.length >= 8,
-        uppercase: /[A-Z]/.test(val),
-        number: /[0-9]/.test(val),
-        special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val)
-    };
-
-    updatePolicyUI('policy-length', rules.length, "Mindestens 8 Zeichen");
-    updatePolicyUI('policy-uppercase', rules.uppercase, "Einen Großbuchstaben");
-    updatePolicyUI('policy-number', rules.number, "Eine Zahl (0-9)");
-    updatePolicyUI('policy-special', rules.special, "Ein Sonderzeichen (!@#$%^&*)");
+    updatePolicyUI('policy-length', rules.length, currentLang === 'de' ? "Mindestens 8 Zeichen" : "At least 8 characters");
+    updatePolicyUI('policy-uppercase', rules.uppercase, currentLang === 'de' ? "Einen Großbuchstaben" : "One uppercase letter");
+    updatePolicyUI('policy-number', rules.number, currentLang === 'de' ? "Eine Zahl (0-9)" : "One number (0-9)");
+    updatePolicyUI('policy-special', rules.special, currentLang === 'de' ? "Ein Sonderzeichen (!@#$%^&*)" : "One special char (!@#$%^&*)");
 
     return { isValid: Object.values(rules).every(Boolean) };
 }
@@ -99,13 +272,13 @@ function updatePolicyUI(id, isValid, text) {
     el.innerText = `${isValid ? '✓' : '❌'} ${text}`;
 }
 
-// Authentifizierungsprozess & Fake-2FA Sperre
 function handleAuth() {
     const email = document.getElementById('auth-email').value.trim();
     const password = document.getElementById('auth-password').value;
+    const dict = languages[currentLang];
     
     if (!email || !password) {
-        alert("Bitte füllen Sie alle erforderlichen Felder aus.");
+        showToast(dict.toastFields, 'error');
         return;
     }
     
@@ -115,15 +288,15 @@ function handleAuth() {
             localStorage.setItem('active_user', email);
             checkUserSession();
         } else {
-            alert("Zugriff verweigert. Ungültige Anmeldedaten.");
+            showToast(dict.toastAuthError, 'error');
         }
     } else {
         if (!validatePasswordLive().isValid) {
-            alert("Sicherheitsstufe unzureichend. Bitte korrigieren Sie Ihr Passwort.");
+            showToast(dict.toastSec, 'error');
             return;
         }
         if (localStorage.getItem(`user_${email}`)) {
-            alert("Diese E-Mail-Adresse ist bereits vergeben.");
+            showToast(dict.toastEmailTaken, 'error');
             return;
         }
         
@@ -133,47 +306,39 @@ function handleAuth() {
         document.getElementById('auth-form-fields').style.display = 'none';
         document.getElementById('password-policies').style.display = 'none';
         document.getElementById('verification-fields').style.display = 'flex';
-        document.getElementById('auth-title').innerText = "Identität bestätigen";
-        document.getElementById('auth-subtitle').innerText = `Sicherheits-Token übermittelt an ${email}`;
     }
 }
 
 function confirmVerificationCode() {
     const code = document.getElementById('verify-code').value.trim();
+    const dict = languages[currentLang];
     if (code === "123456") {
         const password = localStorage.getItem(`user_temp_pwd`);
         localStorage.setItem(`user_${pendingUserEmail}`, password);
         localStorage.setItem('active_user', pendingUserEmail);
         localStorage.removeItem(`user_temp_pwd`);
+        showToast(dict.toastTokenOk, 'success');
         checkUserSession();
     } else {
-        alert("Token ungültig. Verwenden Sie für die Testumgebung: 123456");
+        showToast(dict.toastTokenErr, 'error');
     }
 }
 
-// Professioneller Bild-Upload & Skalierung über Canvas
-function triggerAvatarUpload() {
-    document.getElementById('avatar-input').click();
-}
-
+// Skalierter Clientseitiger Profilbild-Upload
+function triggerAvatarUpload() { document.getElementById('avatar-input').click(); }
 function updateAvatar(event) {
     const file = event.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
-            // Skalierung auf kompakte Maße für schnelles LocalStorage-Handling
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
-            canvas.width = 120;
-            canvas.height = 120;
+            canvas.width = 120; canvas.height = 120;
             ctx.drawImage(img, 0, 0, 120, 120);
-            
-            const optimizedBase64 = canvas.toDataURL('image/jpeg', 0.8);
-            const activeUser = localStorage.getItem('active_user');
-            localStorage.setItem(`avatar_${activeUser}`, optimizedBase64);
+            const base64 = canvas.toDataURL('image/jpeg', 0.85);
+            localStorage.setItem(`avatar_${localStorage.getItem('active_user')}`, base64);
             loadSavedAvatar();
         };
         img.src = e.target.result;
@@ -182,56 +347,36 @@ function updateAvatar(event) {
 }
 
 function loadSavedAvatar() {
-    const activeUser = localStorage.getItem('active_user');
-    const savedAvatar = localStorage.getItem(`avatar_${activeUser}`);
+    const saved = localStorage.getItem(`avatar_${localStorage.getItem('active_user')}`);
     const imgEl = document.getElementById('user-avatar-img');
     const fallbackEl = document.getElementById('user-avatar-fallback');
-    
-    if (savedAvatar) {
-        imgEl.src = savedAvatar;
-        imgEl.style.display = 'block';
-        fallbackEl.style.display = 'none';
-    } else {
-        imgEl.style.display = 'none';
-        fallbackEl.style.display = 'flex';
-    }
+    if (saved) { imgEl.src = saved; imgEl.style.display = 'block'; fallbackEl.style.display = 'none'; }
+    else { imgEl.style.display = 'none'; fallbackEl.style.display = 'flex'; }
 }
 
-// Fehlerfreier, Excel-konformer CSV Data Export
+// Ledger CSV Generator
 function exportToCSV() {
-    if (transactions.length === 0) {
-        alert("Keine Transaktionsdaten vorhanden.");
-        return;
-    }
-    
-    // UTF-8 BOM hinzufügen, damit Excel deutsche Sonderzeichen nativ erkennt
+    if (transactions.length === 0) { showToast(languages[currentLang].emptyLog, 'error'); return; }
     let csvContent = "\uFEFF";
-    csvContent += "Zeitpunkt;Beleg/Beschreibung;Kategorie;Typus;Betrag (EUR)\r\n";
-    
+    csvContent += "Date;Reference;Category;Type;Amount (EUR)\r\n";
     transactions.forEach(t => {
-        const mathPrefix = t.typ === 'einnahme' ? "" : "-";
-        csvContent += `${t.datum};${t.beschreibung};${t.kategorie};${t.typ.toUpperCase()};${mathPrefix}${t.betrag.toFixed(2)}\r\n`;
+        csvContent += `${t.datum};${t.beschreibung};${t.kategorie};${t.typ.toUpperCase()};${t.typ === 'einnahme' ? "" : "-"}${t.betrag.toFixed(2)}\r\n`;
     });
-    
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", `YouFinance_Ledger_Export_${Date.now()}.csv`);
-    document.body.appendChild(link);
+    link.href = url;
+    link.download = `YouFinance_Statement_${Date.now()}.csv`;
     link.click();
-    document.body.removeChild(link);
 }
 
-// Interaktiver Live-KI-Chatbot
+// Kontextabhängiger KI Virtual Assistant
 function sendAiMessage() {
     const inputEl = document.getElementById('ai-user-query');
     const query = inputEl.value.trim();
     if (!query) return;
 
     const chatBox = document.getElementById('ai-chat-box');
-    
-    // 1. User Message rendern
     const userMsg = document.createElement('div');
     userMsg.className = 'ai-msg user';
     userMsg.innerText = query;
@@ -239,243 +384,169 @@ function sendAiMessage() {
     inputEl.value = '';
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    // Daten-Kontext für die KI aufbereiten
-    let incomeSum = 0, expenseSum = 0;
-    let categoryExpenses = { Freizeit: 0, Essen: 0, Wohnen: 0, Sonstiges: 0 };
+    let income = 0, expense = 0;
+    let catExpenses = { Freizeit: 0, Essen: 0, Wohnen: 0, Sonstiges: 0 };
     transactions.forEach(t => {
-        if(t.typ === 'einnahme') incomeSum += t.betrag;
-        else {
-            expenseSum += t.betrag;
-            if(categoryExpenses[t.kategorie] !== undefined) categoryExpenses[t.kategorie] += t.betrag;
-        }
+        if(t.typ === 'einnahme') income += t.betrag;
+        else { expense += t.betrag; if(catExpenses[t.kategorie] !== undefined) catExpenses[t.kategorie] += t.betrag; }
     });
 
-    // 2. Antwort logisch berechnen (Kontextsensitive Realtime-Antworten)
     setTimeout(() => {
         const aiMsg = document.createElement('div');
         aiMsg.className = 'ai-msg system';
+        let reply = "";
         
-        let reply = "Ich habe Ihre Anfrage analysiert. ";
-        const normalized = query.toLowerCase();
-
-        if (normalized.includes('ausgaben') || normalized.includes('geld ausgegeben') || normalized.includes('kosten')) {
-            reply += `Ihre aktuellen Gesamtausgaben belaufen sich auf €${expenseSum.toFixed(2)}. `;
-            if (expenseSum > incomeSum) {
-                reply += "Achtung: Sie leben aktuell über Ihren Verhältnissen, da die Ausgaben Ihre Einnahmen übersteigen.";
+        // Sprachgesteuerte Logik-Engine
+        if(currentLang === 'de') {
+            if(query.toLowerCase().includes('ausgaben') || query.toLowerCase().includes('kosten')) {
+                reply = `Ihre laufenden Gesamtausgaben belaufen sich auf €${expense.toFixed(2)}. Der Haupttreiber ist hierbei Wohnen & Fixkosten.`;
             } else {
-                reply += "Das liegt im grünen Bereich im Verhältnis zu Ihren Einnahmen.";
+                reply = `Analyse abgeschlossen: Ihr Netto-Liquiditätssaldo beträgt €${(income-expense).toFixed(2)}. Empfehlung: Binden Sie ungenutztes Kapital in produktive Assets.`;
             }
-        } else if (normalized.includes('sparen') || normalized.includes('tipp') || normalized.includes('optimieren')) {
-            const highestExpenseCat = Object.keys(categoryExpenses).reduce((a, b) => categoryExpenses[a] > categoryExpenses[b] ? a : b);
-            if (categoryExpenses[highestExpenseCat] > 0) {
-                reply += `Ihr größter Kostenfaktor liegt in der Kategorie *${highestExpenseCat}* (€${categoryExpenses[highestExpenseCat].toFixed(2)}). Hier empfehle ich eine Budgetgrenze einzurichten, um monatlich rund 15% mehr Liquidität freizusetzen.`;
-            } else {
-                reply += "Da Sie noch keine signifikanten Ausgaben verbucht haben, ist Ihre Sparquote aktuell optimal.";
-            }
-        } else if (normalized.includes('budget')) {
-            if (Object.keys(budgets).length > 0) {
-                reply += `Sie überwachen aktuell ${Object.keys(budgets).length} Budgets. Halten Sie sich strikt an die Schwellenwerte im Budget-Planer.`;
-            } else {
-                reply += "Sie haben noch keine Budgets definiert. Nutzen Sie den Reiter 'Budgetplaner', um Ausgabenlimits für Lebensmittel oder Freizeit festzulegen.";
-            }
+        } else if(currentLang === 'en') {
+            reply = `Financial query processed. Total expenses are at €${expense.toFixed(2)} while active income is €${income.toFixed(2)}. Strategy: Keep savings rate above 20%.`;
+        } else if(currentLang === 'es') {
+            reply = `Análisis de cartera completado. Gastos consolidados: €${expense.toFixed(2)}. Recomiendo optimizar las salidas operativas.`;
         } else {
-            reply += `Basierend auf Ihrer Bilanz (Einnahmen: €${incomeSum.toFixed(2)}, Ausgaben: €${expenseSum.toFixed(2)}) stehen Ihnen alle Kontrollen offen. Haben Sie spezifische Fragen zu Ihren Fixkosten oder Ihrer Sparquote?`;
+            reply = `Η επεξεργασία των δεδομένων ολοκληρώθηκε. Συνολικά έξοδα: €${expense.toFixed(2)}. Η οικονομική σας βάση παραμένει σταθερή.`;
         }
 
         aiMsg.innerHTML = `✨ <strong>KI-Consultant:</strong> ${reply}`;
         chatBox.appendChild(aiMsg);
         chatBox.scrollTop = chatBox.scrollHeight;
-    }, 650);
+    }, 600);
 }
 
-// Präzise HTML5 Canvas Donut Chart Rendering Engine
-function renderDonutChart(categoryExpenses, totalExpense) {
+// Canvas Core Vector Rendering Vector Diagram
+function renderDonutChart(catExpenses, totalExpense) {
     const canvas = document.getElementById('chart-canvas');
     const legend = document.getElementById('chart-legend');
     const centerLabel = document.getElementById('chart-center-label');
+    const dict = languages[currentLang];
     if (!canvas || !legend) return;
 
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (totalExpense === 0) {
-        ctx.beginPath();
-        ctx.arc(75, 75, 65, 0, 2 * Math.PI);
-        ctx.strokeStyle = 'rgba(255,255,255,0.05)';
-        ctx.lineWidth = 14;
-        ctx.stroke();
-        legend.innerHTML = '<p class="empty-text" style="padding:0">Keine Daten verfügbar</p>';
-        if(centerLabel) centerLabel.innerHTML = 'Ausgaben<br><strong style="color:#fff">€0.00</strong>';
+        ctx.beginPath(); ctx.arc(75, 75, 65, 0, 2 * Math.PI);
+        ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 14; ctx.stroke();
+        legend.innerHTML = `<p class="empty-text" style="padding:0">${dict.emptyData}</p>`;
+        if(centerLabel) centerLabel.innerHTML = `${dict.thAmount}<br><strong style="color:#fff">€0.00</strong>`;
         return;
     }
 
-    if(centerLabel) centerLabel.innerHTML = `Gesamt<br><strong style="color:#fff; font-size:14px;">€${totalExpense.toFixed(0)}</strong>`;
+    if(centerLabel) centerLabel.innerHTML = `${dict.thAmount}<br><strong style="color:#fff; font-size:13px;">€${totalExpense.toFixed(0)}</strong>`;
     legend.innerHTML = '';
-
     let startAngle = -0.5 * Math.PI;
 
-    for (let kat in categoryExpenses) {
-        const value = categoryExpenses[kat];
-        if (value === 0) continue;
-        
-        const sliceAngle = (value / totalExpense) * 2 * Math.PI;
-        const percent = (value / totalExpense) * 100;
+    for (let kat in catExpenses) {
+        const val = catExpenses[kat]; if (val === 0) continue;
+        const slice = (val / totalExpense) * 2 * Math.PI;
+        const pct = (val / totalExpense) * 100;
         const color = categoryColors[kat] || '#fff';
 
-        // Kreissegment zeichnen
-        ctx.beginPath();
-        ctx.arc(75, 75, 65, startAngle, startAngle + sliceAngle);
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 14;
-        ctx.stroke();
+        ctx.beginPath(); ctx.arc(75, 75, 65, startAngle, startAngle + slice);
+        ctx.strokeStyle = color; ctx.lineWidth = 14; ctx.stroke();
+        startAngle += slice;
 
-        startAngle += sliceAngle;
-
-        // Legende rendern
-        const legItem = document.createElement('div');
-        legItem.className = 'legend-item';
-        legItem.innerHTML = `
-            <div class="legend-color" style="background: ${color}"></div>
-            <span style="color:#fff; font-weight:500;">${kat}</span> 
-            <span style="color:var(--text-muted)">(€${value.toFixed(0)} / ${percent.toFixed(0)}%)</span>
-        `;
-        legend.appendChild(legItem);
+        const item = document.createElement('div');
+        item.className = 'legend-item';
+        item.innerHTML = `<div class="legend-color" style="background:${color}"></div><span style="color:#fff;font-weight:500;">${kat}</span> <span style="color:var(--text-muted)">(${pct.toFixed(0)}%)</span>`;
+        legend.appendChild(item);
     }
 }
 
-// Datenfluss & UI Synchronisierung
 function updateUI() {
-    let incomeSum = 0;
-    let expenseSum = 0;
-    let categoryExpenses = { Freizeit: 0, Essen: 0, Wohnen: 0, Sonstiges: 0 };
+    let inc = 0, exp = 0;
+    let catExpenses = { Freizeit: 0, Essen: 0, Wohnen: 0, Sonstiges: 0 };
+    const dict = languages[currentLang];
 
     const tableBody = document.getElementById('transaction-table-body');
     const activityList = document.getElementById('recent-activity-list');
     if (tableBody) tableBody.innerHTML = '';
 
     transactions.forEach(t => {
-        if (t.typ === 'einnahme') {
-            incomeSum += t.betrag;
-        } else {
-            expenseSum += t.betrag;
-            if (categoryExpenses[t.kategorie] !== undefined) categoryExpenses[t.kategorie] += t.betrag;
-        }
+        if (t.typ === 'einnahme') inc += t.betrag;
+        else { exp += t.betrag; if (catExpenses[t.kategorie] !== undefined) catExpenses[t.kategorie] += t.betrag; }
 
         if (tableBody) {
             const row = document.createElement('tr');
             const isInc = t.typ === 'einnahme';
-            const color = isInc ? '#10b981' : '#ef4444';
             row.innerHTML = `
                 <td><strong>${t.beschreibung}</strong><br><small style="color:#6b7280">${t.datum}</small></td>
-                <td><span style="background: rgba(255,255,255,0.03); padding: 4px 10px; border-radius:6px; font-size:12px; border: 1px solid var(--border-color);">${t.kategorie}</span></td>
-                <td style="color: ${color}; font-weight:600; font-size:12px;">${t.typ.toUpperCase()}</td>
-                <td class="text-right" style="color: ${color}; font-weight:600;">${isInc ? '+' : '-'}€${t.betrag.toFixed(2)}</td>
+                <td><span style="background:rgba(255,255,255,0.03);padding:4px 10px;border-radius:6px;font-size:12px;border:1px solid var(--border-color);">${t.kategorie}</span></td>
+                <td style="color:${isInc ? '#10b981':'#ef4444'};font-weight:600;font-size:12px;">${t.typ.toUpperCase()}</td>
+                <td class="text-right" style="color:${isInc ? '#10b981':'#ef4444'};font-weight:600;">${isInc ? '+':'-'}€${t.betrag.toFixed(2)}</td>
             `;
             tableBody.appendChild(row);
         }
     });
 
-    const balanceSum = incomeSum - expenseSum;
-    if(document.getElementById('total-income')) document.getElementById('total-income').innerText = `€${incomeSum.toFixed(2)}`;
-    if(document.getElementById('total-expenses')) document.getElementById('total-expenses').innerText = `€${expenseSum.toFixed(2)}`;
+    const bal = inc - exp;
+    document.getElementById('total-income').innerText = `€${inc.toFixed(2)}`;
+    document.getElementById('total-expenses').innerText = `€${exp.toFixed(2)}`;
     
-    const balanceElement = document.getElementById('total-balance');
+    const balEl = document.getElementById('total-balance');
     const trendLabel = document.getElementById('trend-label');
-    if(balanceElement) {
-        balanceElement.innerText = `${balanceSum >= 0 ? '+' : ''}€${balanceSum.toFixed(2)}`;
-        balanceElement.style.color = balanceSum >= 0 ? '#10b981' : '#ef4444';
-        if(trendLabel) trendLabel.innerText = balanceSum >= 0 ? "Stabile Kapitalbasis" : "Kapitalerodierung";
+    if(balEl) {
+        balEl.innerText = `${bal >= 0 ? '+' : ''}€${bal.toFixed(2)}`;
+        balEl.style.color = bal >= 0 ? '#10b981' : '#ef4444';
+        if(trendLabel) trendLabel.innerText = bal >= 0 ? dict.trendLabelValid : dict.trendLabelErosion;
     }
 
     if (activityList) {
-        if (transactions.length === 0) {
-            activityList.innerHTML = '<p class="empty-text">Keine Buchungsdaten erfasst.</p>';
-        } else {
+        if (transactions.length === 0) { activityList.innerHTML = `<p class="empty-text">${dict.emptyLog}</p>`; }
+        else {
             activityList.innerHTML = '';
             transactions.slice(-4).reverse().forEach(t => {
                 const item = document.createElement('div');
-                item.style.cssText = "display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color);";
-                const isInc = t.typ === 'einnahme';
-                item.innerHTML = `
-                    <div>
-                        <p style="font-size:14px; font-weight:500;">${t.beschreibung}</p>
-                        <small style="color:#6b7280">${t.kategorie}</small>
-                    </div>
-                    <span style="color: ${isInc ? '#10b981' : '#ef4444'}; font-weight:600; font-size:14px;">${isInc ? '+' : '-'}€${t.betrag.toFixed(2)}</span>
-                `;
+                item.style.cssText = "display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-color);";
+                item.innerHTML = `<div><p style="font-size:14px;font-weight:500;">${t.beschreibung}</p><small style="color:#6b7280">${t.kategorie}</small></div><span style="color:${t.typ==='einnahme'?'#10b981':'#ef4444'};font-weight:600;font-size:14px;">${t.typ==='einnahme'?'+':'-'}€${t.betrag.toFixed(2)}</span>`;
                 activityList.appendChild(item);
             });
         }
     }
-
-    renderBudgets(categoryExpenses);
-    renderDonutChart(categoryExpenses, expenseSum);
+    renderBudgets(catExpenses);
+    renderDonutChart(catExpenses, exp);
 }
 
-function renderBudgets(categoryExpenses) {
-    const budgetContainer = document.getElementById('budget-progress-container');
-    if (!budgetContainer) return;
-    if (Object.keys(budgets).length === 0) {
-        budgetContainer.innerHTML = '<p class="empty-text">Keine aktiven Limitierungen zugewiesen.</p>';
-    } else {
-        budgetContainer.innerHTML = '';
+function renderBudgets(catExpenses) {
+    const container = document.getElementById('budget-progress-container');
+    const dict = languages[currentLang];
+    if (!container) return;
+    if (Object.keys(budgets).length === 0) { container.innerHTML = `<p class="empty-text">${dict.emptyBudget}</p>`; }
+    else {
+        container.innerHTML = '';
         for (let kat in budgets) {
-            const limit = budgets[kat];
-            const spent = categoryExpenses[kat] || 0;
-            const percent = Math.min((spent / limit) * 100, 100);
-            const barColor = percent >= 100 ? '#ef4444' : percent >= 85 ? '#f59e0b' : '#6366f1';
-
-            const bBox = document.createElement('div');
-            bBox.className = 'budget-bar-wrapper';
-            bBox.innerHTML = `
-                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
-                    <span><strong>${kat}</strong></span>
-                    <span style="color: var(--text-muted)">€${spent.toFixed(2)} / <strong style="color:#fff">€${limit.toFixed(2)}</strong></span>
-                </div>
-                <div style="background: #111827; height: 6px; border-radius: 3px; overflow: hidden;">
-                    <div style="background: ${barColor}; width: ${percent}%; height: 100%; transition: width 0.3s;"></div>
-                </div>
-            `;
-            budgetContainer.appendChild(bBox);
+            const lim = budgets[kat]; const spent = catExpenses[kat] || 0;
+            const pct = Math.min((spent / lim) * 100, 100);
+            const box = document.createElement('div');
+            box.className = 'budget-bar-wrapper';
+            box.innerHTML = `<div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;"><span><strong>${kat}</strong></span><span style="color:var(--text-muted)">€${spent.toFixed(2)} / <strong style="color:#fff">€${lim.toFixed(2)}</strong></span></div><div style="background:#111827;height:6px;border-radius:3px;overflow:hidden;"><div style="background:${pct>=100?'#ef4444':pct>=85?'#f59e0b':'#6366f1'};width:${pct}%;height:100%;transition:width 0.3s;"></div></div>`;
+            container.appendChild(box);
         }
     }
 }
 
 function addTransaction() {
-    const beschreibung = document.getElementById('beschreibung').value.trim();
-    const betrag = parseFloat(document.getElementById('betrag').value);
+    const desc = document.getElementById('beschreibung').value.trim();
+    const amt = parseFloat(document.getElementById('betrag').value);
     const typ = document.getElementById('typ').value;
-    const kategorie = document.getElementById('kategorie').value;
+    const cat = document.getElementById('kategorie').value;
 
-    if (!beschreibung || isNaN(betrag) || betrag <= 0) {
-        alert('Eingabe ungültig. Beschreibung und positiver Betrag erforderlich.');
-        return;
-    }
-
-    transactions.push({
-        id: Date.now(),
-        beschreibung,
-        betrag,
-        typ,
-        kategorie,
-        datum: new Date().toLocaleDateString('de-DE')
-    });
-
+    if (!desc || isNaN(amt) || amt <= 0) { showToast(languages[currentLang].toastValErr, 'error'); return; }
+    transactions.push({ id: Date.now(), beschreibung: desc, betrag: amt, typ, kategorie: cat, datum: new Date().toLocaleDateString('de-DE') });
     localStorage.setItem('premium_transactions', JSON.stringify(transactions));
-    document.getElementById('beschreibung').value = '';
-    document.getElementById('betrag').value = '';
+    document.getElementById('beschreibung').value = ''; document.getElementById('betrag').value = '';
     updateUI();
 }
 
 function setBudget() {
     const kat = document.getElementById('budget-kategorie').value;
-    const limit = parseFloat(document.getElementById('budget-limit').value);
-    if (isNaN(limit) || limit <= 0) {
-        alert('Geben Sie einen validen Schwellenwert ein.');
-        return;
-    }
-    budgets[kat] = limit;
-    localStorage.setItem('premium_budgets', JSON.stringify(budgets));
+    const lim = parseFloat(document.getElementById('budget-limit').value);
+    if (isNaN(lim) || lim <= 0) { showToast(languages[currentLang].toastLimitErr, 'error'); return; }
+    budgets[kat] = lim; localStorage.setItem('premium_budgets', JSON.stringify(budgets));
     document.getElementById('budget-limit').value = '';
     updateUI();
 }
@@ -483,39 +554,31 @@ function setBudget() {
 function openTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active-content'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    
     document.getElementById(tabId).classList.add('active-content');
     document.getElementById(`btn-${tabId}`).classList.add('active');
 }
 
 function initLiveDateAndCalendar() {
-    const heute = new Date();
+    const hoy = new Date();
     const sub = document.getElementById('live-subtitle-date');
-    if (sub) sub.innerText = heute.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    if (sub) sub.innerText = hoy.toLocaleDateString(currentLang === 'en' ? 'en-US' : currentLang === 'es' ? 'es-ES' : currentLang === 'el' ? 'el-GR' : 'de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
     const calHeader = document.getElementById('calendar-month-year');
-    if (calHeader) calHeader.innerText = heute.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+    if (calHeader) calHeader.innerText = hoy.toLocaleDateString(currentLang === 'en' ? 'en-US' : 'de-DE', { month: 'long', year: 'numeric' });
 
     const grid = document.getElementById('calendar-days-grid');
     if (grid) {
         grid.innerHTML = '';
-        const year = heute.getFullYear();
-        const month = heute.getMonth();
-        let firstDay = new Date(year, month, 1).getDay();
+        let firstDay = new Date(hoy.getFullYear(), hoy.getMonth(), 1).getDay();
         firstDay = firstDay === 0 ? 6 : firstDay - 1;
-        const totalDays = new Date(year, month + 1, 0).getDate();
-        
+        const totalDays = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();
         for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
-        for (let tag = 1; tag <= totalDays; tag++) {
-            const el = document.createElement('div');
-            el.innerText = tag;
-            if (tag === heute.getDate()) el.className = 'today';
+        for (let t = 1; t <= totalDays; t++) {
+            const el = document.createElement('div'); el.innerText = t;
+            if (t === hoy.getDate()) el.className = 'today';
             grid.appendChild(el);
         }
     }
 }
 
-function logout() {
-    localStorage.removeItem('active_user');
-    checkUserSession();
-}
+function logout() { localStorage.removeItem('active_user'); checkUserSession(); }
