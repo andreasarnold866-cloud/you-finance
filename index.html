@@ -8,7 +8,34 @@
 </head>
 <body>
 
-    <div class="app-container">
+    <div id="auth-screen" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo-icon">✨</div>
+                <h2 id="auth-title">Konto erstellen</h2>
+                <p id="auth-subtitle">Starte deine finanzielle Unabhängigkeit mit You Finance</p>
+            </div>
+            
+            <div class="smart-form-vertical">
+                <div class="input-wrapper">
+                    <label>E-Mail-Adresse</label>
+                    <input type="email" id="auth-email" placeholder="name@beispiel.de">
+                </div>
+                <div class="input-wrapper">
+                    <label>Passwort</label>
+                    <input type="password" id="auth-password" placeholder="••••••••">
+                </div>
+                
+                <button id="auth-submit-btn" class="prime-btn full-width" onclick="handleAuth()">Registrieren</button>
+            </div>
+            
+            <div class="auth-toggle">
+                <p id="auth-toggle-text">Bereits Mitglied? <span onclick="toggleAuthMode()">Jetzt einloggen</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-screen" class="app-container" style="display: none;">
         <aside class="sidebar">
             <div class="logo-area">
                 <div class="logo-icon">✨</div>
@@ -36,15 +63,14 @@
                 <div class="calendar-weekdays">
                     <div>M</div><div>D</div><div>M</div><div>D</div><div>F</div><div>S</div><div>S</div>
                 </div>
-                <div class="calendar-days" id="calendar-days-grid">
-                    </div>
+                <div class="calendar-days" id="calendar-days-grid"></div>
             </div>
 
             <div class="user-profile">
                 <div class="avatar">YF</div>
                 <div class="user-info">
-                    <p class="user-name">Premium User</p>
-                    <p class="user-status">Live Workspace</p>
+                    <p class="user-name" id="user-display-name">Premium User</p>
+                    <p class="user-status" style="cursor:pointer; color:#ef4444;" onclick="logout()">Abmelden ↩</p>
                 </div>
             </div>
         </aside>
@@ -56,7 +82,7 @@
                     <p class="subtitle" id="live-subtitle-date">Heute ist der ...</p>
                 </div>
                 <div class="system-status">
-                    <span class="status-dot"></span> Cloud synchronisiert
+                    <span class="status-dot"></span> Verschlüsselt
                 </div>
             </header>
 
