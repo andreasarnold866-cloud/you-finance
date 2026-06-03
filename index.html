@@ -1,46 +1,35 @@
-Hier ist das komplette Upgrade für You Finance, umgesetzt auf echtem Produktions-Niveau.
-
-Was wurde verbessert, damit es absolut professionell läuft?
-Vollwertige KI-Chat-Schnittstelle: Der KI-Tab ist jetzt kein statischer Text mehr, sondern ein dynamischer Chatbot, der den aktuellen Finanzstatus (Einnahmen, Ausgaben, Budgets) kennt und direkt auf Fragen antwortet.
-
-Echte HTML5-Grafiken (Canvas-Chart): Das alte CSS-Conic-Gradient-Provisorium wurde durch ein präzises, animiertes Kreisdiagramm mit sauberer mathematischer Aufteilung ersetzt.
-
-Robuster CSV-Datenexport: Der Download erzeugt jetzt eine Excel-konforme Datei mit korrektem UTF-8-BOM, damit Umlaute und Währungssymbole direkt fehlerfrei geöffnet werden.
-
-Verbessertes Profil- & State-Management: Avatare werden komprimiert und nutzerspezifisch isoliert im Speicher gehalten. Fehlende Werte fangen sich visuell sauber ab.
-
-1. Das saubere Frontend (index.html)
-HTML
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Finance - Enterprise Wealth Management</title>
+    <title>You Finance - Institutional Wealth Workspace</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div id="toast-container" class="toast-container"></div>
 
     <div id="auth-screen" class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
                 <div class="logo-icon">✨</div>
-                <h2 id="auth-title">Konto erstellen</h2>
-                <p id="auth-subtitle">Starten Sie Ihre finanzielle Unabhängigkeit mit You Finance</p>
+                <h2 id="t-auth-title">Konto erstellen</h2>
+                <p id="t-auth-subtitle">Starten Sie Ihre finanzielle Unabhängigkeit mit You Finance</p>
             </div>
             
             <div id="auth-form-fields" class="smart-form-vertical">
                 <div class="input-wrapper">
-                    <label>E-Mail-Adresse</label>
+                    <label id="t-label-email">E-Mail-Adresse</label>
                     <input type="email" id="auth-email" placeholder="name@beispiel.de">
                 </div>
                 <div class="input-wrapper">
-                    <label>Passwort</label>
+                    <label id="t-label-password">Passwort</label>
                     <input type="password" id="auth-password" placeholder="••••••••" oninput="validatePasswordLive()">
                 </div>
                 
                 <div id="password-policies" class="policy-box">
-                    <p class="policy-title">Sicherheitsanforderungen:</p>
+                    <p class="policy-title" id="t-policy-title">Sicherheitsanforderungen:</p>
                     <ul>
                         <li id="policy-length" class="invalid">❌ Mindestens 8 Zeichen</li>
                         <li id="policy-uppercase" class="invalid">❌ Einen Großbuchstaben</li>
@@ -51,7 +40,7 @@ HTML
 
                 <div class="remember-me-wrapper">
                     <input type="checkbox" id="auth-remember" checked>
-                    <label for="auth-remember">Auf diesem Gerät angemeldet bleiben</label>
+                    <label for="auth-remember" id="t-remember-me">Auf diesem Gerät angemeldet bleiben</label>
                 </div>
                 
                 <button id="auth-submit-btn" class="prime-btn full-width" onclick="handleAuth()">Registrieren</button>
@@ -59,16 +48,16 @@ HTML
 
             <div id="verification-fields" class="smart-form-vertical" style="display: none;">
                 <div class="verification-notice">
-                    <p>🔒 <strong>Sicherheits-Verifizierung:</strong> Ein 6-stelliger Bestätigungscode wurde an Ihre E-Mail gesendet.</p>
+                    <p id="t-verify-notice">🔒 <strong>Sicherheits-Verifizierung:</strong> Ein 6-stelliger Bestätigungscode wurde an Ihre E-Mail gesendet.</p>
                 </div>
                 <div class="input-wrapper">
-                    <label>Bestätigungscode (Demo-Token: 123456)</label>
+                    <label id="t-verify-label">Bestätigungscode (Demo-Token: 123456)</label>
                     <input type="text" id="verify-code" placeholder="000000" maxlength="6" style="text-align: center; font-size: 20px; letter-spacing: 4px;">
                 </div>
-                <button class="prime-btn full-width" onclick="confirmVerificationCode()">Konto verifizieren</button>
+                <button class="prime-btn full-width" id="t-verify-btn" onclick="confirmVerificationCode()">Konto verifizieren</button>
             </div>
             
-            <div class="auth-toggle" id="auth-toggle-area">
+            <div class="auth-toggle">
                 <p id="auth-toggle-text">Bereits Mitglied? <span onclick="toggleAuthMode()">Jetzt einloggen</span></p>
             </div>
         </div>
@@ -82,23 +71,24 @@ HTML
             </div>
             <nav class="nav-menu">
                 <button class="nav-item active" id="btn-uebersicht" onclick="openTab('uebersicht')">
-                    <span class="icon">📊</span> Dashboard
+                    <span class="icon">📊</span> <span id="t-nav-dashboard">Dashboard</span>
                 </button>
                 <button class="nav-item" id="btn-transaktionen" onclick="openTab('transaktionen')">
-                    <span class="icon">💸</span> Transaktionen
+                    <span class="icon">💸</span> <span id="t-nav-transactions">Transaktionen</span>
                 </button>
                 <button class="nav-item" id="btn-budget" onclick="openTab('budget')">
-                    <span class="icon">🎯</span> Budgetplaner
+                    <span class="icon">🎯</span> <span id="t-nav-budget">Budgetplaner</span>
                 </button>
                 <button class="nav-item" id="btn-ki" onclick="openTab('ki')">
-                    <span class="icon">🧠</span> KI Co-Pilot
+                    <span class="icon">🧠</span> <span id="t-nav-ai">KI Co-Pilot</span>
+                </button>
+                <button class="nav-item" id="btn-settings" onclick="openTab('settings')">
+                    <span class="icon">⚙️</span> <span id="t-nav-settings">Einstellungen</span>
                 </button>
             </nav>
 
             <div class="sidebar-calendar">
-                <div class="calendar-header">
-                    <span id="calendar-month-year">Juni 2026</span>
-                </div>
+                <div class="calendar-header"><span id="calendar-month-year">...</span></div>
                 <div class="calendar-weekdays">
                     <div>M</div><div>D</div><div>M</div><div>D</div><div>F</div><div>S</div><div>S</div>
                 </div>
@@ -106,7 +96,7 @@ HTML
             </div>
 
             <div class="user-profile">
-                <div class="avatar-container" onclick="triggerAvatarUpload()" title="Profilbild ändern">
+                <div class="avatar-container" onclick="triggerAvatarUpload()">
                     <img id="user-avatar-img" src="" alt="Avatar" style="display: none;">
                     <div id="user-avatar-fallback" class="avatar">UF</div>
                     <div class="avatar-overlay">📸</div>
@@ -115,7 +105,7 @@ HTML
                 
                 <div class="user-info">
                     <p class="user-name" id="user-display-name">Premium User</p>
-                    <p class="user-status" onclick="logout()">Abmelden ↩</p>
+                    <p class="user-status" id="t-logout-btn" onclick="logout()">Abmelden ↩</p>
                 </div>
             </div>
         </aside>
@@ -123,28 +113,28 @@ HTML
         <main class="main-content">
             <header class="top-bar">
                 <div class="greeting">
-                    <h1>Performance Workspace</h1>
+                    <h1 id="t-workspace-title">Performance Workspace</h1>
                     <p class="subtitle" id="live-subtitle-date">Lade Systemdaten...</p>
                 </div>
                 <div class="system-status">
-                    <span class="status-dot"></span> End-to-End Verschlüsselt
+                    <span class="status-dot"></span> <span id="t-sys-encrypted">End-to-End Verschlüsselt</span>
                 </div>
             </header>
 
             <section id="uebersicht" class="tab-content active-content">
                 <div class="metrics-grid">
                     <div class="metric-card card-income">
-                        <div class="card-header"><span>Gesamteinnahmen</span><div class="mini-icon">📈</div></div>
+                        <div class="card-header"><span id="t-card-income">Gesamteinnahmen</span><div class="mini-icon">📈</div></div>
                         <h2 id="total-income">€0.00</h2>
-                        <span class="trend up">↑ Aktiver Cashflow</span>
+                        <span class="trend up" id="t-trend-income">↑ Aktiver Cashflow</span>
                     </div>
                     <div class="metric-card card-expenses">
-                        <div class="card-header"><span>Gesamtausgaben</span><div class="mini-icon">📉</div></div>
+                        <div class="card-header"><span id="t-card-expenses">Gesamtausgaben</span><div class="mini-icon">📉</div></div>
                         <h2 id="total-expenses">€0.00</h2>
-                        <span class="trend down">↓ Operative Abflüsse</span>
+                        <span class="trend down" id="t-trend-expenses">↓ Operative Abflüsse</span>
                     </div>
                     <div class="metric-card card-balance">
-                        <div class="card-header"><span>Netto-Liquidität</span><div class="mini-icon">💼</div></div>
+                        <div class="card-header"><span id="t-card-balance">Netto-Liquidität</span><div class="mini-icon">💼</div></div>
                         <h2 id="total-balance">€0.00</h2>
                         <span class="trend-neutral" id="trend-label">Valide Bilanz</span>
                     </div>
@@ -153,21 +143,21 @@ HTML
                 <div class="content-grid">
                     <div class="panel list-panel">
                         <div class="panel-header">
-                            <h3>Letzte Aktivitäten</h3>
-                            <button class="text-btn" onclick="openTab('transaktionen')">Journal öffnen</button>
+                            <h3 id="t-title-activity">Letzte Aktivitäten</h3>
+                            <button class="text-btn" id="t-btn-journal" onclick="openTab('transaktionen')">Journal öffnen</button>
                         </div>
                         <div id="recent-activity-list" class="activity-feed"></div>
                     </div>
 
                     <div class="panel chart-panel">
                         <div class="panel-header">
-                            <h3>Kategorien-Struktur</h3>
+                            <h3 id="t-title-structure">Kategorien-Struktur</h3>
                         </div>
                         <div class="chart-container">
                             <div class="donut-chart-wrapper">
                                 <canvas id="chart-canvas" width="150" height="150"></canvas>
                                 <div class="chart-center">
-                                    <span id="chart-center-label">Ausgaben<br><strong>€0</strong></span>
+                                    <span id="chart-center-label">...</span>
                                 </div>
                             </div>
                             <div id="chart-legend" class="chart-legend"></div>
@@ -178,50 +168,50 @@ HTML
 
             <section id="transaktionen" class="tab-content">
                 <div class="panel form-panel">
-                    <h3>Transaktion verbuchen</h3>
+                    <h3 id="t-trans-title">Transaktion verbuchen</h3>
                     <div class="smart-form">
                         <div class="input-wrapper">
-                            <label>Buchungstext</label>
-                            <input type="text" id="beschreibung" placeholder="z.B. Gehaltszahlung, Mietaufwand...">
+                            <label id="t-trans-desc">Buchungstext</label>
+                            <input type="text" id="beschreibung" placeholder="">
                         </div>
                         <div class="input-wrapper">
-                            <label>Betrag (€)</label>
+                            <label id="t-trans-amount">Betrag (€)</label>
                             <input type="number" id="betrag" placeholder="0.00" step="0.01">
                         </div>
                         <div class="input-wrapper">
-                            <label>Klassifizierung</label>
+                            <label id="t-trans-type">Klassifizierung</label>
                             <select id="typ">
-                                <option value="einnahme">📈 Einnahme</option>
-                                <option value="ausgabe">📉 Ausgabe</option>
+                                <option value="einnahme" id="t-opt-inc">📈 Einnahme</option>
+                                <option value="ausgabe" id="t-opt-exp">📉 Ausgabe</option>
                             </select>
                         </div>
                         <div class="input-wrapper">
-                            <label>Kategorie</label>
+                            <label id="t-trans-cat">Kategorie</label>
                             <select id="kategorie">
-                                <option value="Freizeit">👾 Freizeit & Hobbys</option>
-                                <option value="Essen">🛒 Lebensmittel</option>
-                                <option value="Wohnen">🏠 Wohnen & Fixkosten</option>
-                                <option value="Gehalt">💼 Gehalt & Business</option>
-                                <option value="Sonstiges">📦 Sonstiges</option>
+                                <option value="Freizeit" id="t-cat-leisure">👾 Freizeit & Hobbys</option>
+                                <option value="Essen" id="t-cat-food">🛒 Lebensmittel</option>
+                                <option value="Wohnen" id="t-cat-living">🏠 Wohnen & Fixkosten</option>
+                                <option value="Gehalt" id="t-cat-salary">💼 Gehalt & Business</option>
+                                <option value="Sonstiges" id="t-cat-misc">📦 Sonstiges</option>
                             </select>
                         </div>
-                        <button class="prime-btn" onclick="addTransaction()">Ausführen</button>
+                        <button class="prime-btn" id="t-btn-execute" onclick="addTransaction()">Ausführen</button>
                     </div>
                 </div>
 
                 <div class="panel table-panel">
                     <div class="panel-header">
-                        <h3>Audit-Log / Transaktionshistorie</h3>
-                        <button class="text-btn secure-download-btn" onclick="exportToCSV()">📊 Ledger Export (.CSV)</button>
+                        <h3 id="t-history-title">Audit-Log / Transaktionshistorie</h3>
+                        <button class="text-btn secure-download-btn" id="t-btn-export" onclick="exportToCSV()">📊 Ledger Export (.CSV)</button>
                     </div>
                     <div class="table-responsive">
                         <table class="prime-table">
                             <thead>
                                 <tr>
-                                    <th>Zeitpunkt / Beleg</th>
-                                    <th>Kategorie</th>
-                                    <th>Typus</th>
-                                    <th class="text-right">Betrag</th>
+                                    <th id="th-date">Zeitpunkt / Beleg</th>
+                                    <th id="th-cat">Kategorie</th>
+                                    <th id="th-type">Typus</th>
+                                    <th class="text-right" id="th-amount">Betrag</th>
                                 </tr>
                             </thead>
                             <tbody id="transaction-table-body"></tbody>
@@ -232,10 +222,10 @@ HTML
 
             <section id="budget" class="tab-content">
                 <div class="panel form-panel">
-                    <h3>Budgetäre Obergrenze zuteilen</h3>
+                    <h3 id="t-budget-title">Budgetäre Obergrenze zuteilen</h3>
                     <div class="smart-form">
                         <div class="input-wrapper" style="flex: 2;">
-                            <label>Kategorie</label>
+                            <label id="t-budget-cat">Kategorie</label>
                             <select id="budget-kategorie">
                                 <option value="Freizeit">👾 Freizeit & Hobbys</option>
                                 <option value="Essen">🛒 Lebensmittel</option>
@@ -244,15 +234,15 @@ HTML
                             </select>
                         </div>
                         <div class="input-wrapper" style="flex: 2;">
-                            <label>Limitation (€ / Monat)</label>
+                            <label id="t-budget-limit">Limitation (€ / Monat)</label>
                             <input type="number" id="budget-limit" placeholder="z.B. 400">
                         </div>
-                        <button class="prime-btn" onclick="setBudget()">Limit binden</button>
+                        <button class="prime-btn" id="t-btn-bind" onclick="setBudget()">Limit binden</button>
                     </div>
                 </div>
 
                 <div class="panel">
-                    <h3>Echtzeit-Schwellenwert-Überwachung</h3>
+                    <h3 id="t-budget-monitor">Echtzeit-Schwellenwert-Überwachung</h3>
                     <div id="budget-progress-container" class="budget-grid"></div>
                 </div>
             </section>
@@ -262,20 +252,35 @@ HTML
                     <div class="ai-header">
                         <div class="ai-sparkle">✨</div>
                         <div>
-                            <h3>YouFinance KI-Consultant</h3>
-                            <p class="subtitle" style="margin:0;">Interaktive Realtime-Vermögensanalyse</p>
+                            <h3 id="t-ai-title">YouFinance KI-Consultant</h3>
+                            <p class="subtitle" id="t-ai-subtitle" style="margin:0;">Interaktive Realtime-Vermögensanalyse</p>
                         </div>
                     </div>
                     
-                    <div class="ai-chat-container" id="ai-chat-box">
-                        <div class="ai-msg system">
-                            ✨ <strong>System-Assistent:</strong> Bereit. Ich habe vollen Zugriff auf Ihre Bilanzen. Fragen Sie mich nach Einsparpotenzialen, Prognosen oder Budgetüberschreitungen.
-                        </div>
-                    </div>
+                    <div class="ai-chat-container" id="ai-chat-box"></div>
 
                     <div class="ai-input-row">
-                        <input type="text" id="ai-user-query" placeholder="z.B. Habe ich diesen Monat zu viel Geld ausgegeben?" onkeydown="if(event.key === 'Enter') sendAiMessage()">
-                        <button class="prime-btn" onclick="sendAiMessage()">Senden</button>
+                        <input type="text" id="ai-user-query" placeholder="" onkeydown="if(event.key === 'Enter') sendAiMessage()">
+                        <button class="prime-btn" id="t-ai-send" onclick="sendAiMessage()">Senden</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="settings" class="tab-content">
+                <div class="panel">
+                    <h3 id="t-settings-header">System-Einstellungen</h3>
+                    <p class="subtitle" id="t-settings-subheader" style="margin-bottom: 25px;">Konfigurieren Sie globale Anwendungsvariablen und Lokalisierungen.</p>
+                    
+                    <div class="settings-grid">
+                        <div class="input-wrapper" style="max-width: 400px;">
+                            <label id="t-settings-lang-label">System-Sprache (Language)</label>
+                            <select id="system-language-select" onchange="changeSystemLanguage(this.value)">
+                                <option value="de">Deutsch (DE)</option>
+                                <option value="en">English (EN)</option>
+                                <option value="es">Español (ES)</option>
+                                <option value="el">Ελληνικά (EL)</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -283,5 +288,3 @@ HTML
     </div>
 
     <script src="script.js"></script>
-</body>
-</html>
