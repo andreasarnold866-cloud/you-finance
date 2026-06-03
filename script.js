@@ -57,11 +57,10 @@ const App = (() => {
         }
     };
 
-    // Client-Side Volatile State Manager (Simuliert die Datenbank im RAM)
     let state = {
         isPasswordValid: false,
         activeLanguage: "de",
-        registeredUser: null,  // Speichert das erstellte Konto { username, email, password }
+        registeredUser: null,
         isVerified: false
     };
 
@@ -99,29 +98,19 @@ const App = (() => {
         else { node.classList.remove('valid'); node.classList.add('invalid'); }
     };
 
-    /**
-     * Navigation Controller System (Smooth Component Swapping)
-     */
     const navigateToComponent = (targetCardId) => {
         const cards = ['registerCard', 'verifyCard', 'loginCard', 'dashboardPage'];
         cards.forEach(id => {
             const el = document.getElementById(id);
-            if (id === targetCardId) {
-                el.classList.remove('hidden');
-            } else {
-                el.classList.add('hidden');
-            }
+            if (id === targetCardId) el.classList.remove('hidden');
+            else el.classList.add('hidden');
         });
         
-        // Verberge Sprachauswahl im Dashboard, um App-Feeling zu maximieren
         const langWidget = document.getElementById('globalLangWidget');
         if(targetCardId === 'dashboardPage') langWidget.classList.add('hidden');
         else langWidget.classList.remove('hidden');
     };
 
-    /**
-     * Core Security Action Despatchers
-     */
     const executeRegister = (event) => {
         event.preventDefault();
         if (!state.isPasswordValid) {
@@ -129,7 +118,6 @@ const App = (() => {
             return;
         }
 
-        // Lokales Speichern der Daten im temporären State (Datenbank-Simulation)
         state.registeredUser = {
             username: document.getElementById('username').value,
             email: document.getElementById('email').value,
@@ -164,10 +152,9 @@ const App = (() => {
         const pass = document.getElementById('loginPassword').value;
         const statusNode = document.getElementById('loginStatus');
 
-        // Validierung gegen den State
         if (!state.registeredUser) {
             statusNode.className = "feedback-anchor error";
-            statusNode.innerText = "Kein Account gefunden. Bitte registrieren Sie sich.";
+            statusNode.innerText = "Kein Account gefunden. Bitte registrieren.";
             return;
         }
 
@@ -176,7 +163,7 @@ const App = (() => {
 
         if (matchId && matchPass && state.isVerified) {
             statusNode.className = "feedback-anchor success";
-            statusNode.innerText = "Login erfolgreich. Dashboard wird initialisiert...";
+            statusNode.innerText = "Initialisiere High-Secure Session...";
             
             document.getElementById('dash-username').innerText = state.registeredUser.username;
 
@@ -185,7 +172,7 @@ const App = (() => {
             }, 1000);
         } else {
             statusNode.className = "feedback-anchor error";
-            statusNode.innerText = "Ungültige Anmeldedaten oder E-Mail nicht verifiziert.";
+            statusNode.innerText = "Ungültige Login-Parameter.";
         }
     };
 
@@ -204,7 +191,6 @@ const App = (() => {
         state.activeLanguage = languageSelection;
         const lexicon = dictionary[languageSelection];
 
-        // DOM Batch Injection
         document.getElementById('txt-title').innerText = lexicon.title;
         document.getElementById('txt-subtitle').innerText = lexicon.subtitle;
         document.getElementById('lbl-username').innerText = lexicon.userL;
