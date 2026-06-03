@@ -3,12 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mein Finanz-Dashboard</title>
+    <title>FinanzTracker</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div style="text-align: center; margin-top: 50px; font-family: Arial, sans-serif;">
-        <h1>💰 Mein Finanz-Manager</h1>
-        <p>Herzlichen Glückwunsch! Die Website ist erfolgreich live geschaltet.</p>
+
+    <div class="dashboard">
+        <header>
+            <h1>FinanzTracker</h1>
+            <p class="date">Juni 2026</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="openTab('uebersicht')">📊 Übersicht</button>
+            <button class="tab-btn" onclick="openTab('transaktionen')">📋 Transaktionen</button>
+            <button class="tab-btn" onclick="openTab('budget')">⏱ Budget</button>
+            <button class="tab-btn" onclick="openTab('ki')">✨ KI-Analyse</button>
+        </nav>
+
+        <section id="uebersicht" class="tab-content active-content">
+            <div class="cards-container">
+                <div class="card income">
+                    <h3>📈 Einnahmen</h3>
+                    <p class="amount">€0.00</p>
+                    <span class="subtext">diesen Monat</span>
+                </div>
+                <div class="card expenses">
+                    <h3>📉 Ausgaben</h3>
+                    <p class="amount">€0.00</p>
+                    <span class="subtext">diesen Monat</span>
+                </div>
+                <div class="card balance">
+                    <h3>💰 Bilanz</h3>
+                    <p class="amount">+€0.00</p>
+                    <span class="subtext">Saldo</span>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <h3>Ausgaben nach Kategorie</h3>
+                <p class="empty-text">Keine Ausgaben diesen Monat.</p>
+            </div>
+        </section>
+
+        <section id="transaktionen" class="tab-content">
+            <div class="section-box">
+                <h3>Neue Transaktion hinzufügen</h3>
+                <div class="input-group">
+                    <input type="text" id="beschreibung" placeholder="z.B. Supermarkt">
+                    <input type="number" id="betrag" placeholder="Betrag in €">
+                    <button class="add-btn">Hinzufügen</button>
+                </div>
+            </div>
+            
+            <div class="section-box">
+                <h3>Letzte Transaktionen</h3>
+                <p class="empty-text">Noch keine Einträge.</p>
+            </div>
+        </section>
+
+        <section id="budget" class="tab-content">
+            <div class="section-box">
+                <h3>Mein Budget</h3>
+                <p class="empty-text">Hier kannst du bald Limits setzen.</p>
+            </div>
+        </section>
+
+        <section id="ki" class="tab-content">
+            <div class="section-box">
+                <h3>KI-Analyse</h3>
+                <p class="empty-text">Die KI berechnet bald deine Spartipps...</p>
+            </div>
+        </section>
+
     </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
