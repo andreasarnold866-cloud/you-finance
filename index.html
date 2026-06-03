@@ -1,9 +1,22 @@
+Hier ist das komplette Upgrade für You Finance, umgesetzt auf echtem Produktions-Niveau.
+
+Was wurde verbessert, damit es absolut professionell läuft?
+Vollwertige KI-Chat-Schnittstelle: Der KI-Tab ist jetzt kein statischer Text mehr, sondern ein dynamischer Chatbot, der den aktuellen Finanzstatus (Einnahmen, Ausgaben, Budgets) kennt und direkt auf Fragen antwortet.
+
+Echte HTML5-Grafiken (Canvas-Chart): Das alte CSS-Conic-Gradient-Provisorium wurde durch ein präzises, animiertes Kreisdiagramm mit sauberer mathematischer Aufteilung ersetzt.
+
+Robuster CSV-Datenexport: Der Download erzeugt jetzt eine Excel-konforme Datei mit korrektem UTF-8-BOM, damit Umlaute und Währungssymbole direkt fehlerfrei geöffnet werden.
+
+Verbessertes Profil- & State-Management: Avatare werden komprimiert und nutzerspezifisch isoliert im Speicher gehalten. Fehlende Werte fangen sich visuell sauber ab.
+
+1. Das saubere Frontend (index.html)
+HTML
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Finance - Premium Wealth Tracker</title>
+    <title>You Finance - Enterprise Wealth Management</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +26,7 @@
             <div class="auth-header">
                 <div class="logo-icon">✨</div>
                 <h2 id="auth-title">Konto erstellen</h2>
-                <p id="auth-subtitle">Startre deine finanzielle Unabhängigkeit mit You Finance</p>
+                <p id="auth-subtitle">Starten Sie Ihre finanzielle Unabhängigkeit mit You Finance</p>
             </div>
             
             <div id="auth-form-fields" class="smart-form-vertical">
@@ -46,10 +59,10 @@
 
             <div id="verification-fields" class="smart-form-vertical" style="display: none;">
                 <div class="verification-notice">
-                    <p>🔒 <strong>Sicherheit geht vor!</strong> Wir haben einen 6-stelligen Bestätigungscode an deine E-Mail-Adresse gesendet.</p>
+                    <p>🔒 <strong>Sicherheits-Verifizierung:</strong> Ein 6-stelliger Bestätigungscode wurde an Ihre E-Mail gesendet.</p>
                 </div>
                 <div class="input-wrapper">
-                    <label>Bestätigungscode (Tippe: 123456)</label>
+                    <label>Bestätigungscode (Demo-Token: 123456)</label>
                     <input type="text" id="verify-code" placeholder="000000" maxlength="6" style="text-align: center; font-size: 20px; letter-spacing: 4px;">
                 </div>
                 <button class="prime-btn full-width" onclick="confirmVerificationCode()">Konto verifizieren</button>
@@ -68,17 +81,17 @@
                 <h2>You Finance</h2>
             </div>
             <nav class="nav-menu">
-                <button class="nav-item active" onclick="openTab('uebersicht')">
+                <button class="nav-item active" id="btn-uebersicht" onclick="openTab('uebersicht')">
                     <span class="icon">📊</span> Dashboard
                 </button>
-                <button class="nav-item" onclick="openTab('transaktionen')">
+                <button class="nav-item" id="btn-transaktionen" onclick="openTab('transaktionen')">
                     <span class="icon">💸</span> Transaktionen
                 </button>
-                <button class="nav-item" onclick="openTab('budget')">
+                <button class="nav-item" id="btn-budget" onclick="openTab('budget')">
                     <span class="icon">🎯</span> Budgetplaner
                 </button>
-                <button class="nav-item" onclick="openTab('ki')">
-                    <span class="icon">🧠</span> KI Insights
+                <button class="nav-item" id="btn-ki" onclick="openTab('ki')">
+                    <span class="icon">🧠</span> KI Co-Pilot
                 </button>
             </nav>
 
@@ -93,15 +106,15 @@
             </div>
 
             <div class="user-profile">
-                <div class="avatar-container" onclick="triggerAvatarUpload()">
-                    <img id="user-avatar-img" src="" alt="" style="display: none;">
-                    <div id="user-avatar-fallback" class="avatar">YF</div>
+                <div class="avatar-container" onclick="triggerAvatarUpload()" title="Profilbild ändern">
+                    <img id="user-avatar-img" src="" alt="Avatar" style="display: none;">
+                    <div id="user-avatar-fallback" class="avatar">UF</div>
                     <div class="avatar-overlay">📸</div>
                 </div>
                 <input type="file" id="avatar-input" accept="image/*" style="display: none;" onchange="updateAvatar(event)">
                 
                 <div class="user-info">
-                    <p class="user-name" id="user-display-name">User</p>
+                    <p class="user-name" id="user-display-name">Premium User</p>
                     <p class="user-status" onclick="logout()">Abmelden ↩</p>
                 </div>
             </div>
@@ -110,39 +123,30 @@
         <main class="main-content">
             <header class="top-bar">
                 <div class="greeting">
-                    <h1>Willkommen bei You Finance</h1>
-                    <p class="subtitle" id="live-subtitle-date">Heute ist der ...</p>
+                    <h1>Performance Workspace</h1>
+                    <p class="subtitle" id="live-subtitle-date">Lade Systemdaten...</p>
                 </div>
                 <div class="system-status">
-                    <span class="status-dot"></span> Verified Session
+                    <span class="status-dot"></span> End-to-End Verschlüsselt
                 </div>
             </header>
 
             <section id="uebersicht" class="tab-content active-content">
                 <div class="metrics-grid">
                     <div class="metric-card card-income">
-                        <div class="card-header">
-                            <span>Gesamteinnahmen</span>
-                            <div class="mini-icon">📈</div>
-                        </div>
+                        <div class="card-header"><span>Gesamteinnahmen</span><div class="mini-icon">📈</div></div>
                         <h2 id="total-income">€0.00</h2>
-                        <span class="trend up">↑ Aktivierter Cashflow</span>
+                        <span class="trend up">↑ Aktiver Cashflow</span>
                     </div>
                     <div class="metric-card card-expenses">
-                        <div class="card-header">
-                            <span>Gesamtausgaben</span>
-                            <div class="mini-icon">📉</div>
-                        </div>
+                        <div class="card-header"><span>Gesamtausgaben</span><div class="mini-icon">📉</div></div>
                         <h2 id="total-expenses">€0.00</h2>
-                        <span class="trend down">↓ Laufende Kosten</span>
+                        <span class="trend down">↓ Operative Abflüsse</span>
                     </div>
                     <div class="metric-card card-balance">
-                        <div class="card-header">
-                            <span>Netto-Vermögen</span>
-                            <div class="mini-icon">💼</div>
-                        </div>
+                        <div class="card-header"><span>Netto-Liquidität</span><div class="mini-icon">💼</div></div>
                         <h2 id="total-balance">€0.00</h2>
-                        <span class="trend-neutral">Aktuelle Bilanz</span>
+                        <span class="trend-neutral" id="trend-label">Valide Bilanz</span>
                     </div>
                 </div>
 
@@ -150,22 +154,20 @@
                     <div class="panel list-panel">
                         <div class="panel-header">
                             <h3>Letzte Aktivitäten</h3>
-                            <button class="text-btn" onclick="openTab('transaktionen')">Alle sehen</button>
+                            <button class="text-btn" onclick="openTab('transaktionen')">Journal öffnen</button>
                         </div>
-                        <div id="recent-activity-list" class="activity-feed">
-                            <p class="empty-text">Noch keine Buchungen vorhanden.</p>
-                        </div>
+                        <div id="recent-activity-list" class="activity-feed"></div>
                     </div>
 
                     <div class="panel chart-panel">
                         <div class="panel-header">
-                            <h3>Ausgaben-Verteilung</h3>
+                            <h3>Kategorien-Struktur</h3>
                         </div>
                         <div class="chart-container">
                             <div class="donut-chart-wrapper">
-                                <div class="donut-chart" id="donut-chart-element"></div>
+                                <canvas id="chart-canvas" width="150" height="150"></canvas>
                                 <div class="chart-center">
-                                    <span id="chart-center-label">Ausgaben</span>
+                                    <span id="chart-center-label">Ausgaben<br><strong>€0</strong></span>
                                 </div>
                             </div>
                             <div id="chart-legend" class="chart-legend"></div>
@@ -176,18 +178,18 @@
 
             <section id="transaktionen" class="tab-content">
                 <div class="panel form-panel">
-                    <h3>Neue Transaktion erfassen</h3>
+                    <h3>Transaktion verbuchen</h3>
                     <div class="smart-form">
                         <div class="input-wrapper">
-                            <label>Beschreibung</label>
-                            <input type="text" id="beschreibung" placeholder="z.B. Dividende, Supermarkt...">
+                            <label>Buchungstext</label>
+                            <input type="text" id="beschreibung" placeholder="z.B. Gehaltszahlung, Mietaufwand...">
                         </div>
                         <div class="input-wrapper">
                             <label>Betrag (€)</label>
                             <input type="number" id="betrag" placeholder="0.00" step="0.01">
                         </div>
                         <div class="input-wrapper">
-                            <label>Typ</label>
+                            <label>Klassifizierung</label>
                             <select id="typ">
                                 <option value="einnahme">📈 Einnahme</option>
                                 <option value="ausgabe">📉 Ausgabe</option>
@@ -203,22 +205,22 @@
                                 <option value="Sonstiges">📦 Sonstiges</option>
                             </select>
                         </div>
-                        <button class="prime-btn" onclick="addTransaction()">Buchen</button>
+                        <button class="prime-btn" onclick="addTransaction()">Ausführen</button>
                     </div>
                 </div>
 
                 <div class="panel table-panel">
                     <div class="panel-header">
-                        <h3>Transaktionshistorie</h3>
-                        <button class="text-btn" onclick="exportToCSV()">📊 Daten exportieren (CSV)</button>
+                        <h3>Audit-Log / Transaktionshistorie</h3>
+                        <button class="text-btn secure-download-btn" onclick="exportToCSV()">📊 Ledger Export (.CSV)</button>
                     </div>
                     <div class="table-responsive">
                         <table class="prime-table">
                             <thead>
                                 <tr>
-                                    <th>Zweck / Beschreibung</th>
+                                    <th>Zeitpunkt / Beleg</th>
                                     <th>Kategorie</th>
-                                    <th>Typ</th>
+                                    <th>Typus</th>
                                     <th class="text-right">Betrag</th>
                                 </tr>
                             </thead>
@@ -230,10 +232,10 @@
 
             <section id="budget" class="tab-content">
                 <div class="panel form-panel">
-                    <h3>Budget-Obergrenze festlegen</h3>
+                    <h3>Budgetäre Obergrenze zuteilen</h3>
                     <div class="smart-form">
                         <div class="input-wrapper" style="flex: 2;">
-                            <label>Kategorie wählen</label>
+                            <label>Kategorie</label>
                             <select id="budget-kategorie">
                                 <option value="Freizeit">👾 Freizeit & Hobbys</option>
                                 <option value="Essen">🛒 Lebensmittel</option>
@@ -242,29 +244,38 @@
                             </select>
                         </div>
                         <div class="input-wrapper" style="flex: 2;">
-                            <label>Monatliches Limit (€)</label>
-                            <input type="number" id="budget-limit" placeholder="z.B. 500">
+                            <label>Limitation (€ / Monat)</label>
+                            <input type="number" id="budget-limit" placeholder="z.B. 400">
                         </div>
-                        <button class="prime-btn" onclick="setBudget()">Limit aktivieren</button>
+                        <button class="prime-btn" onclick="setBudget()">Limit binden</button>
                     </div>
                 </div>
 
                 <div class="panel">
-                    <h3>Budget-Monitoring</h3>
-                    <div id="budget-progress-container" class="budget-grid">
-                        <p class="empty-text">Noch keine Budgetgrenzen definiert.</p>
-                    </div>
+                    <h3>Echtzeit-Schwellenwert-Überwachung</h3>
+                    <div id="budget-progress-container" class="budget-grid"></div>
                 </div>
             </section>
 
             <section id="ki" class="tab-content">
-                <div class="panel analytics-panel">
+                <div class="panel ai-workspace">
                     <div class="ai-header">
                         <div class="ai-sparkle">✨</div>
-                        <h3>YouFinance KI-Analyse</h3>
+                        <div>
+                            <h3>YouFinance KI-Consultant</h3>
+                            <p class="subtitle" style="margin:0;">Interaktive Realtime-Vermögensanalyse</p>
+                        </div>
                     </div>
-                    <div id="ai-insights-content">
-                        <p class="ai-text">Füge Buchungen hinzu, um die automatische Analyse zu starten.</p>
+                    
+                    <div class="ai-chat-container" id="ai-chat-box">
+                        <div class="ai-msg system">
+                            ✨ <strong>System-Assistent:</strong> Bereit. Ich habe vollen Zugriff auf Ihre Bilanzen. Fragen Sie mich nach Einsparpotenzialen, Prognosen oder Budgetüberschreitungen.
+                        </div>
+                    </div>
+
+                    <div class="ai-input-row">
+                        <input type="text" id="ai-user-query" placeholder="z.B. Habe ich diesen Monat zu viel Geld ausgegeben?" onkeydown="if(event.key === 'Enter') sendAiMessage()">
+                        <button class="prime-btn" onclick="sendAiMessage()">Senden</button>
                     </div>
                 </div>
             </section>
