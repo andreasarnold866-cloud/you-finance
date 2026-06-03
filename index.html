@@ -50,34 +50,23 @@
                         <div id="strengthBar" class="matrix-bar"></div>
                     </div>
                     <ul class="matrix-policies">
-                        <li id="req-length" class="policy-node invalid">
-                            <span class="node-bullet"></span>
-                            <span id="policy-len">Mindestens 8 Zeichen</span>
-                        </li>
-                        <li id="req-num" class="policy-node invalid">
-                            <span class="node-bullet"></span>
-                            <span id="policy-num">Mindestens 1 Zahl</span>
-                        </li>
-                        <li id="req-spec" class="policy-node invalid">
-                            <span class="node-bullet"></span>
-                            <span id="policy-spec">Mindestens 1 Sonderzeichen</span>
-                        </li>
+                        <li id="req-length" class="policy-node invalid"><span class="node-bullet"></span><span id="policy-len">Mindestens 8 Zeichen</span></li>
+                        <li id="req-num" class="policy-node invalid"><span class="node-bullet"></span><span id="policy-num">Mindestens 1 Zahl</span></li>
+                        <li id="req-spec" class="policy-node invalid"><span class="node-bullet"></span><span id="policy-spec">Mindestens 1 Sonderzeichen</span></li>
                     </ul>
                 </div>
 
                 <button type="submit" id="btn-register" class="cta-trigger">Registrieren</button>
+                <p class="switch-form-text">Bereits ein Konto? <a href="#" onclick="App.Navigation.to('loginCard')">Hier anmelden</a></p>
             </form>
         </article>
 
         <article id="verifyCard" class="surface-card hidden">
             <header class="section-header">
                 <div class="status-icon-container">
-                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                 </div>
-                <h1 id="txt-verify-title">E-Mail bestätigen</h1>
+                <h1 id="txt-verify-title">E-Mail verifizieren</h1>
                 <p id="txt-verify-desc">Wir haben einen Sicherheitscode an Ihre E-Mail gesendet.</p>
                 <div class="sandbox-badge">Demo-Code: 123456</div>
             </header>
@@ -92,14 +81,110 @@
                 <div id="verifyStatus" class="feedback-anchor"></div>
             </form>
         </article>
+
+        <article id="loginCard" class="surface-card hidden">
+            <header class="brand-identity">
+                <svg class="brand-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="12" x2="12" y2="12"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                <span class="brand-text">You Finance</span>
+            </header>
+            
+            <section class="section-header">
+                <h1 id="txt-login-title">Willkommen zurück</h1>
+                <p id="txt-login-subtitle">Melden Sie sich mit Ihren Daten an.</p>
+            </header>
+            
+            <form id="loginForm" onsubmit="App.Security.executeLogin(event)">
+                <div class="input-wrapper">
+                    <input type="text" id="loginIdentifier" placeholder=" " required autocomplete="username">
+                    <label id="lbl-login-id">Benutzername oder E-Mail</label>
+                </div>
+                
+                <div class="input-wrapper">
+                    <input type="password" id="loginPassword" placeholder=" " required autocomplete="current-password">
+                    <label id="lbl-login-pass">Passwort</label>
+                </div>
+                
+                <button type="submit" id="btn-login" class="cta-trigger">Anmelden</button>
+                <div id="loginStatus" class="feedback-anchor"></div>
+                <p class="switch-form-text">Neu hier? <a href="#" onclick="App.Navigation.to('registerCard')">Konto erstellen</a></p>
+            </form>
+        </article>
+
+        <article id="dashboardPage" class="dashboard-surface hidden">
+            <aside class="sidebar">
+                <div class="sidebar-brand">
+                    <svg class="brand-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    <span>You Finance</span>
+                </div>
+                <nav class="sidebar-menu">
+                    <a href="#" class="menu-item active">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        <span id="nav-dash">Dashboard</span>
+                    </a>
+                </nav>
+                <div class="sidebar-footer">
+                    <div class="user-profile-trigger" onclick="App.Dashboard.toggleSettings()">
+                        <div class="avatar-placeholder">YF</div>
+                        <div class="user-meta">
+                            <span id="dash-username" class="user-meta-name">User</span>
+                            <span class="user-meta-plan">Tier: Free</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="main-content">
+                <header class="content-header">
+                    <h1 id="txt-dash-welcome">Finanzübersicht</h1>
+                    <button class="btn-logout" onclick="App.Security.logout()">Logout</button>
+                </header>
+
+                <div class="dashboard-grid">
+                    <div class="metrics-row">
+                        <div class="data-card">
+                            <span id="lbl-balance">Gesamtsaldo</span>
+                            <h2>€ 14'850.00</h2>
+                        </div>
+                        <div class="data-card">
+                            <span id="lbl-income">Monatliche Einnahmen</span>
+                            <h2 class="text-success">€ 3'200.00</h2>
+                        </div>
+                        <div class="data-card">
+                            <span id="lbl-expenses">Monatliche Ausgaben</span>
+                            <h2 class="text-error">€ 1'350.00</h2>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container-card">
+                        <div class="card-header-meta">
+                            <h3 id="txt-analytics-title">Budget-Analyse</h3>
+                        </div>
+                        <div class="mock-chart">
+                            <div class="bar" style="height: 40%"></div>
+                            <div class="bar" style="height: 65%"></div>
+                            <div class="bar" style="height: 50%"></div>
+                            <div class="bar" style="height: 85%"></div>
+                            <div class="bar" style="height: 70%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div id="settingsModal" class="modal-overlay hidden">
+                <div class="modal-content">
+                    <h2 id="txt-settings-title">Einstellungen</h2>
+                    <p>Kontoverwaltung und Premium-Features</p>
+                    <hr class="modal-divider">
+                    <button class="btn-premium" onclick="alert('Premium-Features freigeschaltet!')">Auf Plusplan upgraden</button>
+                    <button class="btn-close" onclick="App.Dashboard.toggleSettings()">Schliessen</button>
+                </div>
+            </div>
+        </article>
+
     </main>
 
-    <nav class="localization-widget" aria-label="Language Selector">
-        <svg class="localization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="2" y1="12" x2="22" y2="12"></line>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-        </svg>
+    <nav id="globalLangWidget" class="localization-widget" aria-label="Language Selector">
+        <svg class="localization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
         <select id="langSelect" onchange="App.Localization.switchLanguage()">
             <option value="de">Deutsch</option>
             <option value="en">English</option>
