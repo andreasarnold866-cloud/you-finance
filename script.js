@@ -1,108 +1,155 @@
-const languages = {
+const i18n = {
     de: {
-        authTitle: "Konto erstellen", authSubtitle: "Starten Sie Ihre finanzielle Unabhängigkeit mit You Finance",
-        labelUsername: "Nutzername", labelEmail: "E-Mail-Adresse", labelEmailOrUser: "E-Mail-Adresse / Nutzername", labelPassword: "Passwort", policyTitle: "Sicherheitsanforderungen:",
-        rememberMe: "Auf diesem Gerät angemeldet bleiben", verifyNotice: "🔒 Sicherheits-Verifizierung: Ein 6-stelliger Bestätigungscode wurde an Ihre E-Mail gesendet.",
-        verifyLabel: "Bestätigungscode (Demo-Token: 123456)", verifyBtn: "Konto verifizieren",
-        navDashboard: "Dashboard", navTransactions: "Transaktionen", navBudget: "Budgetplaner", navAi: "KI Co-Pilot",
-        logoutBtn: "Abmelden ↩", workspaceTitle: "Performance Workspace", sysEncrypted: "End-to-End Verschlüsselt",
-        cardIncome: "Gesamteinnahmen", cardExpenses: "Gesamtausgaben", cardBalance: "Netto-Liquidität",
-        trendIncome: "↑ Aktiver Cashflow", trendExpenses: "↓ Operative Abflüsse", trendLabelValid: "Valide Bilanz", trendLabelErosion: "Kapitalerodierung",
-        titleActivity: "Letzte Aktivitäten", btnJournal: "Journal öffnen", titleStructure: "Kategorien-Struktur",
-        transTitle: "Transaktion verbuchen", transDesc: "Buchungstext", transAmount: "Betrag (€)", transType: "Klassifizierung", transCat: "Kategorie",
-        optInc: "📈 Einnahme", optExp: "📉 Ausgabe", btnExecute: "Ausführen", historyTitle: "Audit-Log / Transaktionshistorie",
-        btnExport: "📊 Ledger Export (.CSV)", thDate: "Zeitpunkt / Beleg", thCat: "Kategorie", thType: "Typus", thAmount: "Betrag",
-        budgetTitle: "Budgetäre Obergrenze zuteilen", budgetCat: "Kategorie", budgetLimit: "Limitation (€ / Monat)",
-        btnBind: "Limit binden", budgetMonitor: "Echtzeit-Schwellenwert-Überwachung", aiTitle: "YouFinance KI-Consultant",
-        aiSubtitle: "Interaktive Realtime-Vermögensanalyse", aiSend: "Senden", settingsHeader: "System-Einstellungen",
-        settingsSubheader: "Konfigurieren Sie globale Anwendungsvariablen, Lokalisierungen und Zeitzonen.", settingsLangLabel: "System-Sprache (Language)",
-        settingsTimezoneLabel: "Globale Zeitzone (Timezone)", placeholderDesc: "z.B. Gehaltszahlung, Mietaufwand...", placeholderAi: "Fragen Sie die KI nach Sparpotenzialen...",
-        msgWelcomeAi: "✨ System-Assistent: Bereit. Ich habe vollen Zugriff auf Ihre Bilanzen. Fragen Sie mich nach Einsparpotenzialen, Prognosen oder Budgetüberschreitungen.",
-        emptyData: "Keine Daten verfügbar", emptyLog: "Keine Buchungsdaten erfasst.", emptyBudget: "Keine aktiven Limitierungen zugewiesen.",
-        toastAuthError: "Zugriff verweigert. Ungültige Anmeldedaten.", toastFields: "Bitte füllen Sie alle erforderlichen Felder aus.",
-        toastSec: "Sicherheitsstufe unzureichend. Bitte korrigieren Sie Ihr Passwort.", toastEmailTaken: "Diese E-Mail oder dieser Nutzername ist bereits vergeben.",
-        toastTokenOk: "E-Mail erfolgreich verifiziert! Willkommen an Bord.", toastTokenErr: "Token ungültig. Verwenden Sie für die Testumgebung: 123456",
-        toastValErr: "Eingabe ungültig. Beschreibung und positiver Betrag erforderlich.", toastLimitErr: "Geben Sie einen validen Schwellenwert ein.",
-        settingsAvatarTitle: "Profilidentität", avatarDesc: "Klicken Sie auf das Bild, um ein neues Foto hochzuladen. Das Bild wird automatisch verzerrungsfrei angepasst.",
-        toastDaySelected: "Filter aktiv für Belege vom: ", settingsCloseBtn: "Speichern & Schließen"
+        title: "Konto erstellen", subtitle: "Starten Sie Ihre finanzielle Unabhängigkeit",
+        userL: "Benutzername", emailL: "E-Mail-Adresse", passL: "Sicheres Passwort",
+        polLen: "Mindestens 8 Zeichen", polNum: "Mindestens 1 Zahl", polSpec: "Mindestens 1 Sonderzeichen",
+        btnReg: "Registrieren", vTitle: "E-Mail bestätigen", vDesc: "Wir haben einen Sicherheitscode an Ihre E-Mail-Adresse gesendet.",
+        codeL: "6-stelliger Code", btnVer: "Code verifizieren", errFields: "Bitte füllen Sie alle Felder korrekt aus.",
+        errCode: "Ungültiger Code. Bitte versuchen Sie es erneut.", successVer: "Verifiziert! Weiterleitung zum Dashboard..."
     },
     en: {
-        authTitle: "Create Account", authSubtitle: "Start your financial independence with You Finance",
-        labelUsername: "Username", labelEmail: "Email Address", labelEmailOrUser: "Email Address / Username", labelPassword: "Password", policyTitle: "Security Requirements:",
-        rememberMe: "Stay logged in on this device", verifyNotice: "🔒 Security Verification: A 6-digit confirmation code was sent to your email.",
-        verifyLabel: "Verification Code (Demo Token: 123456)", verifyBtn: "Verify Account",
-        navDashboard: "Dashboard", navTransactions: "Transactions", navBudget: "Budget Planner", navAi: "AI Co-Pilot",
-        logoutBtn: "Sign Out ↩", workspaceTitle: "Performance Workspace", sysEncrypted: "End-to-End Encrypted",
-        cardIncome: "Total Income", cardExpenses: "Total Expenses", cardBalance: "Net Liquidity",
-        trendIncome: "↑ Active Cashflow", trendExpenses: "↓ Operative Outflow", trendLabelValid: "Valid Balance", trendLabelErosion: "Capital Erosion",
-        titleActivity: "Recent Activity", btnJournal: "Open Ledger", titleStructure: "Category Breakdown",
-        transTitle: "Log Transaction", transDesc: "Transaction Text", transAmount: "Amount (€)", transType: "Classification", transCat: "Category",
-        optInc: "📈 Income", optExp: "📉 Expense", btnExecute: "Execute", historyTitle: "Audit Log / Transaction History",
-        btnExport: "📊 Ledger Export (.CSV)", thDate: "Timestamp / Reference", thCat: "Category", thType: "Type", thAmount: "Amount",
-        budgetTitle: "Allocate Budget Cap", budgetCat: "Category", budgetLimit: "Limitation (€ / Month)",
-        btnBind: "Bind Limit", budgetMonitor: "Real-time Threshold Monitoring", aiTitle: "YouFinance AI Consultant",
-        aiSubtitle: "Interactive Real-time Wealth Analysis", aiSend: "Send", settingsHeader: "System Settings",
-        settingsSubheader: "Configure global application variables, localizations and timezones.", settingsLangLabel: "System Language",
-        settingsTimezoneLabel: "Global Timezone", placeholderDesc: "e.g., Salary payment, rent expense...", placeholderAi: "Ask the AI about savings potentials...",
-        msgWelcomeAi: "✨ System Assistant: Ready. I have full access to your sheets. Ask me about optimization, forecasts, or budget overruns.",
-        emptyData: "No data available", emptyLog: "No transaction records found.", emptyBudget: "No active limits assigned.",
-        toastAuthError: "Access denied. Invalid credentials.", toastFields: "Please fill in all required fields.",
-        toastSec: "Security level insufficient. Please verify your password.", toastEmailTaken: "This email or username is already taken.",
-        toastTokenOk: "Email verified successfully! Welcome aboard.", toastTokenErr: "Invalid token. Use for this test environment: 123456",
-        toastValErr: "Invalid entry. Description and positive amount required.", toastLimitErr: "Please enter a valid threshold value.",
-        settingsAvatarTitle: "Profile Identity", avatarDesc: "Click on the avatar to upload a new profile picture. Aspect ratio will be fully locked without stretching.",
-        toastDaySelected: "Filter active for records dated: ", settingsCloseBtn: "Save & Close"
+        title: "Create an account", subtitle: "Start your journey to financial freedom",
+        userL: "Username", emailL: "Email Address", passL: "Secure Password",
+        polLen: "At least 8 characters", polNum: "At least 1 number", polSpec: "At least 1 special character",
+        btnReg: "Register", vTitle: "Verify Email", vDesc: "We have sent a security code to your email address.",
+        codeL: "6-digit code", btnVer: "Verify Code", errFields: "Please fill out all fields correctly.",
+        errCode: "Invalid code. Please try again.", successVer: "Verified! Redirecting to dashboard..."
     },
     es: {
-        authTitle: "Crear Cuenta", authSubtitle: "Comience su independencia financiera con You Finance",
-        labelUsername: "Nombre de usuario", labelEmail: "Correo Electrónico", labelEmailOrUser: "Correo Electrónico / Usuario", labelPassword: "Contraseña", policyTitle: "Requisitos de Seguridad:",
-        rememberMe: "Mantener sesión iniciada en este dispositivo", verifyNotice: "🔒 Verificación de Seguridad: Se ha enviado un código de confirmación de 6 dígitos a su correo.",
-        verifyLabel: "Código de Verificación (Token de demostración: 123456)", verifyBtn: "Verificar Cuenta",
-        navDashboard: "Tablero", navTransactions: "Transacciones", navBudget: "Presupuesto", navAi: "Co-Piloto IA",
-        logoutBtn: "Cerrar Sesión ↩", workspaceTitle: "Espacio de Trabajo", sysEncrypted: "Cifrado de Extremo a Extremo",
-        cardIncome: "Ingresos Totales", cardExpenses: "Gastos Totales", cardBalance: "Liquidez Neta",
-        trendIncome: "↑ Flujo de Caja Activo", trendExpenses: "↓ Flujos Operativos", trendLabelValid: "Balance Válido", trendLabelErosion: "Erosión de Capital",
-        titleActivity: "Actividad Reciente", btnJournal: "Abrir Registro", titleStructure: "Estructura de Categorías",
-        transTitle: "Registrar Transacción", transDesc: "Texto de Transacción", transAmount: "Monto (€)", transType: "Clasificación", transCat: "Categoría",
-        optInc: "📈 Ingreso", optExp: "📉 Gasto", btnExecute: "Ejecutar", historyTitle: "Log de Auditoría / Historial de Transacciones",
-        btnExport: "📊 Exportar Libro (.CSV)", thDate: "Fecha / Comprobante", thCat: "Categoría", thType: "Tipo", thAmount: "Monto",
-        budgetTitle: "Asignar Límite de Presupuesto", budgetCat: "Categoría", budgetLimit: "Limitación (€ / Mes)",
-        btnBind: "Vincular Límite", budgetMonitor: "Monitoreo de Umbrales en Tiempo Real", aiTitle: "Consultor de IA de YouFinance",
-        aiSubtitle: "Análisis Interactivo del Patrimonio", aiSend: "Enviar", settingsHeader: "Configuración del Sistema",
-        settingsSubheader: "Configure variables globales de la aplicación, localizaciones y zonas horarias.", settingsLangLabel: "Idioma del Sistema",
-        settingsTimezoneLabel: "Zona Horaria Global", placeholderDesc: "ej. Pago de salario, gastos de alquiler...", placeholderAi: "Pregunte a la IA sobre potenciales de ahorro...",
-        msgWelcomeAi: "✨ Asistente del Sistema: Listo. Tengo acceso completo a sus balances. Pregúnteme sobre ahorros, pronósticos o excesos de presupuesto.",
-        emptyData: "No hay datos disponibles", emptyLog: "No se encontraron registros de transacciones.", emptyBudget: "No hay límites activos asignados.",
-        toastAuthError: "Acceso denegado. Credenciales inválidas.", toastFields: "Por favor, complete todos los campos obligatorios.",
-        toastSec: "Nivel de seguridad insuficiente. Por favor verifique su contraseña.", toastEmailTaken: "Este correo electrónico o usuario ya está registrado.",
-        toastTokenOk: "¡Correo verificado con éxito! Bienvenido a bordo.", toastTokenErr: "Token inválido. Use para el entorno de prueba: 123456",
-        toastValErr: "Entrada inválida. Se requiere descripción y monto positivo.", toastLimitErr: "Por favor, introduzca un valor de umbral válido.",
-        settingsAvatarTitle: "Identidad de Perfil", avatarDesc: "Haga clic en la imagen para cargar una nueva foto. Se encuadrará de forma óptima sin distorsión alguna.",
-        toastDaySelected: "Filtro activo para registros del: ", settingsCloseBtn: "Guardar y Cerrar"
+        title: "Crear una cuenta", subtitle: "Comience su camino hacia la libertad financiera",
+        userL: "Usuario", emailL: "Correo electrónico", passL: "Contraseña segura",
+        polLen: "Al menos 8 caracteres", polNum: "Al menos 1 número", polSpec: "Al menos 1 carácter特殊",
+        btnReg: "Registrarse", vTitle: "Verificar Correo", vDesc: "Hemos enviado un código de seguridad a su correo.",
+        codeL: "Código de 6 dígitos", btnVer: "Verificar Código", errFields: "Por favor, complete todos los campos.",
+        errCode: "Código inválido. Inténtelo de nuevo.", successVer: "¡Verificado! Redirigiendo al panel..."
     },
-    el: {
-        authTitle: "Δημιουργία Λογαριασμού", authSubtitle: "Ξεκινήστε την οικονομική σας ανεξαρτησία με το You Finance",
-        labelUsername: "Όνομα χρήστη", labelEmail: "Διεύθυνση Email", labelEmailOrUser: "Email ή Όνομα χρήστη", labelPassword: "Κωδικός Πρόσβασης", policyTitle: "Απαιτήσεις Ασφαλείας:",
-        rememberMe: "Να παραμείνω συνδεδεμένος σε αυτή τη συσκευή", verifyNotice: "🔒 Επαλήθευση Ασφαλείας: Ένας 6ψήφιος κωδικός επιβεβαίωσης στάλθηκε στο email σας.",
-        verifyLabel: "Κωδικός Επαλήθευσης (Demo Token: 123456)", verifyBtn: "Επαλήθευση Λογαριασμού",
-        navDashboard: "Ταμπλό", navTransactions: "Συναλλαγές", navBudget: "Προϋπολογισμός", navAi: "Βοηθός KI",
-        logoutBtn: "Αποσύνδεση ↩", workspaceTitle: "Χώρος Εργασίας Απόδοσης", sysEncrypted: "Κρυπτογράφηση End-to-End",
-        cardIncome: "Συνολικά Έσοδα", cardExpenses: "Συνολικά Έξοδα", cardBalance: "Καθαρή Ρευστότητα",
-        trendIncome: "↑ Ενεργή Ταμειακή Ροή", trendExpenses: "↓ Λειτουργικές Εκροές", trendLabelValid: "Έγκυρος Ισολογισμός", trendLabelErosion: "Διάβρωση Κεφαλαίου",
-        titleActivity: "Πρόσφατη Δραστηριότητα", btnJournal: "Άνοιγμα Ημερολογίου", titleStructure: "Δομή Κατηγοριών",
-        transTitle: "Καταχώρηση Συναλλαγής", transDesc: "Κείμενο Συναλλαγής", transAmount: "Ποσό (€)", transType: "Ταξινόμηση", transCat: "Κατηγορία",
-        optInc: "📈 Έσοδο", optExp: "📉 Έξοδο", btnExecute: "Εκτέλεση", historyTitle: "Αρχείο Ελέγχου / Ιστορικό Συναλλαγών",
-        btnExport: "📊 Εξαγωγή Καθολικού (.CSV)", thDate: "Χρονική Σήμανση", thCat: "Κατηγορία", thType: "Τύπος", thAmount: "Ποσό",
-        budgetTitle: "Κατανομή Ορίου Προϋπολογισμού", budgetCat: "Κατηγορία", budgetLimit: "Περιορισμός (€ / Μήνα)",
-        btnBind: "Δέσμευση Ορίου", budgetMonitor: "Παρακολούθηση Ορίων σε Πραγματικό Χρόνο", aiTitle: "Σύμβουλος KI YouFinance",
-        aiSubtitle: "Διαδραστική Ανάλυση Περιουσίας Realtime", aiSend: "Αποστολή", settingsHeader: "Ρυθμίσεις Συστήματος",
-        settingsSubheader: "Διαμόρφωση καθολικών μεταβλητών εφαρμογής, μεταφράσεων και ζωνών ώρας.", settingsLangLabel: "Γλώσσα Συστήματος",
-        settingsTimezoneLabel: "Παγκόσμια Ζώνη Ώρας", placeholderDesc: "π.χ. Πληρωμή μισθού, έξοδα ενοικίου...", placeholderAi: "Ρωτήστε την KI για δυνατότητες αποταμίευσης...",
-        msgWelcomeAi: "✨ Βοηθός Συστήματος: Έτοιμος. Έχω πλήρη πρόσβαση στους ισολογισμούς σας. Ρωτήστε με για εξοικονόμηση πόρων, προβλέψεις ή υπερβάσεις προϋπολογισμού.",
-        emptyData: "Δεν υπάρχουν διαθέσιμα δεδομένα", emptyLog: "Δεν βρέθηκαν δεδομένα συναλλαγών.", emptyBudget: "Δεν έχουν οριστεί ενεργά όρια.",
-        toastAuthError: "Η πρόσβαση δεν επιτράπηκε. Μη έγκυρα διαπιστευτήρια.", toastFields: "Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.",
-        toastSec: "Ανεπαρκές επίπεδο ασφαλείας. Παρακαλώ ελέγξτε τον κωδικό σας.", toastEmailTaken: "Αυτό το email ή όνομα χρήστη χρησιμοποιείται ήδη.",
-        toastTokenOk: "Το Email επαληθεύτηκε επιτυχώς! Καλώς ήρθατε.", toastTokenErr: "Μη έγκυρο token. Χρησιμοποιήστε για το περιβάλλον δοκιμής: 123456",
-        toastValErr: "Μη έγκυρη καταχώρηση. Απαιτείται περιγραφή και θετικό ποσό.", toastLimitErr: "Παρακαλώ εισάγετε μια έγκυρη τιμή ορίου.",
-        settingsAvatarTitle: "Ταυτότητα Προφίλ", avatarDesc: "Κάντε κλικ στην εικόνα για να ανεβάσετε νέα φωτογραφία. Θα προσαρμοστεί αυτόματα χωρίς παραμόρφωση.",
-        toastDaySelected: "Ενεργό φίλτρο για εγγραφές στις
+    it: {
+        title: "Crea un account", subtitle: "Inizia il tuo viaggio verso la libertà finanziaria",
+        userL: "Nome utente", emailL: "Indirizzo E-mail", passL: "Password sicura",
+        polLen: "Almeno 8 caratteri", polNum: "Almeno 1 numero", polSpec: "Almeno 1 carattere speciale",
+        btnReg: "Registrati", vTitle: "Verifica E-mail", vDesc: "Abbiamo inviato un codice di sicurezza al tuo indirizzo.",
+        codeL: "Codice a 6 cifre", btnVer: "Verifica Codice", errFields: "Si prega di compilare tutti i campi correttamente.",
+        errCode: "Codice non valido. Riprova.", successVer: "Verificato! Reindirizzamento alla dashboard..."
+    },
+    fr: {
+        title: "Créer un compte", subtitle: "Commencez votre voyage vers la liberté financière",
+        userL: "Nom d'utilisateur", emailL: "Adresse e-mail", passL: "Mot de passe sécurisé",
+        polLen: "Au moins 8 caractères", polNum: "Au moins 1 chiffre", polSpec: "Au moins 1 caractère spécial",
+        btnReg: "S'inscrire", vTitle: "Vérifier l'e-mail", vDesc: "Nous avons envoyé un code de sécurité à votre adresse e-mail.",
+        codeL: "Code à 6 chiffres", btnVer: "Vérifier le code", errFields: "Veuillez remplir tous les champs correctement.",
+        errCode: "Code invalide. Veuillez réessayer.", successVer: "Vérifié! Redirection vers le tableau de bord..."
+    },
+    gr: {
+        title: "Δημιουργία λογαριασμού", subtitle: "Ξεκινήστε το ταξίδι σας προς την οικονομική ελευθερία",
+        userL: "Όνομα χρήστη", emailL: "Διεύθυνση Email", passL: "Ασφαλής Κωδικός",
+        polLen: "Τουλάχιστον 8 χαρακτήρες", polNum: "Τουλάχιστον 1 αριθμός", polSpec: "Τουλάχιστον 1 ειδικός χαρακτήρας",
+        btnReg: "Εγγραφή", vTitle: "Επαλήθευση Email", vDesc: "Έχουμε στείλει έναν κωδικό ασφαλείας στη διεύθυνση email σας.",
+        codeL: "6-ψήφιος κωδικός", btnVer: "Επαλήθευση Κωδικού", errFields: "Παρακαλώ συμπληρώστε όλα τα πεδία σωστά.",
+        errCode: "Μη έγκυρος κωδικός. Παρακαλώ προσπαθήστε ξανά.", successVer: "Επαληθεύτηκε! Ανακατεύθυνση στο ταμπλό..."
+    }
+};
+
+// Validierungsstatus
+let isPasswordValid = false;
+
+// Echtzeit-Passwortprüfung
+const passwordInput = document.getElementById('password');
+passwordInput.addEventListener('input', () => {
+    const val = passwordInput.value;
+    
+    const metrics = {
+        length: val.length >= 8,
+        num: /\d/.test(val),
+        spec: /[!@#$%^&*(),.?":{}|<>_]/.test(val)
+    };
+
+    updatePolicy('req-length', metrics.length);
+    updatePolicy('req-num', metrics.num);
+    updatePolicy('req-spec', metrics.spec);
+
+    isPasswordValid = metrics.length && metrics.num && metrics.spec;
+});
+
+function updatePolicy(elementId, isValid) {
+    const el = document.getElementById(elementId);
+    if (isValid) {
+        el.classList.remove('invalid');
+        el.classList.add('valid');
+        el.querySelector('.icon').innerText = '✓';
+    } else {
+        el.classList.remove('valid');
+        el.classList.add('invalid');
+        el.querySelector('.icon').innerText = '○';
+    }
+}
+
+// Registrierung abschicken
+function handleRegister(event) {
+    event.preventDefault();
+    const currentLang = document.getElementById('langSelect').value;
+
+    if (!isPasswordValid) {
+        alert(i18n[currentLang].errFields);
+        return;
+    }
+
+    // Animation beim Wechsel zur Verifizierung
+    const regCard = document.getElementById('registerCard');
+    const verifyCard = document.getElementById('verifyCard');
+
+    regCard.style.opacity = '0';
+    regCard.style.transform = 'translateY(-20px)';
+    
+    setTimeout(() => {
+        regCard.classList.add('hidden');
+        verifyCard.classList.remove('hidden');
+        // Kleine Verzögerung für sauberes Einblenden
+        setTimeout(() => {
+            verifyCard.style.opacity = '1';
+            verifyCard.style.transform = 'translateY(0)';
+        }, 50);
+    }, 400);
+}
+
+// Verifizierungscode prüfen
+function handleVerify(event) {
+    event.preventDefault();
+    const currentLang = document.getElementById('langSelect').value;
+    const code = document.getElementById('verifyCode').value;
+    const statusDiv = document.getElementById('verifyStatus');
+
+    if (code === "123456") {
+        statusDiv.className = "status-message success";
+        statusDiv.innerText = i18n[currentLang].successVer;
+        
+        setTimeout(() => {
+            alert("Hier geht es in der nächsten Phase zum Dashboard!");
+        }, 1500);
+    } else {
+        statusDiv.className = "status-message error";
+        statusDiv.innerText = i18n[currentLang].errCode;
+    }
+}
+
+// Sprachwechsel-Logik
+function changeLanguage() {
+    const lang = document.getElementById('langSelect').value;
+    const data = i18n[lang];
+
+    // Texte der Registrierungskarte
+    document.getElementById('txt-title').innerText = data.title;
+    document.getElementById('txt-subtitle').innerText = data.subtitle;
+    document.getElementById('lbl-username').innerText = data.userL;
+    document.getElementById('lbl-email').innerText = data.emailL;
+    document.getElementById('lbl-password').innerText = data.passL;
+    document.getElementById('policy-len').innerText = data.polLen;
+    document.getElementById('policy-num').innerText = data.polNum;
+    document.getElementById('policy-spec').innerText = data.polSpec;
+    document.getElementById('btn-register').innerText = data.btnReg;
+
+    // Texte der Verifizierungskarte
+    document.getElementById('txt-verify-title').innerText = data.vTitle;
+    document.getElementById('txt-verify-desc').innerText = data.vDesc;
+    document.getElementById('lbl-code').innerText = data.codeL;
+    document.getElementById('btn-verify').innerText = data.btnVer;
+}
