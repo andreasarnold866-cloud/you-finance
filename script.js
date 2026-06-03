@@ -1,6 +1,9 @@
 let transactions = JSON.parse(localStorage.getItem('premium_transactions')) || [];
 let budgets = JSON.parse(localStorage.getItem('premium_budgets')) || {};
 
+// NEU: Authentifizierungs-Variablen
+let isLoginMode = false; // Startet im Registrierungs-Modus
+
 const categoryColors = {
     Freizeit: '#818cf8',
     Essen: '#fb923c',
@@ -9,64 +12,118 @@ const categoryColors = {
     Sonstiges: '#9ca3af'
 };
 
-// Automatischer Start beim Laden
 document.addEventListener("DOMContentLoaded", () => {
+    checkUserSession();
     initLiveDateAndCalendar();
-    updateUI();
 });
 
-// NEU: Live-Datum & Kalender-Generator
+// NEU: Session-Prüfung beim Starten
+function checkUserSession() {
+    const activeUser = localStorage.getItem('active_user');
+    
+    if (activeUser) {
+        // Benutzer eingeloggt -> Zeige Dashboard
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('app-screen').style.display = 'flex';
+        document.getElementById('user-display-name').innerText = activeUser.split('@')[0];
+        updateUI();
+    } else {
+        // Kein Benutzer -> Zeige Login-Maske
+        document.getElementById('auth-screen').style.display = 'flex';
+        document.getElementById('app-screen').style.display = 'none';
+    }
+}
+
+// NEU: Switch zwischen Registrieren und Login
+function toggleAuthMode() {
+    isLoginMode = !isLoginMode;
+    
+    const title = document.getElementById('auth-title');
+    const subtitle = document.getElementById('auth-subtitle');
+    const btn = document.getElementById('auth-submit-btn');
+    const toggleText = document.getElementById('auth-toggle-text');
+    
+    if (isLoginMode) {
+        title.innerText = "Willkommen zurück";
+        subtitle.innerText = "Logge dich ein, um deine Finanzen zu verwalten";
+        btn.innerText = "Einloggen";
+        toggleText.innerHTML = 'Neu bei You Finance? <span onclick="toggleAuthMode()">Konto erstellen</span>';
+    } else {
+        title.innerText = "Konto erstellen";
+        subtitle.innerText = "Starte deine finanzielle Unabhängigkeit mit You Finance";
+        btn.innerText = "Registrieren";
+        toggleText.innerHTML = 'Bereits Mitglied? <span onclick="toggleAuthMode()">Jetzt einloggen</span>';
+    }
+}
+
+// NEU: Logik für Login & Registrierung
+function handleAuth() {
+    const email = document.getElementById('auth-email').value.trim();
+    const password = document.getElementById('auth-password').value;
+    
+    if (!email || !password) {
+        alert("Bitte fülle alle Felder aus.");
+        return;
+    }
+    
+    if (isLoginMode) {
+        // LOGIN-LOGIK
+        const registeredPassword = localStorage.getItem(`user_${email}`);
+        if (registeredPassword && registeredPassword === password) {
+            localStorage.setItem('active_user', email);
+            checkUserSession();
+        } else {
+            alert("Falsche E-Mail-Adresse oder fehlerhaftes Passwort.");
+        }
+    } else {
+        // REGISTRIERUNGS-LOGIK
+        if (localStorage.getItem(`user_${email}`)) {
+            alert("Diese E-Mail ist bereits registriert.");
+            return;
+        }
+        
+        localStorage.setItem(`user_${email}`, password);
+        localStorage.setItem('active_user', email);
+        alert("Konto erfolgreich erstellt!");
+        checkUserSession();
+    }
+}
+
+// NEU: Logout-Funktion
+function logout() {
+    localStorage.removeItem('active_user');
+    document.getElementById('auth-email').value = '';
+    document.getElementById('auth-password').value = '';
+    checkUserSession();
+}
+
+// Kalender-Generator
 function initLiveDateAndCalendar() {
     const heute = new Date();
-    
-    // Optionen für die deutsche Datumsanzeige im Untertitel
     const datumsOptionen = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const formatiertesDatum = heute.toLocaleDateString('de-DE', datumsOptionen);
-    
-    // Untertitel aktualisieren
     const subtitleElement = document.getElementById('live-subtitle-date');
-    if (subtitleElement) {
-        subtitleElement.innerText = `Heute ist ${formatiertesDatum}`;
-    }
+    if (subtitleElement) subtitleElement.innerText = `Heute ist ${heute.toLocaleDateString('de-DE', datumsOptionen)}`;
 
-    // Kalender-Kopfzeile in der Sidebar beschriften
     const monatsOptionen = { month: 'long', year: 'numeric' };
     const calendarHeader = document.getElementById('calendar-month-year');
-    if (calendarHeader) {
-        calendarHeader.innerText = heute.toLocaleDateString('de-DE', monatsOptionen);
-    }
+    if (calendarHeader) calendarHeader.innerText = heute.toLocaleDateString('de-DE', monatsOptionen);
 
-    // Kalendertage generieren
     const grid = document.getElementById('calendar-days-grid');
     if (grid) {
         grid.innerHTML = '';
-        
         const jahr = heute.getFullYear();
         const monat = heute.getMonth();
-        
-        // Erster Wochentag des Monats (0 = Sonntag, 1 = Montag...)
         let ersterTagWochentag = new Date(jahr, monat, 1).getDay();
-        // Umwandlung auf europäische Woche (Montag = 0, Sonntag = 6)
         ersterTagWochentag = ersterTagWochentag === 0 ? 6 : ersterTagWochentag - 1;
-        
-        // Anzahl der Tage im aktuellen Monat
         const tageImMonat = new Date(jahr, monat + 1, 0).getDate();
         
-        // Leere Felder für die Tage des Vormonats einfügen
         for (let i = 0; i < ersterTagWochentag; i++) {
-            const leerfeld = document.createElement('div');
-            grid.appendChild(leerfeld);
+            grid.appendChild(document.createElement('div'));
         }
-        
-        // Die eigentlichen Zustandstage einzeichnen
         for (let tag = 1; tag <= tageImMonat; tag++) {
             const tagFeld = document.createElement('div');
             tagFeld.innerText = tag;
-            
-            // Wenn es der heutige Tag ist, Klasse zuweisen
-            if (tag === heute.getDate()) {
-                tagFeld.className = 'today';
-            }
+            if (tag === heute.getDate()) tagFeld.className = 'today';
             grid.appendChild(tagFeld);
         }
     }
@@ -76,15 +133,10 @@ function initLiveDateAndCalendar() {
 function openTab(tabId) {
     const contents = document.querySelectorAll('.tab-content');
     contents.forEach(content => content.classList.remove('active-content'));
-
     const items = document.querySelectorAll('.nav-item');
     items.forEach(item => item.classList.remove('active'));
-
     document.getElementById(tabId).classList.add('active-content');
-    
-    if (window.event && window.event.currentTarget) {
-        window.event.currentTarget.classList.add('active');
-    }
+    if (window.event && window.event.currentTarget) window.event.currentTarget.classList.add('active');
 }
 
 // Transaktion hinzufügen
@@ -110,10 +162,8 @@ function addTransaction() {
 
     transactions.push(newTransaction);
     localStorage.setItem('premium_transactions', JSON.stringify(transactions));
-
     document.getElementById('beschreibung').value = '';
     document.getElementById('betrag').value = '';
-
     updateUI();
 }
 
@@ -121,12 +171,10 @@ function addTransaction() {
 function setBudget() {
     const kat = document.getElementById('budget-kategorie').value;
     const limit = parseFloat(document.getElementById('budget-limit').value);
-
     if (isNaN(limit) || limit <= 0) {
         alert('Bitte setze ein valides Limit fest.');
         return;
     }
-
     budgets[kat] = limit;
     localStorage.setItem('premium_budgets', JSON.stringify(budgets));
     document.getElementById('budget-limit').value = '';
@@ -141,7 +189,6 @@ function updateUI() {
 
     const tableBody = document.getElementById('transaction-table-body');
     const activityList = document.getElementById('recent-activity-list');
-    
     if (tableBody) tableBody.innerHTML = '';
 
     transactions.forEach(t => {
@@ -149,9 +196,7 @@ function updateUI() {
             incomeSum += t.betrag;
         } else {
             expenseSum += t.betrag;
-            if (categoryExpenses[t.kategorie] !== undefined) {
-                categoryExpenses[t.kategorie] += t.betrag;
-            }
+            if (categoryExpenses[t.kategorie] !== undefined) categoryExpenses[t.kategorie] += t.betrag;
         }
 
         if (tableBody) {
@@ -210,7 +255,6 @@ function updateUI() {
 function renderBudgets(categoryExpenses) {
     const budgetContainer = document.getElementById('budget-progress-container');
     if (!budgetContainer) return;
-
     if (Object.keys(budgets).length === 0) {
         budgetContainer.innerHTML = '<p class="empty-text">Noch keine Budgets definiert.</p>';
     } else {
@@ -228,7 +272,7 @@ function renderBudgets(categoryExpenses) {
                     <span><strong>${kat}</strong></span>
                     <span style="color: var(--text-muted)">€${spent.toFixed(2)} / <strong style="color:#fff">€${limit.toFixed(2)}</strong></span>
                 </div>
-                <div style="background: #111827; height: 8px; border-radius: 4px; overflow: hidden; border:1px solid rgba(255,255,255,0.02)">
+                <div style="background: #111827; height: 8px; border-radius: 4px; overflow: hidden;">
                     <div style="background: ${barColor}; width: ${percent}%; height: 100%; transition: width 0.4s ease-out;"></div>
                 </div>
             `;
@@ -241,7 +285,6 @@ function renderDonutChart(categoryExpenses, totalExpense) {
     const chart = document.getElementById('donut-chart-element');
     const legend = document.getElementById('chart-legend');
     const centerLabel = document.getElementById('chart-center-label');
-    
     if (!chart || !legend) return;
     if (totalExpense === 0) {
         chart.style.background = `conic-gradient(rgba(255,255,255,0.05) 0% 100%)`;
@@ -249,7 +292,6 @@ function renderDonutChart(categoryExpenses, totalExpense) {
         if(centerLabel) centerLabel.innerHTML = 'Ausgaben<br><strong style="color:#fff">€0.00</strong>';
         return;
     }
-
     if(centerLabel) centerLabel.innerHTML = `Gesamt<br><strong style="color:#fff; font-size:14px;">€${totalExpense.toFixed(0)}</strong>`;
 
     let currentPercent = 0;
@@ -259,10 +301,8 @@ function renderDonutChart(categoryExpenses, totalExpense) {
     for (let kat in categoryExpenses) {
         const value = categoryExpenses[kat];
         if (value === 0) continue;
-
         const percent = (value / totalExpense) * 100;
         const color = categoryColors[kat] || '#fff';
-
         gradientStrings.push(`${color} ${currentPercent}% ${currentPercent + percent}%`);
         currentPercent += percent;
 
@@ -275,7 +315,6 @@ function renderDonutChart(categoryExpenses, totalExpense) {
         `;
         legend.appendChild(legItem);
     }
-
     chart.style.background = `conic-gradient(${gradientStrings.join(', ')})`;
 }
 
@@ -283,10 +322,8 @@ function renderAIInsights(income, expense, catExpenses) {
     const aiBox = document.getElementById('ai-insights-content');
     if (!aiBox) return;
     if (income === 0 && expense === 0) return;
-
     let text = "";
     const quote = income > 0 ? ((income - expense) / income) * 100 : 0;
-
     if (expense > income && income > 0) {
         text = `⚠️ <strong>Kritischer Status:</strong> Deine Ausgaben übersteigen deine Einnahmen. Reduziere temporär Kosten im Bereich <em>"${Object.keys(catExpenses).reduce((a, b) => catExpenses[a] > catExpenses[b] ? a : b)}"</em>.`;
     } else if (quote > 30) {
@@ -294,6 +331,5 @@ function renderAIInsights(income, expense, catExpenses) {
     } else {
         text = `💡 <strong>Optimierungspotenzial:</strong> Setze dir feste Budget-Limits für <em>${Object.keys(catExpenses).reduce((a, b) => catExpenses[a] > catExpenses[b] ? a : b)}</em>, um deine Sparquote leicht auf über 25% anzuheben.`;
     }
-
     aiBox.innerHTML = `<p class="ai-text">${text}</p>`;
 }
