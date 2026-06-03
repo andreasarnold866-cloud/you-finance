@@ -2,6 +2,7 @@ let transactions = JSON.parse(localStorage.getItem('premium_transactions')) || [
 let budgets = JSON.parse(localStorage.getItem('premium_budgets')) || {};
 
 let isLoginMode = false;
+let pendingUserEmail = ""; // Zwischenspeicher während Verifizierung
 
 const categoryColors = {
     Freizeit: '#818cf8',
@@ -21,12 +22,20 @@ function checkUserSession() {
     if (activeUser) {
         document.getElementById('auth-screen').style.display = 'none';
         document.getElementById('app-screen').style.display = 'flex';
-        document.getElementById('user-display-name').innerText = activeUser.split('@')[0];
+        
+        const shortName = activeUser.split('@')[0];
+        document.getElementById('user-display-name').innerText = shortName;
+        
+        // Initialen-Fallback bauen
+        document.getElementById('user-avatar-fallback').innerText = shortName.substring(0, 2).toUpperCase();
+        
+        // Gespeichertes Profilbild laden
+        loadSavedAvatar();
         updateUI();
     } else {
         document.getElementById('auth-screen').style.display = 'flex';
         document.getElementById('app-screen').style.display = 'none';
-        validatePasswordLive(); // Start-Zustand anzeigen
+        validatePasswordLive();
     }
 }
 
@@ -39,12 +48,16 @@ function toggleAuthMode() {
     const toggleText = document.getElementById('auth-toggle-text');
     const policyBox = document.getElementById('password-policies');
     
+    // Eingabefelder zurücksetzen
+    document.getElementById('auth-form-fields').style.display = 'flex';
+    document.getElementById('verification-fields').style.display = 'none';
+    
     if (isLoginMode) {
         title.innerText = "Willkommen zurück";
         subtitle.innerText = "Logge dich ein, um deine Finanzen zu verwalten";
         btn.innerText = "Einloggen";
         toggleText.innerHTML = 'Neu bei You Finance? <span onclick="toggleAuthMode()">Konto erstellen</span>';
-        if (policyBox) policyBox.style.display = 'none'; // Beim Login ausblenden
+        if (policyBox) policyBox.style.display = 'none';
     } else {
         title.innerText = "Konto erstellen";
         subtitle.innerText = "Starte deine finanzielle Unabhängigkeit mit You Finance";
@@ -55,19 +68,16 @@ function toggleAuthMode() {
     }
 }
 
-// NEU: Live Passwort-Checker
+// Live-Sicherheitsprüfung
 function validatePasswordLive() {
     if (isLoginMode) return { isValid: true };
-
     const val = document.getElementById('auth-password').value;
 
-    // Checks
     const hasLength = val.length >= 8;
     const hasUpper = /[A-Z]/.test(val);
     const hasNumber = /[0-9]/.test(val);
     const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val);
 
-    // DOM-Aktualisierung
     updatePolicyUI('policy-length', hasLength, "Mindestens 8 Zeichen");
     updatePolicyUI('policy-uppercase', hasUpper, "Einen Großbuchstaben");
     updatePolicyUI('policy-number', hasNumber, "Eine Zahl (0-9)");
@@ -79,15 +89,11 @@ function validatePasswordLive() {
 function updatePolicyUI(id, isValid, text) {
     const el = document.getElementById(id);
     if (!el) return;
-    if (isValid) {
-        el.className = 'valid';
-        el.innerText = `✓ ${text}`;
-    } else {
-        el.className = 'invalid';
-        el.innerText = `❌ ${text}`;
-    }
+    el.className = isValid ? 'valid' : 'invalid';
+    el.innerText = `${isValid ? '✓' : '❌'} ${text}`;
 }
 
+// Authentifizierungsprozess
 function handleAuth() {
     const email = document.getElementById('auth-email').value.trim();
     const password = document.getElementById('auth-password').value;
@@ -98,37 +104,127 @@ function handleAuth() {
     }
     
     if (isLoginMode) {
+        // Login direkt prüfen
         const registeredPassword = localStorage.getItem(`user_${email}`);
         if (registeredPassword && registeredPassword === password) {
             localStorage.setItem('active_user', email);
             checkUserSession();
         } else {
-            alert("Falsche E-Mail-Adresse oder fehlerhaftes Passwort.");
+            alert("Falsche Anmeldedaten.");
         }
     } else {
-        // Bei Registrierung: Sicherheits-Check erzwingen
+        // Registrierungsprüfung
         const check = validatePasswordLive();
         if (!check.isValid) {
-            alert("Dein Passwort ist nicht sicher genug! Bitte erfülle alle Kriterien.");
+            alert("Dein Passwort erfüllt die Sicherheitskriterien nicht.");
             return;
         }
 
         if (localStorage.getItem(`user_${email}`)) {
-            alert("Diese E-Mail ist bereits registriert.");
+            alert("Diese E-Mail-Adresse wird bereits verwendet.");
             return;
         }
         
-        localStorage.setItem(`user_${email}`, password);
-        localStorage.setItem('active_user', email);
-        alert("Konto erfolgreich erstellt!");
-        checkUserSession();
+        // Nutzer temporär merken & Verifizierung einblenden
+        pendingUserEmail = email;
+        localStorage.setItem(`user_temp_pwd`, password); 
+        
+        // Formular umschalten
+        document.getElementById('auth-form-fields').style.display = 'none';
+        document.getElementById('password-policies').style.display = 'none';
+        document.getElementById('verification-fields').style.display = 'flex';
+        document.getElementById('auth-title').innerText = "Code verifizieren";
+        document.getElementById('auth-subtitle').innerText = `Verifizierungslink an ${email} gesendet.`;
     }
+}
+
+// Codebestätigung
+function confirmVerificationCode() {
+    const codeInput = document.getElementById('verify-code').value.trim();
+    
+    if (codeInput === "123456") {
+        const password = localStorage.getItem(`user_temp_pwd`);
+        
+        localStorage.setItem(`user_${pendingUserEmail}`, password);
+        localStorage.setItem('active_user', pendingUserEmail);
+        
+        localStorage.removeItem(`user_temp_pwd`);
+        alert("E-Mail erfolgreich verifiziert! Willkommen an Bord.");
+        checkUserSession();
+    } else {
+        alert("Ungültiger Verifizierungscode. Nutze das Test-Token: 123456");
+    }
+}
+
+// Profilbild-Upload ansteuern
+function triggerAvatarUpload() {
+    document.getElementById('avatar-input').click();
+}
+
+// Profilbild verarbeiten & im LocalStorage sichern
+function updateAvatar(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const base64Image = e.target.result;
+        const activeUser = localStorage.getItem('active_user');
+        
+        // Speichere das Bild spezifisch für den aktuellen Benutzer ab
+        localStorage.setItem(`avatar_${activeUser}`, base64Image);
+        loadSavedAvatar();
+    };
+    reader.readAsDataURL(file);
+}
+
+// Gespeichertes Profilbild laden
+function loadSavedAvatar() {
+    const activeUser = localStorage.getItem('active_user');
+    const savedAvatar = localStorage.getItem(`avatar_${activeUser}`);
+    
+    const imgEl = document.getElementById('user-avatar-img');
+    const fallbackEl = document.getElementById('user-avatar-fallback');
+    
+    if (savedAvatar) {
+        imgEl.src = savedAvatar;
+        imgEl.style.display = 'block';
+        fallbackEl.style.display = 'none';
+    } else {
+        imgEl.style.display = 'none';
+        fallbackEl.style.display = 'flex';
+    }
+}
+
+// CSV Export Funktion
+function exportToCSV() {
+    if (transactions.length === 0) {
+        alert("Keine Transaktionsdaten zum Exportieren vorhanden.");
+        return;
+    }
+    
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Datum;Beschreibung;Kategorie;Typ;Betrag\r\n";
+    
+    transactions.forEach(t => {
+        const prefix = t.typ === 'einnahme' ? "" : "-";
+        csvContent += `${t.datum};${t.beschreibung};${t.kategorie};${t.typ.toUpperCase()};${prefix}${t.betrag.toFixed(2)}\r\n`;
+    });
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `YouFinance_Export_${new Date().toLocaleDateString('de-DE')}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 function logout() {
     localStorage.removeItem('active_user');
     document.getElementById('auth-email').value = '';
     document.getElementById('auth-password').value = '';
+    document.getElementById('verify-code').value = '';
     checkUserSession();
 }
 
@@ -141,7 +237,7 @@ function initLiveDateAndCalendar() {
 
     const monatsOptionen = { month: 'long', year: 'numeric' };
     const calendarHeader = document.getElementById('calendar-month-year');
-    if (calendarHeader) calendarHeader.innerText = heute.toLocaleDateString('de-DE', monatsOptionen);
+    if (calendarHeader) calendarHeader.innerText = hoy = heute.toLocaleDateString('de-DE', monatsOptionen);
 
     const grid = document.getElementById('calendar-days-grid');
     if (grid) {
@@ -283,4 +379,84 @@ function updateUI() {
     renderAIInsights(incomeSum, expenseSum, categoryExpenses);
 }
 
-// Restliche Render-Hilfsfunktionen unverändert...
+function renderBudgets(categoryExpenses) {
+    const budgetContainer = document.getElementById('budget-progress-container');
+    if (!budgetContainer) return;
+    if (Object.keys(budgets).length === 0) {
+        budgetContainer.innerHTML = '<p class="empty-text">Noch keine Budgets definiert.</p>';
+    } else {
+        budgetContainer.innerHTML = '';
+        for (let kat in budgets) {
+            const limit = budgets[kat];
+            const spent = categoryExpenses[kat] || 0;
+            const percent = Math.min((spent / limit) * 100, 100);
+            const barColor = percent >= 100 ? '#ef4444' : percent >= 85 ? '#f59e0b' : '#6366f1';
+
+            const bBox = document.createElement('div');
+            bBox.className = 'budget-bar-wrapper';
+            bBox.innerHTML = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                    <span><strong>${kat}</strong></span>
+                    <span style="color: var(--text-muted)">€${spent.toFixed(2)} / <strong style="color:#fff">€${limit.toFixed(2)}</strong></span>
+                </div>
+                <div style="background: #111827; height: 8px; border-radius: 4px; overflow: hidden;">
+                    <div style="background: ${barColor}; width: ${percent}%; height: 100%; transition: width 0.4s ease-out;"></div>
+                </div>
+            `;
+            budgetContainer.appendChild(bBox);
+        }
+    }
+}
+
+function renderDonutChart(categoryExpenses, totalExpense) {
+    const chart = document.getElementById('donut-chart-element');
+    const legend = document.getElementById('chart-legend');
+    const centerLabel = document.getElementById('chart-center-label');
+    if (!chart || !legend) return;
+    if (totalExpense === 0) {
+        chart.style.background = `conic-gradient(rgba(255,255,255,0.05) 0% 100%)`;
+        legend.innerHTML = '<p class="empty-text" style="padding:0">Keine Daten vorhanden</p>';
+        if(centerLabel) centerLabel.innerHTML = 'Ausgaben<br><strong style="color:#fff">€0.00</strong>';
+        return;
+    }
+    if(centerLabel) centerLabel.innerHTML = `Gesamt<br><strong style="color:#fff; font-size:14px;">€${totalExpense.toFixed(0)}</strong>`;
+
+    let currentPercent = 0;
+    let gradientStrings = [];
+    legend.innerHTML = '';
+
+    for (let kat in categoryExpenses) {
+        const value = categoryExpenses[kat];
+        if (value === 0) continue;
+        const percent = (value / totalExpense) * 100;
+        const color = categoryColors[kat] || '#fff';
+        gradientStrings.push(`${color} ${currentPercent}% ${currentPercent + percent}%`);
+        currentPercent += percent;
+
+        const legItem = document.createElement('div');
+        legItem.className = 'legend-item';
+        legItem.innerHTML = `
+            <div class="legend-color" style="background: ${color}"></div>
+            <span style="color:#fff; font-weight:500;">${kat}</span> 
+            <span style="color:var(--text-muted)">(${percent.toFixed(0)}%)</span>
+        `;
+        legend.appendChild(legItem);
+    }
+    chart.style.background = `conic-gradient(${gradientStrings.join(', ')})`;
+}
+
+function renderAIInsights(income, expense, catExpenses) {
+    const aiBox = document.getElementById('ai-insights-content');
+    if (!aiBox) return;
+    if (income === 0 && expense === 0) return;
+    let text = "";
+    const quote = income > 0 ? ((income - expense) / income) * 100 : 0;
+    if (expense > income && income > 0) {
+        text = `⚠️ <strong>Kritischer Status:</strong> Deine Ausgaben übersteigen deine Einnahmen. Reduziere temporär Kosten im Bereich <em>"${Object.keys(catExpenses).reduce((a, b) => catExpenses[a] > catExpenses[b] ? a : b)}"</em>.`;
+    } else if (quote > 30) {
+        text = `🚀 <strong>Exzellente Sparquote!</strong> Du sparst aktuell ${quote.toFixed(0)}% deines Einkommens. Überlege dir, diesen Überschuss automatisiert zu investieren.`;
+    } else {
+        text = `💡 <strong>Optimierungspotenzial:</strong> Setze dir feste Budget-Limits für <em>${Object.keys(catExpenses).reduce((a, b) => catExpenses[a] > catExpenses[b] ? a : b)}</em>, um deine Sparquote leicht auf über 25% anzuheben.`;
+    }
+    aiBox.innerHTML = `<p class="ai-text">${text}</p>`;
+}
