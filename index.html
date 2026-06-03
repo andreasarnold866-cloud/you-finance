@@ -3,70 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Finance - Safe & Smart Wealth Management</title>
+    <title>You Finance — Smart Wealth</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <main class="auth-container">
-        <section id="registerCard" class="auth-card">
-            <header class="auth-header">
+    <div class="bg-gradient-glow"></div>
+
+    <main class="auth-wrapper">
+        <div id="registerCard" class="auth-card">
+            <div class="brand-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <span>You Finance</span>
+            </div>
+            
+            <div class="auth-header">
                 <h1 id="txt-title">Konto erstellen</h1>
-                <p id="txt-subtitle">Starten Sie Ihre finanzielle Unabhängigkeit</p>
-            </header>
+                <p id="txt-subtitle">Sichern Sie sich den Zugang zu Ihren Finanzen.</p>
+            </div>
             
             <form id="registerForm" onsubmit="handleRegister(event)">
-                <div class="input-group">
+                <div class="input-field">
                     <input type="text" id="username" placeholder=" " required autocomplete="username">
-                    <label for="username" id="lbl-username">Benutzername</label>
+                    <label id="lbl-username">Benutzername</label>
                 </div>
                 
-                <div class="input-group">
+                <div class="input-field">
                     <input type="email" id="email" placeholder=" " required autocomplete="email">
-                    <label for="email" id="lbl-email">E-Mail-Adresse</label>
+                    <label id="lbl-email">E-Mail-Adresse</label>
                 </div>
                 
-                <div class="input-group">
+                <div class="input-field">
                     <input type="password" id="password" placeholder=" " required autocomplete="new-password">
-                    <label for="password" id="lbl-password">Sicheres Passwort</label>
+                    <label id="lbl-password">Sicheres Passwort</label>
                 </div>
                 
-                <div class="password-policies">
-                    <div id="req-length" class="policy-item invalid">
-                        <span class="icon">○</span> <span id="policy-len">Mindestens 8 Zeichen</span>
-                    </div>
-                    <div id="req-num" class="policy-item invalid">
-                        <span class="icon">○</span> <span id="policy-num">Mindestens 1 Zahl</span>
-                    </div>
-                    <div id="req-spec" class="policy-item invalid">
-                        <span class="icon">○</span> <span id="policy-spec">Mindestens 1 Sonderzeichen</span>
+                <div class="password-strength-wrapper">
+                    <div class="strength-meter"><div id="strengthBar" class="strength-bar"></div></div>
+                    <div class="policy-list">
+                        <div id="req-length" class="policy-text invalid"><span></span> <span id="policy-len">Mindestens 8 Zeichen</span></div>
+                        <div id="req-num" class="policy-text invalid"><span></span> <span id="policy-num">Mindestens 1 Zahl</span></div>
+                        <div id="req-spec" class="policy-text invalid"><span></span> <span id="policy-spec">Mindestens 1 Sonderzeichen</span></div>
                     </div>
                 </div>
 
-                <button type="submit" id="btn-register" class="btn-primary">Registrieren</button>
+                <button type="submit" id="btn-register" class="btn-submit">Registrieren</button>
             </form>
-        </section>
+        </div>
 
-        <section id="verifyCard" class="auth-card hidden">
-            <header class="auth-header">
+        <div id="verifyCard" class="auth-card hidden">
+            <div class="auth-header">
+                <div class="icon-circle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
                 <h1 id="txt-verify-title">E-Mail bestätigen</h1>
-                <p id="txt-verify-desc">Wir haben einen Sicherheitscode an Ihre E-Mail-Adresse gesendet.</p>
-                <small class="demo-badge">Demo-Code: 123456</small>
-            </header>
+                <p id="txt-verify-desc">Wir haben einen Sicherheitscode an Ihre E-Mail gesendet.</p>
+                <span class="demo-pill">Demo-Code: 123456</span>
+            </div>
             
             <form id="verifyForm" onsubmit="handleVerify(event)">
-                <div class="input-group">
-                    <input type="text" id="verifyCode" placeholder=" " maxlength="6" required autocomplete="off">
-                    <label for="verifyCode" id="lbl-code">6-stelliger Code</label>
+                <div class="input-field">
+                    <input type="text" id="verifyCode" placeholder=" " maxlength="6" required autocomplete="off" class="center-text">
+                    <label id="lbl-code">6-stelliger Code</label>
                 </div>
                 
-                <button type="submit" id="btn-verify" class="btn-primary">Code verifizieren</button>
-                <div id="verifyStatus" class="status-message"></div>
+                <button type="submit" id="btn-verify" class="btn-submit">Code verifizieren</button>
+                <div id="verifyStatus" class="status-msg"></div>
             </form>
-        </section>
+        </div>
     </main>
 
-    <nav class="language-wrapper" aria-label="Language Selector">
+    <div class="lang-selector">
         <select id="langSelect" onchange="changeLanguage()">
             <option value="de">Deutsch</option>
             <option value="en">English</option>
@@ -75,7 +82,7 @@
             <option value="fr">Français</option>
             <option value="gr">Ελληνικά</option>
         </select>
-    </nav>
+    </div>
 
     <script src="script.js"></script>
 </body>
