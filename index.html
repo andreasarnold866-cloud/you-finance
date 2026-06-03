@@ -95,17 +95,14 @@
                 <div class="calendar-days" id="calendar-days-grid"></div>
             </div>
 
-            <div class="user-profile">
-                <div class="avatar-container" onclick="triggerAvatarUpload()">
+            <div class="user-profile" onclick="openTab('settings')">
+                <div class="avatar-container">
                     <img id="user-avatar-img" src="" alt="Avatar" style="display: none;">
                     <div id="user-avatar-fallback" class="avatar">UF</div>
-                    <div class="avatar-overlay">📸</div>
                 </div>
-                <input type="file" id="avatar-input" accept="image/*" style="display: none;" onchange="updateAvatar(event)">
-                
                 <div class="user-info">
                     <p class="user-name" id="user-display-name">Premium User</p>
-                    <p class="user-status" id="t-logout-btn" onclick="logout()">Abmelden ↩</p>
+                    <p class="user-status" id="t-logout-btn" onclick="event.stopPropagation(); logout();">Abmelden ↩</p>
                 </div>
             </div>
         </aside>
@@ -269,17 +266,44 @@
             <section id="settings" class="tab-content">
                 <div class="panel">
                     <h3 id="t-settings-header">System-Einstellungen</h3>
-                    <p class="subtitle" id="t-settings-subheader" style="margin-bottom: 25px;">Konfigurieren Sie globale Anwendungsvariablen und Lokalisierungen.</p>
+                    <p class="subtitle" id="t-settings-subheader" style="margin-bottom: 25px;">Konfigurieren Sie globale Anwendungsvariablen, Lokalisierungen und Zeitzonen.</p>
                     
-                    <div class="settings-grid">
-                        <div class="input-wrapper" style="max-width: 400px;">
-                            <label id="t-settings-lang-label">System-Sprache (Language)</label>
-                            <select id="system-language-select" onchange="changeSystemLanguage(this.value)">
-                                <option value="de">Deutsch (DE)</option>
-                                <option value="en">English (EN)</option>
-                                <option value="es">Español (ES)</option>
-                                <option value="el">Ελληνικά (EL)</option>
-                            </select>
+                    <div class="settings-box-layout">
+                        <div class="settings-profile-section">
+                            <h4 id="t-settings-avatar-title" style="font-size:14px; margin-bottom:12px; color:var(--text-muted); text-transform:uppercase;">Profilidentität</h4>
+                            <div class="settings-avatar-wrapper">
+                                <div class="avatar-large-container" onclick="triggerAvatarUpload()">
+                                    <img id="settings-avatar-img" src="" alt="Avatar Large" style="display: none;">
+                                    <div id="settings-avatar-fallback" class="avatar-large">UF</div>
+                                    <div class="avatar-large-overlay">📸</div>
+                                </div>
+                                <input type="file" id="avatar-input" accept="image/*" style="display: none;" onchange="updateAvatar(event)">
+                                <p style="font-size:12px; color:var(--text-muted); max-width:200px;" id="t-avatar-desc">Klicken Sie auf das Bild, um ein neues Foto hochzuladen. Das Bild wird automatisch verzerrungsfrei angepasst.</p>
+                            </div>
+                        </div>
+
+                        <hr style="border:none; border-top:1px solid var(--border-color); margin:24px 0;">
+
+                        <div class="settings-grid">
+                            <div class="input-wrapper">
+                                <label id="t-settings-lang-label">System-Sprache (Language)</label>
+                                <select id="system-language-select" onchange="changeSystemLanguage(this.value)">
+                                    <option value="de">Deutsch (DE)</option>
+                                    <option value="en">English (EN)</option>
+                                    <option value="es">Español (ES)</option>
+                                    <option value="el">Ελληνικά (EL)</option>
+                                </select>
+                            </div>
+
+                            <div class="input-wrapper">
+                                <label id="t-settings-timezone-label">Globale Zeitzone (Timezone)</label>
+                                <select id="system-timezone-select" onchange="changeSystemTimezone(this.value)">
+                                    <option value="Europe/Berlin">Europe/Berlin (CET/CEST)</option>
+                                    <option value="Europe/London">Europe/London (GMT/BST)</option>
+                                    <option value="America/New_York">America/New_York (EST/EDT)</option>
+                                    <option value="Asia/Tokyo">Asia/Tokyo (JST)</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -288,3 +312,5 @@
     </div>
 
     <script src="script.js"></script>
+</body>
+</html>
