@@ -1,13 +1,13 @@
 :root {
-    --bg: #090d16;
-    --card: #131c2e;
-    --card-border: rgba(255, 255, 255, 0.06);
-    --accent: #10b981;
-    --accent-glow: rgba(16, 185, 129, 0.2);
-    --text: #f3f4f6;
-    --text-muted: #6b7280;
-    --input-bg: #0e1422;
-    --error: #ef4444;
+    --sys-bg: #030712;
+    --sys-surface: rgba(17, 24, 39, 0.7);
+    --sys-border: rgba(255, 255, 255, 0.045);
+    --sys-primary: #10b981;
+    --sys-primary-glow: rgba(16, 185, 129, 0.22);
+    --sys-text-high: #f9fafb;
+    --sys-text-low: #6b7280;
+    --sys-error: #ef4444;
+    --sys-easing: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 * {
@@ -15,258 +15,309 @@
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
 }
 
 body {
-    background-color: var(--bg);
-    color: var(--text);
+    background-color: var(--sys-bg);
+    color: var(--sys-text-high);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    overflow: hidden;
     position: relative;
+}
+
+/* UI Ambient Orbs (Hardware-Accelerated) */
+.app-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
     overflow: hidden;
 }
 
-/* Schein im Hintergrund für modernen Look */
-.bg-gradient-glow {
+.glow-orb {
     position: absolute;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(0,0,0,0) 70%);
-    top: -10%;
-    left: -10%;
-    z-index: 0;
-    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.45;
+    will-change: transform;
 }
 
-.auth-wrapper {
+.orb-1 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--sys-primary) 0%, rgba(0,0,0,0) 70%);
+    top: -10%;
+    left: -10%;
+}
+
+.orb-2 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, #3b82f6 0%, rgba(0,0,0,0) 70%);
+    bottom: -5%;
+    right: -5%;
+}
+
+.auth-viewport {
     position: relative;
     width: 100%;
-    max-width: 440px;
-    padding: 24px;
+    max-width: 450px;
+    padding: 20px;
     z-index: 1;
 }
 
-/* Premium Card Design */
-.auth-card {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 24px;
-    padding: 48px 40px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+/* Glassmorphism Engineering */
+.surface-card {
+    background: var(--sys-surface);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--sys-border);
+    border-radius: 28px;
+    padding: 52px 44px;
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255,255,255,0.05);
+    transition: transform 0.6s var(--sys-easing), opacity 0.5s ease;
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
 }
 
-.auth-card.hidden {
+.surface-card.hidden {
     display: none;
     opacity: 0;
-    transform: scale(0.95) translateY(10px);
+    transform: scale(0.95) translateY(15px);
 }
 
-/* Logo */
-.brand-logo {
+/* Brand Display */
+.brand-identity {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    margin-bottom: 32px;
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: var(--text);
+    gap: 12px;
+    margin-bottom: 36px;
 }
 
-.brand-logo svg {
+.brand-logo {
     width: 28px;
     height: 28px;
-    color: var(--accent);
+    color: var(--sys-primary);
+    filter: drop-shadow(0 0 8px var(--sys-primary-glow));
 }
 
-.auth-header {
+.brand-text {
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: -0.03em;
+    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-header {
     text-align: center;
     margin-bottom: 36px;
 }
 
-.auth-header h1 {
-    font-size: 1.75rem;
+.section-header h1 {
+    font-size: 1.8rem;
     font-weight: 700;
     letter-spacing: -0.03em;
     margin-bottom: 10px;
 }
 
-.auth-header p {
-    color: var(--text-muted);
+.section-header p {
+    color: var(--sys-text-low);
     font-size: 0.95rem;
     line-height: 1.5;
 }
 
-/* Eingabefelder mit sanften Übergängen */
-.input-field {
+/* Standardized Form Controls */
+.input-wrapper {
     position: relative;
     margin-bottom: 24px;
 }
 
-.input-field input {
+.input-wrapper input {
     width: 100%;
-    padding: 16px;
-    background: var(--input-bg);
-    border: 1px solid var(--card-border);
+    padding: 18px 16px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid var(--sys-border);
     border-radius: 14px;
-    color: var(--text);
-    font-size: 1rem;
+    color: var(--sys-text-high);
+    font-size: 0.95rem;
     outline: none;
-    transition: all 0.25s ease;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.input-field input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px var(--accent-glow);
+.input-wrapper input:focus {
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 0 0 4px var(--sys-primary-glow);
 }
 
-.input-field label {
+.input-wrapper label {
     position: absolute;
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-muted);
-    transition: all 0.25s ease;
+    color: var(--sys-text-low);
     pointer-events: none;
-    font-size: 1rem;
+    transition: all 0.25s var(--sys-easing);
+    font-size: 0.95rem;
 }
 
-.input-field input:focus ~ label,
-.input-field input:not(:placeholder-shown) ~ label {
+.input-wrapper input:focus ~ label,
+.input-wrapper input:not(:placeholder-shown) ~ label {
     top: 0;
     font-size: 0.75rem;
-    background: var(--card);
+    background: #0d1527;
     padding: 2px 8px;
-    color: var(--accent);
+    color: var(--sys-primary);
     border-radius: 4px;
 }
 
-.center-text { text-align: center; letter-spacing: 4px; font-weight: 600; }
+.secure-code-input {
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 8px;
+    font-size: 1.2rem !important;
+    color: var(--sys-primary) !important;
+}
 
-/* Passwort-Stärkeanzeige */
-.password-strength-wrapper {
+/* Password Diagnostics Block */
+.security-matrix {
     margin-bottom: 32px;
 }
 
-.strength-meter {
+.matrix-meter {
     height: 4px;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.03);
     border-radius: 2px;
     overflow: hidden;
     margin-bottom: 16px;
 }
 
-.strength-bar {
+.matrix-bar {
     height: 100%;
     width: 0%;
-    background: var(--error);
-    transition: width 0.4s ease, background-color 0.4s ease;
+    background: var(--sys-error);
+    transition: width 0.4s var(--sys-easing), background-color 0.4s ease;
 }
 
-.policy-list {
+.matrix-policies {
+    list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-}
-
-.policy-text {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
     gap: 10px;
 }
 
-.policy-text span:first-child {
+.policy-node {
+    font-size: 0.85rem;
+    color: var(--sys-text-low);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: color 0.25s ease;
+}
+
+.node-bullet {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--text-muted);
-    display: inline-block;
-    transition: all 0.25s;
+    background: var(--sys-text-low);
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.policy-text.valid { color: var(--text); }
-.policy-text.valid span:first-child { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+.policy-node.valid {
+    color: var(--sys-text-high);
+}
 
-/* High-End Button */
-.btn-submit {
+.policy-node.valid .node-bullet {
+    background-color: var(--sys-primary);
+    box-shadow: 0 0 8px var(--sys-primary);
+}
+
+/* High-Performance Action Button */
+.cta-trigger {
     width: 100%;
     padding: 16px;
-    background: var(--accent);
-    color: #000;
+    background: var(--sys-primary);
+    color: #010307;
     border: none;
     border-radius: 14px;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.1s var(--sys-easing), box-shadow 0.2s ease;
 }
 
-.btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+.cta-trigger:hover {
+    box-shadow: 0 12px 24px -4px var(--sys-primary-glow);
 }
 
-.btn-submit:active { transform: translateY(0); }
+.cta-trigger:active {
+    transform: scale(0.985);
+}
 
-/* Verifizierungs-Elemente */
-.icon-circle {
-    width: 64px;
-    height: 64px;
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--accent);
+/* Verification Specific Component Branding */
+.status-icon-container {
+    width: 60px;
+    height: 60px;
+    background: rgba(16, 185, 129, 0.07);
+    color: var(--sys-primary);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 20px auto;
+    margin: 0 auto 24px auto;
 }
 
-.icon-circle svg { width: 32px; height: 32px; }
+.status-icon { width: 28px; height: 28px; }
 
-.demo-pill {
+.sandbox-badge {
     display: inline-block;
     margin-top: 14px;
     padding: 6px 14px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--card-border);
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--sys-border);
+    border-radius: 30px;
     font-size: 0.8rem;
-    color: var(--accent);
+    color: var(--sys-primary);
 }
 
-.status-msg {
+.feedback-anchor {
     margin-top: 16px;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    min-height: 22px;
 }
-.status-msg.error { color: var(--error); }
-.status-msg.success { color: var(--accent); }
+.feedback-anchor.error { color: var(--sys-error); }
+.feedback-anchor.success { color: var(--sys-primary); }
 
-/* Minimalistische Sprachauswahl unten links */
-.lang-selector {
+/* Minimalist Floating Localization */
+.localization-widget {
     position: fixed;
     bottom: 32px;
     left: 32px;
+    display: flex;
+    align-items: center;
+    background: var(--sys-surface);
+    border: 1px solid var(--sys-border);
+    padding: 10px 16px;
+    border-radius: 14px;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.lang-selector select {
-    padding: 12px 20px;
-    background: var(--card);
-    color: var(--text);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
+.localization-icon { width: 16px; height: 16px; color: var(--sys-text-low); }
+
+.localization-widget select {
+    background: transparent;
+    color: var(--sys-text-high);
+    border: none;
+    font-size: 0.85rem;
     cursor: pointer;
-    font-size: 0.9rem;
     outline: none;
-    transition: all 0.2s;
+    font-weight: 600;
 }
-
-.lang-selector select:focus { border-color: var(--accent); }
