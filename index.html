@@ -23,7 +23,17 @@
                 </div>
                 <div class="input-wrapper">
                     <label>Passwort</label>
-                    <input type="password" id="auth-password" placeholder="••••••••">
+                    <input type="password" id="auth-password" placeholder="••••••••" oninput="validatePasswordLive()">
+                </div>
+                
+                <div id="password-policies" class="policy-box">
+                    <p class="policy-title">Dein Passwort benötigt:</p>
+                    <ul>
+                        <li id="policy-length" class="invalid">❌ Mindestens 8 Zeichen</li>
+                        <li id="policy-uppercase" class="invalid">❌ Einen Großbuchstaben</li>
+                        <li id="policy-number" class="invalid">❌ Eine Zahl (0-9)</li>
+                        <li id="policy-special" class="invalid">❌ Ein Sonderzeichen (!@#$%^&*)</li>
+                    </ul>
                 </div>
                 
                 <button id="auth-submit-btn" class="prime-btn full-width" onclick="handleAuth()">Registrieren</button>
