@@ -3,122 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinanzTracker Pro</title>
+    <title>You Finance</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="dashboard">
-        <header>
-            <h1>FinanzTracker Pro</h1>
-            <p class="date">Juni 2026</p>
-        </header>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon">✨</div>
+                <h2>You Finance</h2>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-item active" onclick="openTab('uebersicht')">
+                    <span class="icon">📊</span> Dashboard
+                </button>
+                <button class="nav-item" onclick="openTab('transaktionen')">
+                    <span class="icon">💸</span> Transaktionen
+                </button>
+                <button class="nav-item" onclick="openTab('budget')">
+                    <span class="icon">🎯</span> Budgetplaner
+                </button>
+                <button class="nav-item" onclick="openTab('ki')">
+                    <span class="icon">🧠</span> KI Insights
+                </button>
+            </nav>
 
-        <nav class="tabs">
-            <button class="tab-btn active" onclick="openTab('uebersicht')">📊 Übersicht</button>
-            <button class="tab-btn" onclick="openTab('transaktionen')">📋 Transaktionen</button>
-            <button class="tab-btn" onclick="openTab('budget')">⏱ Budgetplan</button>
-            <button class="tab-btn" onclick="openTab('ki')">✨ KI-Analyse</button>
-        </nav>
-
-        <section id="uebersicht" class="tab-content active-content">
-            <div class="cards-container">
-                <div class="card income">
-                    <h3>📈 Einnahmen</h3>
-                    <p class="amount" id="total-income">€0.00</p>
-                    <span class="subtext">diesen Monat</span>
+            <div class="sidebar-calendar">
+                <div class="calendar-header">
+                    <span id="calendar-month-year">Juni 2026</span>
                 </div>
-                <div class="card expenses">
-                    <h3>📉 Ausgaben</h3>
-                    <p class="amount" id="total-expenses">€0.00</p>
-                    <span class="subtext">diesen Monat</span>
+                <div class="calendar-weekdays">
+                    <div>M</div><div>D</div><div>M</div><div>D</div><div>F</div><div>S</div><div>S</div>
                 </div>
-                <div class="card balance">
-                    <h3>💰 Bilanz</h3>
-                    <p class="amount" id="total-balance">+€0.00</p>
-                    <span class="subtext">Saldo</span>
-                </div>
+                <div class="calendar-days" id="calendar-days-grid">
+                    </div>
             </div>
 
-            <div class="section-box">
-                <h3>Letzte Aktivitäten</h3>
-                <div id="recent-activity-list">
-                    <p class="empty-text">Noch keine Buchungen vorhanden.</p>
+            <div class="user-profile">
+                <div class="avatar">YF</div>
+                <div class="user-info">
+                    <p class="user-name">Premium User</p>
+                    <p class="user-status">Live Workspace</p>
                 </div>
             </div>
-        </section>
+        </aside>
 
-        <section id="transaktionen" class="tab-content">
-            <div class="section-box">
-                <h3>Neue Buchung hinzufügen</h3>
-                <div class="input-form">
-                    <input type="text" id="beschreibung" placeholder="z.B. Gehalt, Supermarkt...">
-                    <input type="number" id="betrag" placeholder="Betrag in €" step="0.01">
-                    
-                    <select id="typ">
-                        <option value="einnahme">📈 Einnahme</option>
-                        <option value="ausgabe">📉 Ausgabe</option>
-                    </select>
-
-                    <select id="kategorie">
-                        <option value="Freizeit">Freizeit</option>
-                        <option value="Essen">Lebensmittel</option>
-                        <option value="Wohnen">Wohnen / Miete</option>
-                        <option value="Gehalt">Gehalt / Einkommen</option>
-                        <option value="Sonstiges">Sonstiges</option>
-                    </select>
-
-                    <button class="add-btn" onclick="addTransaction()">Hinzufügen</button>
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="greeting">
+                    <h1>Willkommen bei You Finance</h1>
+                    <p class="subtitle" id="live-subtitle-date">Heute ist der ...</p>
                 </div>
-            </div>
-            
-            <div class="section-box">
-                <h3>Alle Transaktionen</h3>
-                <table class="transaction-table">
-                    <thead>
-                        <tr>
-                            <th>Beschreibung</th>
-                            <th>Kategorie</th>
-                            <th>Typ</th>
-                            <th>Betrag</th>
-                        </tr>
-                    </thead>
-                    <tbody id="transaction-table-body">
-                        </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section id="budget" class="tab-content">
-            <div class="section-box">
-                <h3>Budgetlimit festlegen</h3>
-                <div class="input-form">
-                    <select id="budget-kategorie">
-                        <option value="Freizeit">Freizeit</option>
-                        <option value="Essen">Lebensmittel</option>
-                        <option value="Wohnen">Wohnen / Miete</option>
-                        <option value="Sonstiges">Sonstiges</option>
-                    </select>
-                    <input type="number" id="budget-limit" placeholder="Limit in €">
-                    <button class="add-btn" onclick="setBudget()">Limit speichern</button>
+                <div class="system-status">
+                    <span class="status-dot"></span> Cloud synchronisiert
                 </div>
-            </div>
+            </header>
 
-            <div class="section-box">
-                <h3>Deine Budget-Übersicht</h3>
-                <div id="budget-progress-container">
-                    <p class="empty-text">Noch keine Budgets definiert.</p>
+            <section id="uebersicht" class="tab-content active-content">
+                <div class="metrics-grid">
+                    <div class="metric-card card-income">
+                        <div class="card-header">
+                            <span>Gesamteinnahmen</span>
+                            <div class="mini-icon">📈</div>
+                        </div>
+                        <h2 id="total-income">€0.00</h2>
+                        <span class="trend up">↑ Aktivierter Cashflow</span>
+                    </div>
+                    <div class="metric-card card-expenses">
+                        <div class="card-header">
+                            <span>Gesamtausgaben</span>
+                            <div class="mini-icon">📉</div>
+                        </div>
+                        <h2 id="total-expenses">€0.00</h2>
+                        <span class="trend down">↓ Laufende Kosten</span>
+                    </div>
+                    <div class="metric-card card-balance">
+                        <div class="card-header">
+                            <span>Netto-Vermögen</span>
+                            <div class="mini-icon">💼</div>
+                        </div>
+                        <h2 id="total-balance">€0.00</h2>
+                        <span class="trend-neutral">Aktuelle Bilanz</span>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-        <section id="ki" class="tab-content">
-            <div class="section-box">
-                <h3>KI-Analyse & Spartipps</h3>
-                <p class="empty-text" style="color: #00bfa5;">Demo-Modus: Füge Transaktionen hinzu, um deine Sparquote zu sehen!</p>
-            </div>
-        </section>
+                <div class="content-grid">
+                    <div class="panel list-panel">
+                        <div class="panel-header">
+                            <h3>Letzte Aktivitäten</h3>
+                            <button class="text-btn" onclick="openTab('transaktionen')">Alle sehen</button>
+                        </div>
+                        <div id="recent-activity-list" class="activity-feed">
+                            <p class="empty-text">Noch keine Buchungen vorhanden.</p>
+                        </div>
+                    </div>
 
+                    <div class="panel chart-panel">
+                        <div class="panel-header">
+                            <h3>Ausgaben-Verteilung</h3>
+                        </div>
+                        <div class="chart-container">
+                            <div class="donut-chart-wrapper">
+                                <div class="donut-chart" id="donut-chart-element"></div>
+                                <div class="chart-center">
+                                    <span id="chart-center-label">Ausgaben</span>
+                                </div>
+                            </div>
+                            <div id="chart-legend" class="chart-legend"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="transaktionen" class="tab-content">
+                <div class="panel form-panel">
+                    <h3>Neue Transaktion erfassen</h3>
+                    <div class="smart-form">
+                        <div class="input-wrapper">
+                            <label>Beschreibung</label>
+                            <input type="text" id="beschreibung" placeholder="z.B. Dividende, Supermarkt...">
+                        </div>
+                        <div class="input-wrapper">
+                            <label>Betrag (€)</label>
+                            <input type="number" id="betrag" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="input-wrapper">
+                            <label>Typ</label>
+                            <select id="typ">
+                                <option value="einnahme">📈 Einnahme</option>
+                                <option value="ausgabe">📉 Ausgabe</option>
+                            </select>
+                        </div>
+                        <div class="input-wrapper">
+                            <label>Kategorie</label>
+                            <select id="kategorie">
+                                <option value="Freizeit">👾 Freizeit & Hobbys</option>
+                                <option value="Essen">🛒 Lebensmittel</option>
+                                <option value="Wohnen">🏠 Wohnen & Fixkosten</option>
+                                <option value="Gehalt">💼 Gehalt & Business</option>
+                                <option value="Sonstiges">📦 Sonstiges</option>
+                            </select>
+                        </div>
+                        <button class="prime-btn" onclick="addTransaction()">Buchen</button>
+                    </div>
+                </div>
+
+                <div class="panel table-panel">
+                    <h3>Transaktionshistorie</h3>
+                    <div class="table-responsive">
+                        <table class="prime-table">
+                            <thead>
+                                <tr>
+                                    <th>Zweck / Beschreibung</th>
+                                    <th>Kategorie</th>
+                                    <th>Typ</th>
+                                    <th class="text-right">Betrag</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transaction-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="budget" class="tab-content">
+                <div class="panel form-panel">
+                    <h3>Budget-Obergrenze festlegen</h3>
+                    <div class="smart-form">
+                        <div class="input-wrapper" style="flex: 2;">
+                            <label>Kategorie wählen</label>
+                            <select id="budget-kategorie">
+                                <option value="Freizeit">👾 Freizeit & Hobbys</option>
+                                <option value="Essen">🛒 Lebensmittel</option>
+                                <option value="Wohnen">🏠 Wohnen & Fixkosten</option>
+                                <option value="Sonstiges">📦 Sonstiges</option>
+                            </select>
+                        </div>
+                        <div class="input-wrapper" style="flex: 2;">
+                            <label>Monatliches Limit (€)</label>
+                            <input type="number" id="budget-limit" placeholder="z.B. 500">
+                        </div>
+                        <button class="prime-btn" onclick="setBudget()">Limit aktivieren</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Budget-Monitoring</h3>
+                    <div id="budget-progress-container" class="budget-grid">
+                        <p class="empty-text">Noch keine Budgetgrenzen definiert.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ki" class="tab-content">
+                <div class="panel analytics-panel">
+                    <div class="ai-header">
+                        <div class="ai-sparkle">✨</div>
+                        <h3>YouFinance KI-Analyse</h3>
+                    </div>
+                    <div id="ai-insights-content">
+                        <p class="ai-text">Füge Buchungen hinzu, um die automatische Analyse zu starten.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 
     <script src="script.js"></script>
