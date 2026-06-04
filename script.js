@@ -15,7 +15,8 @@ const App = (() => {
             navDash: "Dashboard", dashWelcome: "Finanzübersicht", btnLogout: "Abmelden",
             lblBalance: "Gesamtsaldo", lblIncome: "Monatliche Einnahmen", lblExpenses: "Monatliche Ausgaben",
             txtAnalytics: "Vermögensentwicklung Analytics", txtSettingsTitle: "Einstellungen",
-            txtSettingsDesc: "Echtzeit-Sicherheitsschlüssel aktiv", btnPremium: "Pläne verwalten", btnClose: "Schließen"
+            txtSettingsDesc: "Echtzeit-Sicherheitsschlüssel aktiv", btnPremium: "Pläne verwalten", btnClose: "Schließen",
+            lblModalLang: "Sprache / Language"
         },
         en: {
             title: "Create account", subtitle: "Secure your access to personal wealth.",
@@ -31,7 +32,8 @@ const App = (() => {
             navDash: "Dashboard", dashWelcome: "Financial Overview", btnLogout: "Logout",
             lblBalance: "Total Balance", lblIncome: "Monthly Income", lblExpenses: "Monthly Expenses",
             txtAnalytics: "Asset Development Analytics", txtSettingsTitle: "Settings",
-            txtSettingsDesc: "Real-time security key active", btnPremium: "Manage Plans", btnClose: "Close"
+            txtSettingsDesc: "Real-time security key active", btnPremium: "Manage Plans", btnClose: "Close",
+            lblModalLang: "Language / Sprache"
         },
         es: {
             title: "Crear cuenta", subtitle: "Asegure su acceso a las finanzen.",
@@ -47,7 +49,8 @@ const App = (() => {
             navDash: "Tablero", dashWelcome: "Resumen Financiero", btnLogout: "Cerrar sesión",
             lblBalance: "Saldo Total", lblIncome: "Ingresos Mensuales", lblExpenses: "Gastos Mensuales",
             txtAnalytics: "Análisis de Activos", txtSettingsTitle: "Ajustes",
-            txtSettingsDesc: "Clave de seguridad en tiempo real activa", btnPremium: "Gestionar Planes", btnClose: "Cerrar"
+            txtSettingsDesc: "Clave de seguridad en tempo real activa", btnPremium: "Gestionar Planes", btnClose: "Cerrar",
+            lblModalLang: "Idioma / Language"
         },
         it: {
             title: "Crea account", subtitle: "Proteggi l'accesso alle tue finanze.",
@@ -63,7 +66,8 @@ const App = (() => {
             navDash: "Dashboard", dashWelcome: "Panoramica Finanziaria", btnLogout: "Disconnettersi",
             lblBalance: "Saldo Totale", lblIncome: "Entrate Mensili", lblExpenses: "Uscite Mensili",
             txtAnalytics: "Analisi dello Sviluppo Patrimoniale", txtSettingsTitle: "Impostazioni",
-            txtSettingsDesc: "Chiave di sicurezza in tempo reale attiva", btnPremium: "Gestisci Piani", btnClose: "Chiudi"
+            txtSettingsDesc: "Chiave di sicurezza in tempo real attiva", btnPremium: "Gestisci Piani", btnClose: "Chiudi",
+            lblModalLang: "Lingua / Language"
         },
         fr: {
             title: "Créer un compte", subtitle: "Sécurisez l'accès à vos finances.",
@@ -79,7 +83,8 @@ const App = (() => {
             navDash: "Tableau de bord", dashWelcome: "Aperçu Financier", btnLogout: "Se déconnecter",
             lblBalance: "Solde Total", lblIncome: "Revenus Mensuels", lblExpenses: "Dépenses Mensuelles",
             txtAnalytics: "Analyse de l'Évolution des Actifs", txtSettingsTitle: "Paramètres",
-            txtSettingsDesc: "Clé de sécurité en temps réel active", btnPremium: "Gérer les Plans", btnClose: "Fermer"
+            txtSettingsDesc: "Clé de sécurité en temps réel active", btnPremium: "Gérer les Plans", btnClose: "Fermer",
+            lblModalLang: "Langue / Language"
         },
         gr: {
             title: "Δημιουργία λογαριασμού", subtitle: "Ασφαλίστε την πρόσβαση στα οικονομικά σας.",
@@ -95,7 +100,8 @@ const App = (() => {
             navDash: "Πίνακας Ελέγχου", dashWelcome: "Οικονομική Επισκόπηση", btnLogout: "Αποσύνδεση",
             lblBalance: "Συνολικό Υπόλοιπο", lblIncome: "Μηνιαία Έσοδα", lblExpenses: "Μηνιαία Έξοδα",
             txtAnalytics: "Αναλυτικά Στοιχεία Περιουσίας", txtSettingsTitle: "Ρυθμίσεις",
-            txtSettingsDesc: "Ενεργό κλειδί ασφαλείας πραγματικού χρόνου", btnPremium: "Διαχείριση Πακέτων", btnClose: "Κλείσιμο"
+            txtSettingsDesc: "Ενεργό κλειδί ασφαλείας πραγματικού χρόνου", btnPremium: "Διαχείριση Πακέτων", btnClose: "Κλείσιμο",
+            lblModalLang: "Γλώσσα / Language"
         }
     };
 
@@ -205,6 +211,18 @@ const App = (() => {
         }
     };
 
+    // NEU: Simulierter funktionstüchtiger Google Login
+    const executeGoogleAuth = () => {
+        console.log("Google OAuth 2.0 Pipeline gestartet...");
+        state.registeredUser = {
+            username: "Google_User_42",
+            email: "oauth.user@google.com",
+            pass: "OAuth_Verified_Token_2026"
+        };
+        document.getElementById('dash-username').innerText = state.registeredUser.username;
+        navigateToComponent('dashboardPage');
+    };
+
     const logout = () => {
         document.getElementById('loginForm').reset();
         document.getElementById('loginStatus').innerText = "";
@@ -216,12 +234,22 @@ const App = (() => {
         if (modal) modal.classList.toggle('hidden');
     };
 
-    const switchLanguage = () => {
-        const lang = document.getElementById('langSelect').value;
-        state.activeLanguage = lang;
-        const dict = dictionary[lang];
+    // MODIFIZIERT: Volle Synchronisation & tiefgreifende Übersetzung
+    const switchLanguage = (source) => {
+        let selectedLang = "de";
         
-        // Registrierungs-Seite übersetzen
+        if (source === 'global') {
+            selectedLang = document.getElementById('langSelect').value;
+            document.getElementById('modalLangSelect').value = selectedLang;
+        } else if (source === 'modal') {
+            selectedLang = document.getElementById('modalLangSelect').value;
+            document.getElementById('langSelect').value = selectedLang;
+        }
+
+        state.activeLanguage = selectedLang;
+        const dict = dictionary[selectedLang];
+        
+        // Register Card translations
         document.getElementById('txt-title').innerText = dict.title;
         document.getElementById('txt-subtitle').innerText = dict.subtitle;
         document.getElementById('btn-google-reg').innerText = dict.btnGoogleReg;
@@ -237,13 +265,13 @@ const App = (() => {
         document.getElementById('txt-have-account').innerText = dict.txtHaveAcc;
         document.getElementById('lnk-login').innerText = dict.lnkLogin;
         
-        // Verifizierungs-Seite übersetzen
+        // Verify Card translations
         document.getElementById('txt-verify-title').innerText = dict.vTitle;
         document.getElementById('txt-verify-desc').innerText = dict.vDesc;
         document.getElementById('lbl-code').innerText = dict.codeL;
         document.getElementById('btn-verify').innerText = dict.btnVer;
         
-        // Login-Seite übersetzen
+        // Login Card translations
         document.getElementById('txt-login-title').innerText = dict.loginT;
         document.getElementById('txt-login-subtitle').innerText = dict.loginSub;
         document.getElementById('btn-google-log').innerText = dict.btnGoogleLog;
@@ -254,7 +282,7 @@ const App = (() => {
         document.getElementById('txt-new-here').innerText = dict.txtNewHere;
         document.getElementById('lnk-register').innerText = dict.lnkRegister;
 
-        // Dashboard & Modals übersetzen (Neu hinzugefügt!)
+        // Dashboard & Modals translations
         document.getElementById('nav-dash').innerText = dict.navDash;
         document.getElementById('txt-dash-welcome').innerText = dict.dashWelcome;
         document.getElementById('btn-logout').innerText = dict.btnLogout;
@@ -262,8 +290,11 @@ const App = (() => {
         document.getElementById('lbl-income').innerText = dict.lblIncome;
         document.getElementById('lbl-expenses').innerText = dict.lblExpenses;
         document.getElementById('txt-analytics-title').innerText = dict.txtAnalytics;
+        
+        // Settings Modal internal translations
         document.getElementById('txt-settings-title').innerText = dict.txtSettingsTitle;
         document.getElementById('txt-settings-desc').innerText = dict.txtSettingsDesc;
+        document.getElementById('lbl-modal-lang').innerText = dict.lblModalLang;
         document.getElementById('btn-premium').innerText = dict.btnPremium;
         document.getElementById('btn-close').innerText = dict.btnClose;
     };
@@ -277,6 +308,7 @@ const App = (() => {
             executeRegister,
             executeVerify,
             executeLogin,
+            executeGoogleAuth,
             logout
         },
         Navigation: {
