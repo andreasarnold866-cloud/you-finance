@@ -3,57 +3,99 @@ const App = (() => {
     const dictionary = {
         de: {
             title: "Konto erstellen", subtitle: "Sichern Sie sich den Zugang zu Ihren Finanzen.",
+            btnGoogleReg: "Mit Google fortfahren", btnAppleReg: "Mit Apple fortfahren", orText: "ODER",
             userL: "Benutzername", emailL: "E-Mail-Adresse", passL: "Sicheres Passwort",
             polLen: "Mindestens 8 Zeichen", polNum: "Mindestens 1 Zahl", polSpec: "Mindestens 1 Sonderzeichen",
-            btnReg: "Registrieren", vTitle: "E-Mail verifizieren", vDesc: "Wir haben einen Sicherheitscode an Ihre E-Mail gesendet.",
+            btnReg: "Registrieren", txtHaveAcc: "Bereits ein Konto?", lnkLogin: "Hier anmelden",
+            vTitle: "E-Mail verifizieren", vDesc: "Wir haben einen Sicherheitscode an Ihre E-Mail gesendet.",
             codeL: "6-stelliger Code", btnVer: "Code verifizieren", errFields: "Bitte erfüllen Sie alle Passwort-Kriterien.",
             errCode: "Falscher Code. Bitte versuchen Sie es erneut.", successVer: "Erfolgreich! Daten werden gesichert...",
-            loginT: "Willkommen zurück", loginSub: "Melden Sie sich mit Ihren Daten an.", btnLog: "Anmelden"
+            loginT: "Willkommen zurück", loginSub: "Melden Sie sich mit Ihren Daten an.", btnGoogleLog: "Mit Google anmelden", btnLog: "Anmelden",
+            txtNewHere: "Neu hier?", lnkRegister: "Konto erstellen", errLogin: "Ungültige Anmeldedaten.",
+            navDash: "Dashboard", dashWelcome: "Finanzübersicht", btnLogout: "Abmelden",
+            lblBalance: "Gesamtsaldo", lblIncome: "Monatliche Einnahmen", lblExpenses: "Monatliche Ausgaben",
+            txtAnalytics: "Vermögensentwicklung Analytics", txtSettingsTitle: "Einstellungen",
+            txtSettingsDesc: "Echtzeit-Sicherheitsschlüssel aktiv", btnPremium: "Pläne verwalten", btnClose: "Schließen"
         },
         en: {
             title: "Create account", subtitle: "Secure your access to personal wealth.",
+            btnGoogleReg: "Continue with Google", btnAppleReg: "Continue with Apple", orText: "OR",
             userL: "Username", emailL: "Email address", passL: "Secure password",
             polLen: "At least 8 characters", polNum: "At least 1 number", polSpec: "At least 1 special character",
-            btnReg: "Register", vTitle: "Verify Email", vDesc: "We have sent a security code to your email address.",
+            btnReg: "Register", txtHaveAcc: "Already have an account?", lnkLogin: "Sign in here",
+            vTitle: "Verify Email", vDesc: "We have sent a security code to your email address.",
             codeL: "6-digit code", btnVer: "Verify Code", errFields: "Please fulfill all password criteria.",
             errCode: "Invalid code. Please try again.", successVer: "Success! Saving data architecture...",
-            loginT: "Welcome Back", loginSub: "Sign in to manage your ecosystem.", btnLog: "Sign In"
+            loginT: "Welcome Back", loginSub: "Sign in to manage your ecosystem.", btnGoogleLog: "Sign in with Google", btnLog: "Sign In",
+            txtNewHere: "New here?", lnkRegister: "Create account", errLogin: "Invalid credentials.",
+            navDash: "Dashboard", dashWelcome: "Financial Overview", btnLogout: "Logout",
+            lblBalance: "Total Balance", lblIncome: "Monthly Income", lblExpenses: "Monthly Expenses",
+            txtAnalytics: "Asset Development Analytics", txtSettingsTitle: "Settings",
+            txtSettingsDesc: "Real-time security key active", btnPremium: "Manage Plans", btnClose: "Close"
         },
         es: {
-            title: "Crear cuenta", subtitle: "Asegure su acceso a las finanzas personales.",
+            title: "Crear cuenta", subtitle: "Asegure su acceso a las finanzen.",
+            btnGoogleReg: "Continuar con Google", btnAppleReg: "Continuar con Apple", orText: "O",
             userL: "Usuario", emailL: "Correo electrónico", passL: "Contraseña segura",
             polLen: "Al menos 8 caracteres", polNum: "Al menos 1 número", polSpec: "Al menos 1 carácter especial",
-            btnReg: "Registrarse", vTitle: "Verificar Correo", vDesc: "Hemos enviado un código de seguridad a su correo.",
-            codeL: "Código de 6 dígitos", btnVer: "Verificar Código", errFields: "Cumpla con los requisitos de contraseña.",
+            btnReg: "Registrarse", txtHaveAcc: "¿Ya tienes una cuenta?", lnkLogin: "Inicia sesión aquí",
+            vTitle: "Verificar Correo", vDesc: "Hemos enviado un código de seguridad a su correo.",
+            codeL: "Código de 6 dígitos", btnVer: "Verificar Código", errFields: "Cumpla con los requisitos.",
             errCode: "Código incorrecto. Inténtelo de nuevo.", successVer: "¡Éxito! Asegurando datos...",
-            loginT: "Bienvenido de nuevo", loginSub: "Inicie sesión con sus credenciales.", btnLog: "Ingresar"
+            loginT: "Bienvenido de nuevo", loginSub: "Inicie sesión con sus credenciales.", btnGoogleLog: "Iniciar sesión con Google", btnLog: "Ingresar",
+            txtNewHere: "¿Nuevo aquí?", lnkRegister: "Crear cuenta", errLogin: "Credenciales no válidas.",
+            navDash: "Tablero", dashWelcome: "Resumen Financiero", btnLogout: "Cerrar sesión",
+            lblBalance: "Saldo Total", lblIncome: "Ingresos Mensuales", lblExpenses: "Gastos Mensuales",
+            txtAnalytics: "Análisis de Activos", txtSettingsTitle: "Ajustes",
+            txtSettingsDesc: "Clave de seguridad en tiempo real activa", btnPremium: "Gestionar Planes", btnClose: "Cerrar"
         },
         it: {
             title: "Crea account", subtitle: "Proteggi l'accesso alle tue finanze.",
+            btnGoogleReg: "Continua con Google", btnAppleReg: "Continua con Apple", orText: "OPPURE",
             userL: "Nome utente", emailL: "Indirizzo e-mail", passL: "Password sicura",
             polLen: "Almeno 8 caratteri", polNum: "Almeno 1 numero", polSpec: "Almeno 1 carattere speciale",
-            btnReg: "Registrati", vTitle: "Verifica E-mail", vDesc: "Abbiamo inviato un codice di sicurezza alla tua e-mail.",
+            btnReg: "Registrati", txtHaveAcc: "Hai già un account?", lnkLogin: "Accedi qui",
+            vTitle: "Verifica E-mail", vDesc: "Abbiamo inviato un codice di sicurezza alla tua e-mail.",
             codeL: "Codice a 6 cifre", btnVer: "Verifica codice", errFields: "Soddisfa i requisiti della password.",
             errCode: "Codice errato. Riprova.", successVer: "Successo! Archiviazione dati...",
-            loginT: "Bentornato", loginSub: "Accedi al tuo ecosistema finanziario.", btnLog: "Accedi"
+            loginT: "Bentornato", loginSub: "Accedi al tuo ecosistema finanziario.", btnGoogleLog: "Accedi con Google", btnLog: "Accedi",
+            txtNewHere: "Nuovo qui?", lnkRegister: "Crea account", errLogin: "Credenziali non valide.",
+            navDash: "Dashboard", dashWelcome: "Panoramica Finanziaria", btnLogout: "Disconnettersi",
+            lblBalance: "Saldo Totale", lblIncome: "Entrate Mensili", lblExpenses: "Uscite Mensili",
+            txtAnalytics: "Analisi dello Sviluppo Patrimoniale", txtSettingsTitle: "Impostazioni",
+            txtSettingsDesc: "Chiave di sicurezza in tempo reale attiva", btnPremium: "Gestisci Piani", btnClose: "Chiudi"
         },
         fr: {
             title: "Créer un compte", subtitle: "Sécurisez l'accès à vos finances.",
+            btnGoogleReg: "Continuer avec Google", btnAppleReg: "Continuer avec Apple", orText: "OU",
             userL: "Nom d'utilisateur", emailL: "Adresse e-mail", passL: "Mot de passe sécurisé",
             polLen: "Au moins 8 caractères", polNum: "Au moins 1 chiffre", polSpec: "Au moins 1 caractère spécial",
-            btnReg: "S'inscrire", vTitle: "Vérifier l'e-mail", vDesc: "Nous avons envoyé un code de sécurité à votre e-mail.",
+            btnReg: "S'inscrire", txtHaveAcc: "Vous avez déjà un compte?", lnkLogin: "Se connecter ici",
+            vTitle: "Vérifier l'e-mail", vDesc: "Nous avons envoyé un code de sécurité à votre e-mail.",
             codeL: "Code à 6 chiffres", btnVer: "Vérifier le code", errFields: "Veuillez respecter les exigences.",
             errCode: "Code invalide. Veuillez réessayer.", successVer: "Succès! Sécurisation des données...",
-            loginT: "Bon retour", loginSub: "Connectez-vous pour gérer vos actifs.", btnLog: "Se connecter"
+            loginT: "Bon retour", loginSub: "Connectez-vous pour gérer vos actifs.", btnGoogleLog: "Se connecter avec Google", btnLog: "Se connecter",
+            txtNewHere: "Nouveau ici?", lnkRegister: "Créer un compte", errLogin: "Identifiants invalides.",
+            navDash: "Tableau de bord", dashWelcome: "Aperçu Financier", btnLogout: "Se déconnecter",
+            lblBalance: "Solde Total", lblIncome: "Revenus Mensuels", lblExpenses: "Dépenses Mensuelles",
+            txtAnalytics: "Analyse de l'Évolution des Actifs", txtSettingsTitle: "Paramètres",
+            txtSettingsDesc: "Clé de sécurité en temps réel active", btnPremium: "Gérer les Plans", btnClose: "Fermer"
         },
         gr: {
             title: "Δημιουργία λογαριασμού", subtitle: "Ασφαλίστε την πρόσβαση στα οικονομικά σας.",
+            btnGoogleReg: "Συνέχεια με Google", btnAppleReg: "Συνέχεια με Apple", orText: "Ή",
             userL: "Όνομα χρήστη", emailL: "Διεύθυνση Email", passL: "Ασφαλής κωδικός",
             polLen: "Τουλάχιστον 8 χαρακτήρες", polNum: "Τουλάχιστον 1 αριθμός", polSpec: "Τουλάχιστον 1 ειδικός χαρακτήρας",
-            btnReg: "Εγγραφή", vTitle: "Επαλήθευση Email", vDesc: "Έχουμε στείλει έναν κωδικό ασφαλείας στο email σας.",
+            btnReg: "Εγγραφή", txtHaveAcc: "Έχετε ήδη λογαριασμό;", lnkLogin: "Σύνδεση εδώ",
+            vTitle: "Επαλήθευση Email", vDesc: "Έχουμε στείλει έναν κωδικό ασφαλείας στο email σας.",
             codeL: "6-ψήφιος κωδικός", btnVer: "Επαλήθευση κωδικού", errFields: "Παρακαλώ συμπληρώστε τα κριτήρια.",
             errCode: "Λάθος κωδικός. Προσπαθήστε ξανά.", successVer: "Επιτυχία! Ασφάλιση δεδομένων...",
-            loginT: "Καλώς ορίσατε", loginSub: "Συνδεθείτε για πρόσβαση στα δεδομένα σας.", btnLog: "Σύνδεση"
+            loginT: "Καλώς ορίσατε", loginSub: "Συνδεθείτε για πρόσβαση στα δεδομένα σας.", btnGoogleLog: "Σύνδεση μέσω Google", btnLog: "Σύνδεση",
+            txtNewHere: "Νέος εδώ;", lnkRegister: "Δημιουργία λογαριασμού", errLogin: "Μη έγκυρα διαπιστευτήρια.",
+            navDash: "Πίνακας Ελέγχου", dashWelcome: "Οικονομική Επισκόπηση", btnLogout: "Αποσύνδεση",
+            lblBalance: "Συνολικό Υπόλοιπο", lblIncome: "Μηνιαία Έσοδα", lblExpenses: "Μηνιαία Έξοδα",
+            txtAnalytics: "Αναλυτικά Στοιχεία Περιουσίας", txtSettingsTitle: "Ρυθμίσεις",
+            txtSettingsDesc: "Ενεργό κλειδί ασφαλείας πραγματικού χρόνου", btnPremium: "Διαχείριση Πακέτων", btnClose: "Κλείσιμο"
         }
     };
 
@@ -108,12 +150,6 @@ const App = (() => {
                 else el.classList.add('hidden');
             }
         });
-        
-        const langWidget = document.getElementById('globalLangWidget');
-        if (langWidget) {
-            if(targetCardId === 'dashboardPage') langWidget.classList.add('hidden');
-            else langWidget.classList.remove('hidden');
-        }
     };
 
     const executeRegister = (event) => {
@@ -165,7 +201,7 @@ const App = (() => {
             navigateToComponent('dashboardPage');
         } else {
             loginStatus.className = "feedback-anchor error";
-            loginStatus.innerText = "Ungültige Anmeldedaten.";
+            loginStatus.innerText = dictionary[state.activeLanguage].errLogin;
         }
     };
 
@@ -183,11 +219,14 @@ const App = (() => {
     const switchLanguage = () => {
         const lang = document.getElementById('langSelect').value;
         state.activeLanguage = lang;
-        
         const dict = dictionary[lang];
         
+        // Registrierungs-Seite übersetzen
         document.getElementById('txt-title').innerText = dict.title;
         document.getElementById('txt-subtitle').innerText = dict.subtitle;
+        document.getElementById('btn-google-reg').innerText = dict.btnGoogleReg;
+        document.getElementById('btn-apple-reg').innerText = dict.btnAppleReg;
+        document.getElementById('txt-or-1').innerText = dict.orText;
         document.getElementById('lbl-username').innerText = dict.userL;
         document.getElementById('lbl-email').innerText = dict.emailL;
         document.getElementById('lbl-password').innerText = dict.passL;
@@ -195,18 +234,40 @@ const App = (() => {
         document.getElementById('policy-num').innerText = dict.polNum;
         document.getElementById('policy-spec').innerText = dict.polSpec;
         document.getElementById('btn-register').innerText = dict.btnReg;
+        document.getElementById('txt-have-account').innerText = dict.txtHaveAcc;
+        document.getElementById('lnk-login').innerText = dict.lnkLogin;
         
+        // Verifizierungs-Seite übersetzen
         document.getElementById('txt-verify-title').innerText = dict.vTitle;
         document.getElementById('txt-verify-desc').innerText = dict.vDesc;
         document.getElementById('lbl-code').innerText = dict.codeL;
         document.getElementById('btn-verify').innerText = dict.btnVer;
         
+        // Login-Seite übersetzen
         document.getElementById('txt-login-title').innerText = dict.loginT;
         document.getElementById('txt-login-subtitle').innerText = dict.loginSub;
+        document.getElementById('btn-google-log').innerText = dict.btnGoogleLog;
+        document.getElementById('txt-or-2').innerText = dict.orText;
+        document.getElementById('lbl-login-id').innerText = dict.userL + " " + dict.orText.toLowerCase() + " " + dict.emailL;
+        document.getElementById('lbl-login-pass').innerText = dict.passL;
         document.getElementById('btn-login').innerText = dict.btnLog;
+        document.getElementById('txt-new-here').innerText = dict.txtNewHere;
+        document.getElementById('lnk-register').innerText = dict.lnkRegister;
+
+        // Dashboard & Modals übersetzen (Neu hinzugefügt!)
+        document.getElementById('nav-dash').innerText = dict.navDash;
+        document.getElementById('txt-dash-welcome').innerText = dict.dashWelcome;
+        document.getElementById('btn-logout').innerText = dict.btnLogout;
+        document.getElementById('lbl-balance').innerText = dict.lblBalance;
+        document.getElementById('lbl-income').innerText = dict.lblIncome;
+        document.getElementById('lbl-expenses').innerText = dict.lblExpenses;
+        document.getElementById('txt-analytics-title').innerText = dict.txtAnalytics;
+        document.getElementById('txt-settings-title').innerText = dict.txtSettingsTitle;
+        document.getElementById('txt-settings-desc').innerText = dict.txtSettingsDesc;
+        document.getElementById('btn-premium').innerText = dict.btnPremium;
+        document.getElementById('btn-close').innerText = dict.btnClose;
     };
 
-    // DomContentLoaded Safe Boot Engine
     document.addEventListener('DOMContentLoaded', () => {
         initSecurityDiagnostics();
     });
