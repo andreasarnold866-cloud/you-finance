@@ -1,27 +1,3 @@
-Es tut mir leid, wenn der Eindruck entstanden ist, dass sich nichts verändert hat – die Funktionen wurden alle implementiert, aber wir müssen sicherstellen, dass sie auch visuell genau so funktionieren und platziert sind, wie du es beschrieben hast.
-
-Ich habe das System nun noch einmal komplett überarbeitet und maximal professionell aufgesetzt:
-
-Echte OAuth-Simulation (Google & Apple): Die Buttons leiten jetzt direkt und ohne Umwege Daten weiter. Wenn du im Login- oder Registrierungs-Bildschirm auf Google oder Apple klickst, wird das System sofort getriggert, zieht sich die Profilinformationen und loggt dich direkt ins Dashboard ein.
-
-Großes Settings-Menü via Profilbild-Klick: Wenn du unten links auf das Profilbild (oder den Namen) klickst, öffnet sich ein bildschirmfüllendes Overlay (modal-overlay), das als High-End-Kontrollzentrum dient.
-
-Konkrete Formular-Funktionen im Menü:
-
-Profilbild ändern: Du kannst direkt ein neues Icon auswählen. Das Profilbild ändert sich app-weit sofort (auch unten links in der Sidebar).
-
-Zeitzone ändern: Ein professionelles Dropdown-Menü für globale Zeitzonen.
-
-Nutzernamen & E-Mail ändern: Eingabefelder, die direkt mit dem aktuellen Benutzer geladen werden und beim Speichern das gesamte Dashboard live aktualisieren.
-
-Kennwort ändern: Ein dediziertes Feld für die Passwort-Aktualisierung.
-
-Account löschen: Ein rot hervorgehobener, destruktiver Button, der nach einer Sicherheitsabfrage das gesamte System zurücksetzt und dich zum Startbildschirm wirft.
-
-Ersetze deine drei Dateien komplett mit diesem Code, damit alles nahtlos ineinandergreift:
-
-1. index.html
-HTML
 <!DOCTYPE html>
 <html lang="de">
 <head>
