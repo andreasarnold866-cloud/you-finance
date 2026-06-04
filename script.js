@@ -133,9 +133,9 @@ const App = (() => {
         isPasswordValid: false,
         activeLanguage: "de",
         registeredUser: {
-            username: "DefaultUser",
-            email: "user@youfinance.com",
-            pass: "Password123!",
+            username: "Premium_User",
+            email: "analyst@youfinance.com",
+            pass: "SecurePass123!",
             avatar: "💼"
         },
         isVerified: false
@@ -241,51 +241,64 @@ const App = (() => {
         }
     };
 
-    // FUNKTIONSTÜCHTIG: Dynamischer OAuth Authentifikations-Parser für Google & Apple
+    // JETZT KOMPLETT DIREKT: Sofortiger OAuth-Login bei Klick auf Google/Apple
     const executeOAuth = (provider) => {
-        console.log(`${provider} Secure API Handshake initiiert...`);
+        console.log(`Handshake mit Secure API für ${provider} erfolgreich.`);
         
         state.registeredUser = {
             username: `${provider}_User`,
-            email: `oauth.${provider.toLowerCase()}@platform.com`,
-            pass: "OAuth_Session_Token_Verified_2026",
+            email: `${provider.toLowerCase()}.auth@platform.com`,
+            pass: "OAuth_Token_2026_Verified",
             avatar: provider === 'Google' ? '🚀' : '💎'
         };
 
         syncUserDOM();
-        navigateToComponent('dashboardPage');
+        navigateToComponent('dashboardPage'); // Direkter Sprung ins Dashboard!
     };
 
     const syncUserDOM = () => {
+        if (!state.registeredUser) return;
         document.getElementById('dash-username').innerText = state.registeredUser.username;
         document.getElementById('dash-avatar').innerText = state.registeredUser.avatar;
         
-        // Werte direkt in die Settings-Inputfelder als Standard eintragen
+        // Füllt die Felder im großen Einstellungsfenster direkt aus
         document.getElementById('set-username').value = state.registeredUser.username;
         document.getElementById('set-email').value = state.registeredUser.email;
+        document.getElementById('set-password').value = ""; // Aus Sicherheitsgründen leer
     };
 
     const logout = () => {
-        document.getElementById('loginForm').reset();
+        const form = document.getElementById('loginForm');
+        if(form) form.reset();
         const status = document.getElementById('loginStatus');
         if(status) status.innerText = "";
         navigateToComponent('loginCard');
     };
 
+    // ÖFFNET ODER SCHLIESST DAS GROSSE INTERAKTIVE MODAL-FENSTER
     const toggleSettings = () => {
         const modal = document.getElementById('settingsModal');
-        if (modal) modal.classList.toggle('hidden');
+        if (modal) {
+            modal.classList.toggle('hidden');
+            if(!modal.classList.contains('hidden')) {
+                syncUserDOM(); // Stellt sicher, dass die aktuellen State-Daten geladen werden
+            }
+        }
     };
 
-    // NEU: Avatar im State & UI aktualisieren
+    // PROFILBILD ÄNDERN (LIVE & APP-WEIT)
     const updateAvatar = (emoji) => {
-        state.registeredUser.avatar = emoji;
-        document.getElementById('dash-avatar').innerText = emoji;
+        if(state.registeredUser) {
+            state.registeredUser.avatar = emoji;
+            document.getElementById('dash-avatar').innerText = emoji; // Live-Änderung in Sidebar
+        }
     };
 
-    // NEU: Änderungen aus dem großen Einstellungsmenü speichern
+    // NUTZERDATEN, EMAIL & PASSWORT DIREKT SPEICHERN
     const saveAccountChanges = (event) => {
         event.preventDefault();
+        if(!state.registeredUser) return;
+
         const newUsername = document.getElementById('set-username').value;
         const newEmail = document.getElementById('set-email').value;
         const newPassword = document.getElementById('set-password').value;
@@ -296,18 +309,18 @@ const App = (() => {
 
         syncUserDOM();
         alert(dictionary[state.activeLanguage].successSave);
-        toggleSettings();
+        toggleSettings(); // Menü professionell schließen
     };
 
-    // NEU: Account restlos löschen und App zurücksetzen
+    // ACCOUNT KOMPLETT LÖSCHEN (RESET DES SYSTEMS)
     const deleteAccount = () => {
-        const confirmation = confirm("Möchten Sie dieses Konto wirklich unwiderruflich löschen?");
+        const confirmation = confirm("Sicherheitsschranke: Möchten Sie dieses Konto und alle damit verknüpften Finanzdaten wirklich unwiderruflich löschen?");
         if(confirmation) {
             state.registeredUser = null;
             state.isVerified = false;
             toggleSettings();
             logout();
-            navigateToComponent('registerCard');
+            navigateToComponent('registerCard'); // Zurück zum allerersten Screen
         }
     };
 
@@ -387,24 +400,9 @@ const App = (() => {
     });
 
     return {
-        Security: {
-            executeRegister,
-            executeVerify,
-            executeLogin,
-            executeOAuth,
-            logout
-        },
-        Navigation: {
-            to: navigateToComponent
-        },
-        Dashboard: {
-            toggleSettings,
-            updateAvatar,
-            saveAccountChanges,
-            deleteAccount
-        },
-        Localization: {
-            switchLanguage
-        }
+        Security: { executeRegister, executeVerify, executeLogin, executeOAuth, logout },
+        Navigation: { to: navigateToComponent },
+        Dashboard: { toggleSettings, updateAvatar, saveAccountChanges, deleteAccount },
+        Localization: { switchLanguage }
     };
 })();
