@@ -94,6 +94,7 @@ const App = (() => {
 
     const updateNodeState = (targetId, isConditionMet) => {
         const node = document.getElementById(targetId);
+        if (!node) return;
         if (isConditionMet) { node.classList.remove('invalid'); node.classList.add('valid'); }
         else { node.classList.remove('valid'); node.classList.add('invalid'); }
     };
@@ -102,13 +103,17 @@ const App = (() => {
         const cards = ['registerCard', 'verifyCard', 'loginCard', 'dashboardPage'];
         cards.forEach(id => {
             const el = document.getElementById(id);
-            if (id === targetCardId) el.classList.remove('hidden');
-            else el.classList.add('hidden');
+            if (el) {
+                if (id === targetCardId) el.classList.remove('hidden');
+                else el.classList.add('hidden');
+            }
         });
         
         const langWidget = document.getElementById('globalLangWidget');
-        if(targetCardId === 'dashboardPage') langWidget.classList.add('hidden');
-        else langWidget.classList.remove('hidden');
+        if (langWidget) {
+            if(targetCardId === 'dashboardPage') langWidget.classList.add('hidden');
+            else langWidget.classList.remove('hidden');
+        }
     };
 
     const executeRegister = (event) => {
@@ -150,75 +155,77 @@ const App = (() => {
         event.preventDefault();
         const identifier = document.getElementById('loginIdentifier').value;
         const pass = document.getElementById('loginPassword').value;
-        const statusNode = document.getElementById('loginStatus');
+        const loginStatus = document.getElementById('loginStatus');
 
-        if (!state.registeredUser) {
-            statusNode.className = "feedback-anchor error";
-            statusNode.innerText = "Kein Account gefunden. Bitte registrieren.";
-            return;
-        }
-
-        const matchId = (identifier === state.registeredUser.username || identifier === state.registeredUser.email);
-        const matchPass = (pass === state.registeredUser.pass);
-
-        if (matchId && matchPass && state.isVerified) {
-            statusNode.className = "feedback-anchor success";
-            statusNode.innerText = "Initialisiere High-Secure Session...";
+        if (state.registeredUser && 
+            (identifier === state.registeredUser.username || identifier === state.registeredUser.email) && 
+            pass === state.registeredUser.pass) {
             
             document.getElementById('dash-username').innerText = state.registeredUser.username;
-
-            setTimeout(() => {
-                navigateToComponent('dashboardPage');
-            }, 1000);
+            navigateToComponent('dashboardPage');
         } else {
-            statusNode.className = "feedback-anchor error";
-            statusNode.innerText = "Ungültige Login-Parameter.";
+            loginStatus.className = "feedback-anchor error";
+            loginStatus.innerText = "Ungültige Anmeldedaten.";
         }
     };
 
     const logout = () => {
-        navigateToComponent('loginCard');
         document.getElementById('loginForm').reset();
+        document.getElementById('loginStatus').innerText = "";
+        navigateToComponent('loginCard');
     };
 
     const toggleSettings = () => {
         const modal = document.getElementById('settingsModal');
-        modal.classList.toggle('hidden');
+        if (modal) modal.classList.toggle('hidden');
     };
 
     const switchLanguage = () => {
-        const languageSelection = document.getElementById('langSelect').value;
-        state.activeLanguage = languageSelection;
-        const lexicon = dictionary[languageSelection];
-
-        document.getElementById('txt-title').innerText = lexicon.title;
-        document.getElementById('txt-subtitle').innerText = lexicon.subtitle;
-        document.getElementById('lbl-username').innerText = lexicon.userL;
-        document.getElementById('lbl-email').innerText = lexicon.emailL;
-        document.getElementById('lbl-password').innerText = lexicon.passL;
-        document.getElementById('policy-len').innerText = lexicon.polLen;
-        document.getElementById('policy-num').innerText = lexicon.polNum;
-        document.getElementById('policy-spec').innerText = lexicon.polSpec;
-        document.getElementById('btn-register').innerText = lexicon.btnReg;
+        const lang = document.getElementById('langSelect').value;
+        state.activeLanguage = lang;
         
-        document.getElementById('txt-verify-title').innerText = lexicon.vTitle;
-        document.getElementById('txt-verify-desc').innerText = lexicon.vDesc;
-        document.getElementById('lbl-code').innerText = lexicon.codeL;
-        document.getElementById('btn-verify').innerText = lexicon.btnVer;
-
-        document.getElementById('txt-login-title').innerText = lexicon.loginT;
-        document.getElementById('txt-login-subtitle').innerText = lexicon.loginSub;
-        document.getElementById('btn-login').innerText = lexicon.btnLog;
+        const dict = dictionary[lang];
+        
+        document.getElementById('txt-title').innerText = dict.title;
+        document.getElementById('txt-subtitle').innerText = dict.subtitle;
+        document.getElementById('lbl-username').innerText = dict.userL;
+        document.getElementById('lbl-email').innerText = dict.emailL;
+        document.getElementById('lbl-password').innerText = dict.passL;
+        document.getElementById('policy-len').innerText = dict.polLen;
+        document.getElementById('policy-num').innerText = dict.polNum;
+        document.getElementById('policy-spec').innerText = dict.polSpec;
+        document.getElementById('btn-register').innerText = dict.btnReg;
+        
+        document.getElementById('txt-verify-title').innerText = dict.vTitle;
+        document.getElementById('txt-verify-desc').innerText = dict.vDesc;
+        document.getElementById('lbl-code').innerText = dict.codeL;
+        document.getElementById('btn-verify').innerText = dict.btnVer;
+        
+        document.getElementById('txt-login-title').innerText = dict.loginT;
+        document.getElementById('txt-login-subtitle').innerText = dict.loginSub;
+        document.getElementById('btn-login').innerText = dict.btnLog;
     };
 
-    document.addEventListener("DOMContentLoaded", () => {
+    // DomContentLoaded Safe Boot Engine
+    document.addEventListener('DOMContentLoaded', () => {
         initSecurityDiagnostics();
     });
 
     return {
-        Security: { executeRegister, executeVerify, executeLogin, logout },
-        Navigation: { to: navigateToComponent },
-        Dashboard: { toggleSettings },
-        Localization: { switchLanguage }
+        Security: {
+            executeRegister,
+            executeVerify,
+            executeLogin,
+            logout
+        },
+        Navigation: {
+            to: navigateToComponent
+        },
+        Dashboard: {
+            toggleSettings
+        },
+        Localization: {
+            switchLanguage
+        }
     };
 })();
