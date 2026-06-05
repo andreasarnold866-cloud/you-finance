@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Finance — Professional Platform</title>
+    <title>You Finance — Next-Gen Wealth Intelligence</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,7 +31,7 @@
 
             <div class="social-auth-group">
                 <button type="button" class="btn-social" onclick="App.Security.executeOAuth('Google')">
-                    <svg class="social-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                    <svg class="social-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/></svg>
                     <span id="btn-google-reg">Mit Google fortfahren</span>
                 </button>
                 <button type="button" class="btn-social" onclick="App.Security.executeOAuth('Apple')">
@@ -44,17 +44,15 @@
             
             <form id="registerForm" onsubmit="App.Security.executeRegister(event)" novalidate>
                 <div class="input-wrapper">
-                    <input type="text" id="username" placeholder=" " required autocomplete="username">
+                    <input type="text" id="username" placeholder=" " required>
                     <label id="lbl-username" for="username">Benutzername</label>
                 </div>
-                
                 <div class="input-wrapper">
-                    <input type="email" id="email" placeholder=" " required autocomplete="email">
+                    <input type="email" id="email" placeholder=" " required>
                     <label id="lbl-email" for="email">E-Mail-Adresse</label>
                 </div>
-                
                 <div class="input-wrapper">
-                    <input type="password" id="password" placeholder=" " required autocomplete="new-password">
+                    <input type="password" id="password" placeholder=" " required>
                     <label id="lbl-password" for="password">Sicheres Passwort</label>
                 </div>
                 
@@ -81,13 +79,11 @@
                 <p id="txt-verify-desc">Wir haben einen Sicherheitscode an Ihre E-Mail gesendet.</p>
                 <div class="sandbox-badge">Demo-Code: 123456</div>
             </header>
-            
             <form id="verifyForm" onsubmit="App.Security.executeVerify(event)">
                 <div class="input-wrapper">
-                    <input type="text" id="verifyCode" placeholder=" " maxlength="6" required autocomplete="off" class="secure-code-input">
+                    <input type="text" id="verifyCode" placeholder=" " maxlength="6" required class="secure-code-input">
                     <label id="lbl-code" for="verifyCode">6-stelliger Code</label>
                 </div>
-                
                 <button type="submit" id="btn-verify" class="cta-trigger">Code verifizieren</button>
                 <div id="verifyStatus" class="feedback-anchor"></div>
             </form>
@@ -112,25 +108,19 @@
                     <svg class="social-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/></svg>
                     <span id="btn-google-log">Mit Google anmelden</span>
                 </button>
-                <button type="button" class="btn-social" onclick="App.Security.executeOAuth('Apple')">
-                    <svg class="social-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-.96.04-2.13.64-2.82 1.45-.6.7-1.13 1.84-.99 2.94.1.08.1.08.2.08 1 .01 2.06-.56 2.62-1.41z"/></svg>
-                    <span id="btn-apple-log">Mit Apple anmelden</span>
-                </button>
             </div>
 
             <div class="divider"><span id="txt-or-2">ODER</span></div>
             
             <form id="loginForm" onsubmit="App.Security.executeLogin(event)">
                 <div class="input-wrapper">
-                    <input type="text" id="loginIdentifier" placeholder=" " required autocomplete="username">
+                    <input type="text" id="loginIdentifier" placeholder=" " required>
                     <label id="lbl-login-id" for="loginIdentifier">Benutzername oder E-Mail</label>
                 </div>
-                
                 <div class="input-wrapper">
-                    <input type="password" id="loginPassword" placeholder=" " required autocomplete="current-password">
+                    <input type="password" id="loginPassword" placeholder=" " required>
                     <label id="lbl-login-pass" for="loginPassword">Passwort</label>
                 </div>
-                
                 <button type="submit" id="btn-login" class="cta-trigger">Anmelden</button>
                 <div id="loginStatus" class="feedback-anchor"></div>
                 <p class="switch-form-text"><span id="txt-new-here">Neu hier?</span> <a href="#" id="lnk-register" onclick="App.Navigation.to('registerCard')">Konto erstellen</a></p>
@@ -146,7 +136,7 @@
                 <nav class="sidebar-menu">
                     <a href="#" class="menu-item active">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                        <span id="nav-dash">Dashboard</span>
+                        <span id="nav-dash">Cockpit</span>
                     </a>
                 </nav>
                 <div class="sidebar-footer">
@@ -154,7 +144,7 @@
                         <div id="dash-avatar" class="avatar-placeholder">💼</div>
                         <div class="user-meta">
                             <span id="dash-username" class="user-meta-name">User</span>
-                            <span id="dash-tier" class="user-meta-plan">Tier: Pro Analyst</span>
+                            <span id="dash-tier" class="user-meta-plan">AI Smart Mode</span>
                         </div>
                     </div>
                 </div>
@@ -162,48 +152,80 @@
 
             <section class="main-content">
                 <header class="content-header">
-                    <h1 id="txt-dash-welcome">Finanzübersicht</h1>
-                    <button type="button" id="btn-logout" class="btn-logout" onclick="App.Security.logout()">Logout</button>
+                    <div>
+                        <h1 id="txt-dash-welcome">Finanzintelligenz</h1>
+                        <p class="sub-greeting">Echtzeitanalyse Ihrer Verträge & Vermögenswerte</p>
+                    </div>
+                    <div class="header-action-group">
+                        <button type="button" class="btn-secondary" onclick="App.Features.syncNewBank()">+ Bank verknüpfen</button>
+                        <button type="button" id="btn-logout" class="btn-logout" onclick="App.Security.logout()">Logout</button>
+                    </div>
                 </header>
+
+                <div class="insights-banner">
+                    <div class="insight-badge">Smart AI Analytiker</div>
+                    <p id="ai-insight-text">Lade Finanz-Echtzeit-Optimierungen...</p>
+                </div>
 
                 <div class="dashboard-grid">
                     <div class="metrics-row">
                         <div class="data-card">
-                            <span id="lbl-balance">Gesamtsaldo</span>
-                            <h2>€ 14'850.00</h2>
+                            <span id="lbl-balance">Aggregiertes Vermögen</span>
+                            <h2 id="val-total-balance">€ 14'850.00</h2>
+                            <small id="bank-count-badge">3 Banken verbunden</small>
                         </div>
                         <div class="data-card">
-                            <span id="lbl-income">Monatliche Einnahmen</span>
-                            <h2 class="text-success">€ 3'200.00</h2>
+                            <span id="lbl-income">Fixe Abos / Monat</span>
+                            <h2 class="text-error" id="val-fix-expenses">€ 44.97</h2>
+                            <small class="text-success">2 Verträge optimiert</small>
                         </div>
                         <div class="data-card">
-                            <span id="lbl-expenses">Monatliche Ausgaben</span>
-                            <h2 class="text-error">€ 1'350.00</h2>
+                            <div class="card-split">
+                                <div>
+                                    <span>Financial Health Score</span>
+                                    <h2 id="val-health-score">88%</h2>
+                                </div>
+                                <div class="radial-progress-mock"></div>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="chart-container-card">
-                        <div class="card-header-meta">
-                            <h3 id="txt-analytics-title">Vermögensentwicklung Analytics</h3>
+                    <div class="split-analytics-row">
+                        <div class="feature-card animate-card">
+                            <div class="card-header-meta">
+                                <h3>Automatischer Vertragsmanager</h3>
+                                <p>Erkannte Daueraufträge & Abonnements</p>
+                            </div>
+                            <div id="contract-list" class="contract-list-stack">
+                                </div>
                         </div>
-                        <div class="mock-chart">
-                            <div class="bar" style="height: 30%"></div>
-                            <div class="bar" style="height: 55%"></div>
-                            <div class="bar" style="height: 45%"></div>
-                            <div class="bar" style="height: 75%"></div>
-                            <div class="bar" style="height: 90%"></div>
+
+                        <div class="feature-card animate-card">
+                            <div class="card-header-meta">
+                                <h3>Mona-Budgets & Limits</h3>
+                                <p>KI-gestützte Ausgabenkontrolle</p>
+                            </div>
+                            <div class="budget-progress-container">
+                                <div class="budget-item">
+                                    <div class="budget-info"><span>🛒 Einkäufe & Leben</span><strong>€ 320 / € 500</strong></div>
+                                    <div class="budget-bar-track"><div class="budget-bar-fill" style="width: 64%; background: var(--sys-primary);"></div></div>
+                                </div>
+                                <div class="budget-item">
+                                    <div class="budget-info"><span>🍿 Freizeit & Entertainment</span><strong>€ 115 / € 120</strong></div>
+                                    <div class="budget-bar-track"><div class="budget-bar-fill" style="width: 95%; background: var(--sys-error);"></div></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <div id="settingsModal" class="modal-overlay hidden" role="dialog" aria-labelledby="txt-settings-title">
+            <div id="settingsModal" class="modal-overlay hidden" role="dialog">
                 <div class="modal-content large-settings">
                     <header class="modal-header">
                         <h2 id="txt-settings-title">Kontoverwaltung & Einstellungen</h2>
                         <p id="txt-settings-desc">Passen Sie Ihre Identität und regionalen Parameter an.</p>
                     </header>
-                    
                     <div class="settings-grid">
                         <div class="settings-column">
                             <div class="setting-block">
@@ -212,34 +234,17 @@
                                     <button type="button" class="avatar-option" onclick="App.Dashboard.updateAvatar('💼')">💼</button>
                                     <button type="button" class="avatar-option" onclick="App.Dashboard.updateAvatar('🚀')">🚀</button>
                                     <button type="button" class="avatar-option" onclick="App.Dashboard.updateAvatar('💎')">💎</button>
-                                    <button type="button" class="avatar-option" onclick="App.Dashboard.updateAvatar('🦊')">🦊</button>
                                     <button type="button" class="avatar-option" onclick="App.Dashboard.updateAvatar('🦁')">🦁</button>
                                 </div>
                             </div>
-
                             <div class="setting-block">
                                 <label id="lbl-modal-lang" for="modalLangSelect">System-Sprache</label>
                                 <select id="modalLangSelect" onchange="App.Localization.switchLanguage('modal')">
                                     <option value="de">Deutsch</option>
                                     <option value="en">English</option>
-                                    <option value="es">Español</option>
-                                    <option value="it">Italiano</option>
-                                    <option value="fr">Français</option>
-                                    <option value="gr">Ελληνικά</option>
-                                </select>
-                            </div>
-
-                            <div class="setting-block">
-                                <label id="lbl-timezone" for="settingTimezone">Zeitzone</label>
-                                <select id="settingTimezone">
-                                    <option value="Europe/Berlin">Europe/Berlin (CET)</option>
-                                    <option value="Europe/London">Europe/London (GMT)</option>
-                                    <option value="America/New_York">America/New_York (EST)</option>
-                                    <option value="Asia/Tokyo">Asia/Tokyo (JST)</option>
                                 </select>
                             </div>
                         </div>
-
                         <div class="settings-column">
                             <form id="modalUpdateForm" onsubmit="App.Dashboard.saveAccountChanges(event)" class="modal-form-stack">
                                 <div class="input-wrapper static-label">
@@ -250,37 +255,25 @@
                                     <input type="email" id="set-email" placeholder=" ">
                                     <label id="lbl-set-email" for="set-email">E-Mail-Adresse ändern</label>
                                 </div>
-                                <div class="input-wrapper static-label">
-                                    <input type="password" id="set-password" placeholder=" ">
-                                    <label id="lbl-set-pass" for="set-password">Neues Kennwort festlegen</label>
-                                </div>
                                 <button type="submit" id="btn-save-settings" class="btn-save-settings">Änderungen speichern</button>
                             </form>
-                            
                             <div class="destructive-zone">
                                 <button type="button" id="btn-delete-acc" class="btn-delete-account" onclick="App.Dashboard.deleteAccount()">Konto permanent löschen</button>
                             </div>
                         </div>
                     </div>
-
                     <footer class="modal-footer-actions">
                         <button type="button" id="btn-close" class="btn-close" onclick="App.Dashboard.toggleSettings()">Schließen</button>
                     </footer>
                 </div>
             </div>
         </article>
-
     </main>
 
     <nav id="globalLangWidget" class="localization-widget">
-        <svg class="localization-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
         <select id="langSelect" onchange="App.Localization.switchLanguage('global')">
             <option value="de">Deutsch</option>
             <option value="en">English</option>
-            <option value="es">Español</option>
-            <option value="it">Italiano</option>
-            <option value="fr">Français</option>
-            <option value="gr">Ελληνικά</option>
         </select>
     </nav>
 
